@@ -46,12 +46,12 @@ public class Cliente extends javax.swing.JFrame {
 
     public static JFrame gui;
     private TrayIcon ti;
-    private static  LogicaCliente stubCliente;
+    private static LogicaCliente stubCliente;
 //    private SystemTray tray = SystemTray.getDefaultSystemTray();
 
     /** Creates new form Cliente */
     public Cliente() {
-        super.setIconImage(new ImageIcon(getClass().getResource("/PantallaGUI/iconos/kradac_icono.png")).getImage());
+        super.setIconImage(new ImageIcon(getClass().getResource("/iconos/kradac_icono.png")).getImage());
         setUndecorated(true);
 
         initComponents();
@@ -98,7 +98,7 @@ public class Cliente extends javax.swing.JFrame {
 
         menu.add(menuItem);
 
-        ImageIcon i = new ImageIcon(Tray.class.getResource("/PantallaGUI/iconos/kradac_icono.png"));
+        ImageIcon i = new ImageIcon(getClass().getResource("/iconos/kradac_icono.png"));
 
         // ti = new TrayIcon(i, "JDIC Tray Icon API Demo - TrayIcon", menu);
 
@@ -111,7 +111,7 @@ public class Cliente extends javax.swing.JFrame {
         if (SystemTray.isSupported()) {
 
             SystemTray tray = SystemTray.getSystemTray();
-            Image image = Toolkit.getDefaultToolkit().getImage(Cliente.class.getResource("/PantallaGUI/iconos/kradac_icono.png"));
+            Image image = Toolkit.getDefaultToolkit().getImage(Cliente.class.getResource("/iconos/kradac_icono.png"));
 
             MouseListener mouseListener = new MouseListener() {
 
@@ -224,7 +224,7 @@ public class Cliente extends javax.swing.JFrame {
             }
         });
 
-        btnLlamar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/servicios/cliente/iconos/llamar.png"))); // NOI18N
+        btnLlamar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/llamar.png"))); // NOI18N
         btnLlamar.setToolTipText("Llama a un nuevo servicios.cliente...");
         btnLlamar.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -232,7 +232,7 @@ public class Cliente extends javax.swing.JFrame {
             }
         });
 
-        btnRellamar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/servicios/cliente/iconos/rellamar.png"))); // NOI18N
+        btnRellamar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/rellamar.png"))); // NOI18N
         btnRellamar.setToolTipText("Habilita y deshabilita el llamado de turnos...");
         btnRellamar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -306,7 +306,6 @@ public class Cliente extends javax.swing.JFrame {
             }
         });
     }
-
 //        public static void main(String[] args) {
 //        /*if (args.length < 2) {
 //            System.out.println("Usage: Echo <host> <port#>");
