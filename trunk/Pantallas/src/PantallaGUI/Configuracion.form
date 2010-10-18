@@ -28,22 +28,22 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jLabel5" alignment="0" max="32767" attributes="1"/>
+                  <Component id="jLabel5" alignment="0" pref="617" max="32767" attributes="1"/>
                   <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Group type="102" alignment="0" attributes="1">
                       <Component id="btnEscribir" min="-2" max="-2" attributes="1"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="btnBorrar" min="-2" max="-2" attributes="1"/>
-                      <EmptySpace pref="34" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                       <Component id="btnGuardar" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                       <Component id="btnAbrir" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="jScrollPane1" alignment="0" pref="530" max="32767" attributes="1"/>
+                  <Component id="jScrollPane1" alignment="0" pref="617" max="32767" attributes="1"/>
                   <Component id="jPanel4" alignment="1" max="32767" attributes="1"/>
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="btnSalir" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="298" max="32767" attributes="0"/>
+                      <EmptySpace pref="336" max="32767" attributes="0"/>
                       <Component id="btnInvertir" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Component id="jPanel3" alignment="0" max="32767" attributes="1"/>
@@ -120,7 +120,7 @@
     <Component class="javax.swing.JButton" name="btnEscribir">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/PantallaGUI/iconos/text.png"/>
+          <Image iconType="3" name="/iconos/text.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Escribir Pantalla"/>
       </Properties>
@@ -131,7 +131,7 @@
     <Component class="javax.swing.JButton" name="btnBorrar">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/PantallaGUI/iconos/limpiar.png"/>
+          <Image iconType="3" name="/iconos/limpiar.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Borrar Pantalla"/>
       </Properties>
@@ -142,7 +142,7 @@
     <Component class="javax.swing.JButton" name="btnGuardar">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/PantallaGUI/iconos/guardar.png"/>
+          <Image iconType="3" name="/iconos/guardar.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Guardar"/>
       </Properties>
@@ -153,7 +153,7 @@
     <Component class="javax.swing.JButton" name="btnAbrir">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/PantallaGUI/iconos/abrir.png"/>
+          <Image iconType="3" name="/iconos/abrir.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Abrir"/>
       </Properties>
@@ -255,14 +255,14 @@
             <Component class="javax.swing.JLabel" name="jLabel3">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/PantallaGUI/iconos/velocidad.png"/>
+                  <Image iconType="3" name="/iconos/velocidad.png"/>
                 </Property>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="btnMasVelocidad">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/PantallaGUI/iconos/mas.png"/>
+                  <Image iconType="3" name="/iconos/mas.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="M&#xe1;s"/>
               </Properties>
@@ -273,7 +273,7 @@
             <Component class="javax.swing.JButton" name="btnMenosVelocidad">
               <Properties>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/PantallaGUI/iconos/menos.png"/>
+                  <Image iconType="3" name="/iconos/menos.png"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Menos"/>
               </Properties>
@@ -305,7 +305,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="img" pref="70" max="32767" attributes="0"/>
+                      <Component id="img" pref="121" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
@@ -357,7 +357,7 @@
               <Properties>
                 <Property name="horizontalAlignment" type="int" value="0"/>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/PantallaGUI/iconos/fuente.png"/>
+                  <Image iconType="3" name="/iconos/fuente.png"/>
                 </Property>
               </Properties>
             </Component>
@@ -424,7 +424,7 @@
     <Component class="javax.swing.JButton" name="btnInvertir">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/PantallaGUI/iconos/color.png"/>
+          <Image iconType="3" name="/iconos/color.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Invertir Colores"/>
       </Properties>
@@ -450,7 +450,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="btnHora" min="-2" max="-2" attributes="1"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="txtHora" pref="138" max="32767" attributes="0"/>
+                  <Component id="txtHora" pref="193" max="32767" attributes="0"/>
                   <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
                   <Component id="btnFecha" min="-2" max="-2" attributes="1"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
@@ -480,7 +480,7 @@
         <Component class="javax.swing.JButton" name="btnFecha">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/PantallaGUI/iconos/calendario.png"/>
+              <Image iconType="3" name="/iconos/calendario.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Fecha"/>
           </Properties>
@@ -491,7 +491,7 @@
         <Component class="javax.swing.JButton" name="btnHora">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-              <Image iconType="3" name="/PantallaGUI/iconos/reloj.png"/>
+              <Image iconType="3" name="/iconos/reloj.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Hora"/>
           </Properties>
@@ -513,7 +513,7 @@
     <Component class="javax.swing.JButton" name="btnSalir">
       <Properties>
         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-          <Image iconType="3" name="/PantallaGUI/iconos/salir.png"/>
+          <Image iconType="3" name="/iconos/salir.png"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Salir"/>
       </Properties>

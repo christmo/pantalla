@@ -24,7 +24,7 @@ public class PrincipalGUI extends javax.swing.JFrame {
 
     /** Creates new form PrincipalGUI */
     public PrincipalGUI() {
-        super.setIconImage(new ImageIcon(getClass().getResource("/PantallaGUI/iconos/kradac_icono.png")).getImage());
+        super.setIconImage(new ImageIcon(getClass().getResource("/iconos/kradac_icono.png")).getImage());
         initComponents();
         configurarBotones();
     }
@@ -63,7 +63,7 @@ public class PrincipalGUI extends javax.swing.JFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        btnConfigurar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PantallaGUI/iconos/config.png"))); // NOI18N
+        btnConfigurar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/config.png"))); // NOI18N
         btnConfigurar.setText("Configurar Pantalla");
         btnConfigurar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -71,7 +71,7 @@ public class PrincipalGUI extends javax.swing.JFrame {
             }
         });
 
-        btnUsuarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PantallaGUI/iconos/user.png"))); // NOI18N
+        btnUsuarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/user.png"))); // NOI18N
         btnUsuarios.setText("Usuarios");
 
         jButton3.setText("jButton3");
@@ -105,7 +105,7 @@ public class PrincipalGUI extends javax.swing.JFrame {
                 .addContainerGap(215, Short.MAX_VALUE))
         );
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/PantallaGUI/iconos/salir.png"))); // NOI18N
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/salir.png"))); // NOI18N
         jButton1.setText("Salir");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -113,7 +113,7 @@ public class PrincipalGUI extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Administración de Turnos");
         jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.RIGHT);
@@ -128,7 +128,7 @@ public class PrincipalGUI extends javax.swing.JFrame {
                     .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -138,7 +138,7 @@ public class PrincipalGUI extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, Short.MAX_VALUE)
+                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
