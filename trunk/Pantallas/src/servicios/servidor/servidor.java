@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ResourceBundle;
 
 /**
  *
@@ -23,12 +24,16 @@ public class servidor {
     private static PrintWriter os = null;
     private static String inputline = new String();
     private static LogicaServidor server = new LogicaServidor();
+    private static ResourceBundle rb;
 
     public static void main(String[] args) {
         try {
-            serverSocket = new ServerSocket(1024);
-            System.out.println("Escuchando el pruerto: " + 1024);
+            rb = ResourceBundle.getBundle("BaseDatos.configsystem");
+            int puerto = Integer.parseInt(rb.getString("puerto"));
+            serverSocket = new ServerSocket(puerto);
+            System.out.println("Escuchando el pruerto: " + puerto);
         } catch (IOException e) {
+            System.out.println("El pueto esta en uso...");
             System.exit(1);
         }
 
