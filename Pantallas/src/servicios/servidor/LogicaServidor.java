@@ -2,12 +2,10 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package servicios.servidor;
 
 import BaseDatos.BaseDatos;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+import comunicacion.comm.CommPantalla;
 import java.rmi.RemoteException;
 import servicios.rmi.PantallaRMI;
 
@@ -15,18 +13,14 @@ import servicios.rmi.PantallaRMI;
  *
  * @author kradac
  */
-public class LogicaServidor  implements PantallaRMI {
+public class LogicaServidor implements PantallaRMI {
 
-    private String myURL = "localhost";
     private BaseDatos bd;
+    private CommPantalla comm;
 
     public LogicaServidor() {
-        try {
-            bd = new BaseDatos();
-            myURL = InetAddress.getLocalHost().getHostName();
-        } catch (UnknownHostException e) {
-            myURL = "localhost";
-        }
+        bd = new BaseDatos();
+        comm = new CommPantalla();
     }
 
     /**
@@ -40,16 +34,19 @@ public class LogicaServidor  implements PantallaRMI {
         /**
          * ID caja -> [0]
          * estado ->  [1]
+         * direccion -> [2] -> donde debe apuntar la flecha
          */
         String[] turno = comando.split("%");
         boolean resultado = bd.guardarTurno(Integer.parseInt(turno[0]), turno[1]);
         if (resultado) {
-            System.out.println("Turno guardado correctamente...");
+            System.out.println("Turno guardado correctamente..." + turno[2]);
+            String cmd = "<MENS3\r" + "CAJA" + " " + turno[2] + " " + turno[0] + "\r";
+            comm.enviarComando(cmd);
+            comm.start();
         } else {
             System.out.println("NO se guardo turno...");
         }
 
         return "" + resultado;
     }
-
 }
