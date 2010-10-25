@@ -28,7 +28,6 @@ public class LogicaCliente implements PantallaRMI {
     private String host;
     private int port;
     private String output = "Error";
-    
 
     public void setHostAndPort(String host, int port) {
         this.host = host;
@@ -39,7 +38,7 @@ public class LogicaCliente implements PantallaRMI {
         try {
             //EJERCICIO: Implemente el método connect
             echoSocket = new Socket(host, port);
-            
+
             is = new BufferedReader(new InputStreamReader(echoSocket.getInputStream()));
             os = new PrintWriter(echoSocket.getOutputStream());
 
@@ -51,7 +50,13 @@ public class LogicaCliente implements PantallaRMI {
                         + "\na problemas con la red o con el servidor de turnos...", "Error...", 0);
                 System.out.println("Conexion rechazada por el servidor...");
                 System.exit(0);
+            } else if (ex.getMessage().equals("Connection refused: connect")) {
+                JOptionPane.showMessageDialog(null, "Conexión NO establecida con el servidor se puede deber"
+                        + "\na problemas con la red o con el servidor de turnos...", "Error...", 0);
+                System.out.println("Conexion rechazada por el servidor...");
+                System.exit(0);
             } else {
+                //System.out.println("Conexion rechazada por el servidor...");
                 Logger.getLogger(LogicaCliente.class.getName()).log(Level.SEVERE, null, ex);
             }
         }

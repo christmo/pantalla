@@ -22,7 +22,10 @@ import java.awt.Toolkit;
 import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
 import java.io.PrintWriter;
 import java.rmi.RemoteException;
 import java.util.ResourceBundle;
@@ -31,8 +34,11 @@ import java.util.logging.Logger;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
+import javax.swing.KeyStroke;
 import javax.swing.UIManager;
-
 
 /**
  *
@@ -45,6 +51,8 @@ public class Cliente extends javax.swing.JFrame {
     private PrintWriter stdOut = new PrintWriter(System.out);
     private String output;
     private ResourceBundle rb;
+    private JPopupMenu popup = new JPopupMenu();
+    private TrayIcon trayIcon;
 
     /** Creates new form Cliente */
     public Cliente() {
@@ -53,7 +61,7 @@ public class Cliente extends javax.swing.JFrame {
 
         initComponents();
 
-        trayICON();
+        iconoBarraTarreas();
 
         posInicial();
         gui = this;
@@ -72,9 +80,10 @@ public class Cliente extends javax.swing.JFrame {
         stubCliente.setHostAndPort(host, puerto);
     }
 
-    private void trayICON() {
-        final TrayIcon trayIcon;
-
+    /**
+     * Poner icono en la barra de tareas para que pueda correr en background
+     */
+    private void iconoBarraTarreas() {
         if (SystemTray.isSupported()) {
 
             SystemTray tray = SystemTray.getSystemTray();
@@ -83,27 +92,32 @@ public class Cliente extends javax.swing.JFrame {
             MouseListener mouseListener = new MouseListener() {
 
                 public void mouseClicked(MouseEvent e) {
-                    System.out.println("Tray Icon - Mouse clicked!");
-
+                    //System.out.println("Tray Icon - Mouse clicked!");
                 }
 
                 public void mouseEntered(MouseEvent e) {
-                    System.out.println("Tray Icon - Mouse entered!");
+                    //System.out.println("Tray Icon - Mouse entered!");
                 }
 
                 public void mouseExited(MouseEvent e) {
-                    System.out.println("Tray Icon - Mouse exited!");
+                    //System.out.println("Tray Icon - Mouse exited!");
                 }
 
                 public void mousePressed(MouseEvent e) {
-                    System.out.println("Tray Icon - Mouse pressed!");
+                    //System.out.println("Tray Icon - Mouse pressed!");
+                    gui.dispose();
+                    gui.setVisible(true);
                 }
 
                 public void mouseReleased(MouseEvent e) {
-                    System.out.println("Tray Icon - Mouse released!");
+                    //System.out.println("Tray Icon - Mouse released!");
                 }
             };
 
+            //PopupMenu popup = new PopupMenu();
+            //MenuItem defaultItem = new MenuItem("Salir");
+
+            JMenuItem jmSalir = new JMenuItem("Salir");
             ActionListener exitListener = new ActionListener() {
 
                 public void actionPerformed(ActionEvent e) {
@@ -111,15 +125,14 @@ public class Cliente extends javax.swing.JFrame {
                     System.exit(0);
                 }
             };
+            jmSalir.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F10, InputEvent.CTRL_MASK));
+            jmSalir.addActionListener(exitListener);
+            popup.add(jmSalir);
 
-            PopupMenu popup = new PopupMenu();
-            MenuItem defaultItem = new MenuItem("Salir");
-            defaultItem.addActionListener(exitListener);
-            popup.add(defaultItem);
+            //MenuItem mostrar = new MenuItem("Mostrar");
 
-
-            MenuItem mostrar = new MenuItem("Mostrar");
-            ActionListener otro = new ActionListener() {
+            JMenuItem jmMostrar = new JMenuItem("Mostar");
+            ActionListener mostrarVentana = new ActionListener() {
 
                 public void actionPerformed(ActionEvent e) {
                     System.out.println("Mostrar...");
@@ -127,33 +140,45 @@ public class Cliente extends javax.swing.JFrame {
                     gui.setVisible(true);
                 }
             };
-            mostrar.addActionListener(otro);
-            mostrar.setShortcut(new MenuShortcut(KeyEvent.VK_F12, false));
-            
-            popup.add(mostrar);
+            jmMostrar.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.ALT_MASK));
+            jmMostrar.addActionListener(mostrarVentana);
+            popup.add(jmMostrar);
 
-            trayIcon = new TrayIcon(image, "Sistema de Turnos Activado...", popup);
+            //trayIcon = new TrayIcon(image, "Sistema de Turnos Activado...", popup);
+            trayIcon = new TrayIcon(image, "Sistema de Turnos Activado...", null);
 
             ActionListener actionListener = new ActionListener() {
 
                 public void actionPerformed(ActionEvent e) {
-                    trayIcon.displayMessage("Action Event",
-                            "An Action Event Has Been Performed!",
+                    gui.dispose();
+                    gui.setVisible(true);
+                    trayIcon.displayMessage("Sistema de Turnos...",
+                            "Activo...",
                             TrayIcon.MessageType.INFO);
                 }
             };
 
+            trayIcon.addMouseListener(new MouseAdapter() {
+
+                @Override
+                public void mouseReleased(MouseEvent e) {
+                    if (e.isPopupTrigger()) {
+                        popup.setLocation(e.getX(), e.getY());
+                        popup.setInvoker(popup);
+                        popup.setVisible(true);
+                    }
+                }
+            });
             trayIcon.setImageAutoSize(true);
             trayIcon.addActionListener(actionListener);
             trayIcon.addMouseListener(mouseListener);
+
 
             try {
                 tray.add(trayIcon);
             } catch (AWTException e) {
                 System.err.println("TrayIcon could not be added.");
             }
-
-
 
         } else {
             //  System Tray is not supported
@@ -255,15 +280,44 @@ public class Cliente extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRellamarActionPerformed
 
     private void btnLlamarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnLlamarKeyPressed
-        System.out.println("" + evt.getKeyCode());
+        /**
+         * Ejecutar cuando se precione F12
+         */
         if (evt.getKeyCode() == 123) {
-            accionesBotonesCliente("ACTIVO");
+            try {
+                accionesBotonesCliente("ACTIVO");
+                Thread.sleep(1000);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }//GEN-LAST:event_btnLlamarKeyPressed
 
     private void btnLlamarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLlamarActionPerformed
         accionesBotonesCliente("ACTIVO");
+        btnLlamar.setEnabled(false);
+        pausa();
     }//GEN-LAST:event_btnLlamarActionPerformed
+
+    /**
+     * Permite hacer una espera de 1 segundo entre el cliente y el servidor para
+     * que se envien los datos y no se permita hacer una llamada a un cliente en
+     * el mismo segundo
+     */
+    public void pausa() {
+        Thread a = new Thread(new Runnable() {
+
+            public void run() {
+                try {
+                    Thread.sleep(1000);
+                    btnLlamar.setEnabled(true);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+        a.start();
+    }
 
     private void accionesBotonesCliente(String estado) {
         try {
@@ -273,7 +327,8 @@ public class Cliente extends javax.swing.JFrame {
             output = stubCliente.enviarComando(cmd);
             stdOut.write(output);
         } catch (RemoteException ex) {
-            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "No se puede conectar con el servidor de turnos...", "Error...", 0);
+            //Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
