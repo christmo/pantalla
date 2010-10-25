@@ -20,7 +20,6 @@ public class LogicaServidor implements PantallaRMI {
 
     public LogicaServidor() {
         bd = new BaseDatos();
-        comm = new CommPantalla();
     }
 
     /**
@@ -36,6 +35,7 @@ public class LogicaServidor implements PantallaRMI {
          * estado ->  [1]
          * direccion -> [2] -> donde debe apuntar la flecha
          */
+        comm = new CommPantalla();
         String[] turno = comando.split("%");
         boolean resultado = bd.guardarTurno(Integer.parseInt(turno[0]), turno[1]);
         if (resultado) {

@@ -282,7 +282,7 @@ public class ConexionBase {
                 log.trace("MySQL no se pudo conectar con la tabla del servidor, error al ejecutar la sentencia...");
                 return false;
             } else if (txt.equals("Duplicate entry")) {
-                System.err.println("****************\n*" + "Error de Clave Primaria -> Usuario ya ingresado..." + "...\n****************");
+                System.err.println("****************\n*" + "Error de Clave Primaria -> Turno ya ingresado..." + "...\n****************");
                 log.trace("Error de Clave Primaria -> Usuario ya ingresado...");
                 return false;
             } else {
@@ -353,7 +353,7 @@ public class ConexionBase {
                 log.trace("MySQL no se pudo conectar con la tabla del servidor, error al ejecutar la sentencia...");
                 return false;
             } else if (txt.equals("Duplicate entry")) {
-                System.err.println("****************\n*" + "Error de Clave Primaria -> Usuario ya ingresado..." + "...\n****************");
+                System.err.println("****************\n*" + "Error de Clave Primaria -> Turno ya ingresado..." + "...\n****************");
                 log.trace("Error de Clave Primaria -> Usuario ya ingresado...");
                 return false;
             } else {

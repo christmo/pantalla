@@ -29,6 +29,93 @@ public class PrincipalGUI extends javax.swing.JFrame {
         configurarBotones();
     }
 
+//    private void trayICON() {
+//        final TrayIcon trayIcon;
+//
+//        if (SystemTray.isSupported()) {
+//
+//            SystemTray tray = SystemTray.getSystemTray();
+//            Image image = Toolkit.getDefaultToolkit().getImage(servidor.class.getResource("/iconos/kradac_icono.png"));
+//
+//            MouseListener mouseListener = new MouseListener() {
+//
+//                public void mouseClicked(MouseEvent e) {
+//                    System.out.println("Tray Icon - Mouse clicked!");
+//
+//                }
+//
+//                public void mouseEntered(MouseEvent e) {
+//                    System.out.println("Tray Icon - Mouse entered!");
+//                }
+//
+//                public void mouseExited(MouseEvent e) {
+//                    System.out.println("Tray Icon - Mouse exited!");
+//                }
+//
+//                public void mousePressed(MouseEvent e) {
+//                    System.out.println("Tray Icon - Mouse pressed!");
+//                }
+//
+//                public void mouseReleased(MouseEvent e) {
+//                    System.out.println("Tray Icon - Mouse released!");
+//                }
+//            };
+//
+//            ActionListener exitListener = new ActionListener() {
+//
+//                public void actionPerformed(ActionEvent e) {
+//                    System.out.println("Saliendo...");
+//                    System.exit(0);
+//                }
+//            };
+//
+//            PopupMenu popup = new PopupMenu();
+//            MenuItem defaultItem = new MenuItem("Salir");
+//            defaultItem.addActionListener(exitListener);
+//            popup.add(defaultItem);
+//
+//
+//            MenuItem mostrar = new MenuItem("Mostrar Menu");
+//            ActionListener otro = new ActionListener() {
+//
+//                public void actionPerformed(ActionEvent e) {
+//                    System.out.println("Mostrar Menu...");
+//                    PrincipalGUI.main(null);
+//                }
+//            };
+//            mostrar.addActionListener(otro);
+//            mostrar.setShortcut(new MenuShortcut(KeyEvent.VK_F12, false));
+//
+//            popup.add(mostrar);
+//
+//            trayIcon = new TrayIcon(image, "Sistema de Turnos Activado...", popup);
+//
+//            ActionListener actionListener = new ActionListener() {
+//
+//                public void actionPerformed(ActionEvent e) {
+//                    trayIcon.displayMessage("Action Event",
+//                            "An Action Event Has Been Performed!",
+//                            TrayIcon.MessageType.INFO);
+//                }
+//            };
+//
+//            trayIcon.setImageAutoSize(true);
+//            trayIcon.addActionListener(actionListener);
+//            trayIcon.addMouseListener(mouseListener);
+//
+//            try {
+//                tray.add(trayIcon);
+//            } catch (AWTException e) {
+//                System.err.println("TrayIcon could not be added.");
+//            }
+//
+//
+//
+//        } else {
+//            //  System Tray is not supported
+//        }
+//    }
+
     private void configurarBotones() {
         btnConfigurar.setText("<html><center>Configurar<br> Pantalla</center></html>");
 
@@ -169,10 +256,10 @@ public class PrincipalGUI extends javax.swing.JFrame {
             public void run() {
 
                 try {
-                    //                                    UIManager.setLookAndFeel("org.pushingpixels.substance.api.skin.SubstanceOfficeBlue2007LookAndFeel");
-                    //                 UIManager.setLookAndFeel("org.pushingpixels.substance.api.skin.SubstanceDustLookAndFeel");
-                    //                 UIManager.setLookAndFeel("org.pushingpixels.substance.api.skin.SubstanceMistSilverLookAndFeel");
-                    //                   UIManager.setLookAndFeel("org.pushingpixels.substance.api.skin.SubstanceNebulaBrickWallLookAndFeel");
+                    // UIManager.setLookAndFeel("org.pushingpixels.substance.api.skin.SubstanceOfficeBlue2007LookAndFeel");
+                    // UIManager.setLookAndFeel("org.pushingpixels.substance.api.skin.SubstanceDustLookAndFeel");
+                    // UIManager.setLookAndFeel("org.pushingpixels.substance.api.skin.SubstanceMistSilverLookAndFeel");
+                    // UIManager.setLookAndFeel("org.pushingpixels.substance.api.skin.SubstanceNebulaBrickWallLookAndFeel");
                     UIManager.setLookAndFeel("org.pushingpixels.substance.api.skin.SubstanceSaharaLookAndFeel");
                 } catch (Exception e) {
                     System.out.println("Problemas al cargar Temas Substance");

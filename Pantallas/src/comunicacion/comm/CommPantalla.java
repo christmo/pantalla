@@ -235,7 +235,7 @@ public class CommPantalla extends Thread {
 
         try {
             os = sPuerto.getOutputStream();
-            System.out.println("Enviar: " + mensaje);
+            //System.out.println("Enviar: " + mensaje);
             os.write(mensaje.getBytes());
         } catch (IOException ex) {
             Logger.getLogger(CommPantalla.class.getName()).log(Level.SEVERE, null, ex);
