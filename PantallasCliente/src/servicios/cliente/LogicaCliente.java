@@ -29,7 +29,7 @@ public class LogicaCliente implements PantallaRMI {
     private int port;
     private String output = "Error";
 
-    public void setHostAndPort(String host, int port) {
+    public LogicaCliente(String host, int port) {
         this.host = host;
         this.port = port;
     }
@@ -82,8 +82,8 @@ public class LogicaCliente implements PantallaRMI {
                 os.flush();
                 output = is.readLine();
             } catch (IOException e) {
-                System.err.println("I/O failed in reading/writing socket");
-                throw new java.rmi.RemoteException("I/O failed in reading/writing socket");
+                System.err.println("Erro al escribir en el servidor...");
+                throw new java.rmi.RemoteException("Erro al escribir en el servidor...");
             } catch (NullPointerException nex) {
             }
         }
