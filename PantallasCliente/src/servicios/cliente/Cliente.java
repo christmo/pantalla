@@ -12,9 +12,6 @@ package servicios.cliente;
 
 import java.awt.AWTException;
 import java.awt.Image;
-import java.awt.MenuItem;
-import java.awt.MenuShortcut;
-import java.awt.PopupMenu;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.SystemTray;
@@ -22,9 +19,6 @@ import java.awt.Toolkit;
 import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.io.PrintWriter;
 import java.rmi.RemoteException;
@@ -37,7 +31,6 @@ import javax.swing.JFrame;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
-import javax.swing.KeyStroke;
 import javax.swing.UIManager;
 
 /**
@@ -60,9 +53,7 @@ public class Cliente extends javax.swing.JFrame {
         setUndecorated(true);
 
         initComponents();
-
         iconoBarraTarreas();
-
         posInicial();
         gui = this;
 
@@ -74,10 +65,9 @@ public class Cliente extends javax.swing.JFrame {
     }
 
     private void ConectarServer() {
-        stubCliente = new LogicaCliente();//EJERCICIO: crear una instancia del stub
         String host = rb.getString("host");
         int puerto = Integer.parseInt(rb.getString("puerto"));
-        stubCliente.setHostAndPort(host, puerto);
+        stubCliente = new LogicaCliente(host, puerto);//EJERCICIO: crear una instancia del stub
     }
 
     /**
@@ -104,9 +94,11 @@ public class Cliente extends javax.swing.JFrame {
                 }
 
                 public void mousePressed(MouseEvent e) {
-                    //System.out.println("Tray Icon - Mouse pressed!");
-                    gui.dispose();
-                    gui.setVisible(true);
+                    if (gui.isVisible()) {
+                        gui.setVisible(false);
+                    } else {
+                        gui.setVisible(true);
+                    }
                 }
 
                 public void mouseReleased(MouseEvent e) {
@@ -115,8 +107,32 @@ public class Cliente extends javax.swing.JFrame {
             };
 
             //PopupMenu popup = new PopupMenu();
-            //MenuItem defaultItem = new MenuItem("Salir");
+            //MenuItem mostrar = new MenuItem("Mostrar");
+            JMenuItem jmMostrar = new JMenuItem("Mostar");
+            ActionListener mostrarVentana = new ActionListener() {
 
+                public void actionPerformed(ActionEvent e) {
+                    System.out.println("Mostrar...");
+                    //gui.dispose();
+                    gui.setVisible(true);
+                }
+            };
+            //jmMostrar.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.ALT_MASK));
+            jmMostrar.addActionListener(mostrarVentana);
+            popup.add(jmMostrar);
+
+            JMenuItem jmOcultar = new JMenuItem("Ocultar");
+            ActionListener ocultarVentana = new ActionListener() {
+
+                public void actionPerformed(ActionEvent e) {
+                    gui.setVisible(false);
+                }
+            };
+            //jmMostrar.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.ALT_MASK));
+            jmOcultar.addActionListener(ocultarVentana);
+            popup.add(jmOcultar);
+
+            //MenuItem defaultItem = new MenuItem("Salir");
             JMenuItem jmSalir = new JMenuItem("Salir");
             ActionListener exitListener = new ActionListener() {
 
@@ -125,24 +141,9 @@ public class Cliente extends javax.swing.JFrame {
                     System.exit(0);
                 }
             };
-            jmSalir.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F10, InputEvent.CTRL_MASK));
+            //jmSalir.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F10, InputEvent.CTRL_MASK));
             jmSalir.addActionListener(exitListener);
             popup.add(jmSalir);
-
-            //MenuItem mostrar = new MenuItem("Mostrar");
-
-            JMenuItem jmMostrar = new JMenuItem("Mostar");
-            ActionListener mostrarVentana = new ActionListener() {
-
-                public void actionPerformed(ActionEvent e) {
-                    System.out.println("Mostrar...");
-                    gui.dispose();
-                    gui.setVisible(true);
-                }
-            };
-            jmMostrar.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, InputEvent.ALT_MASK));
-            jmMostrar.addActionListener(mostrarVentana);
-            popup.add(jmMostrar);
 
             //trayIcon = new TrayIcon(image, "Sistema de Turnos Activado...", popup);
             trayIcon = new TrayIcon(image, "Sistema de Turnos Activado...", null);
