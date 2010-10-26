@@ -388,19 +388,14 @@ public class ConexionBase {
 
     /**
      * Cierra la conexion con la base de datos
-     * @return Connection
-     * @throws SQLException
      */
-    public Connection CerrarConexion() {
+    public void CerrarConexion() {
         try {
             conexion.close();
             //System.out.println("Base de datos Cerrada...");
         } catch (SQLException ex) {
-            //Logger.getLogger(ConexionBase.class.getName()).log(Level.SEVERE, null, ex);
-            log.trace("", ex);
+            //java.util.logging.Logger.getLogger(ConexionBase.class.getName()).log(Level.SEVERE, null, ex);
         }
-        conexion = null;
-        return conexion;
     }
 
     /**
