@@ -13,6 +13,7 @@ package PantallaGUI;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
+import servicios.servidor.ServidorTurnos;
 
 /**
  *
@@ -21,12 +22,19 @@ import javax.swing.UIManager;
 public class PrincipalGUI extends javax.swing.JFrame {
 
     private Configuracion con;
+    private ServidorTurnos serverTurnos;
 
     /** Creates new form PrincipalGUI */
     public PrincipalGUI() {
         super.setIconImage(new ImageIcon(getClass().getResource("/iconos/kradac_icono.png")).getImage());
         initComponents();
         configurarBotones();
+        iniciarServidorTurnos();
+    }
+
+    private void iniciarServidorTurnos() {
+        serverTurnos = new ServidorTurnos();
+        serverTurnos.start();
     }
 
 //    private void trayICON() {
@@ -115,7 +123,6 @@ public class PrincipalGUI extends javax.swing.JFrame {
 //            //  System Tray is not supported
 //        }
 //    }
-
     private void configurarBotones() {
         btnConfigurar.setText("<html><center>Configurar<br> Pantalla</center></html>");
 
@@ -162,6 +169,11 @@ public class PrincipalGUI extends javax.swing.JFrame {
         btnUsuarios.setText("Usuarios");
 
         jButton3.setText("jButton3");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("jButton4");
 
@@ -215,7 +227,7 @@ public class PrincipalGUI extends javax.swing.JFrame {
                     .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -237,15 +249,17 @@ public class PrincipalGUI extends javax.swing.JFrame {
         if (con == null) {
             con = new Configuracion();
         } else {
-            con.setLocationRelativeTo(this);
-            //con.setVisible(true);
+            con.dispose();
+            con = new Configuracion();
         }
-
     }//GEN-LAST:event_btnConfigurarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         System.exit(0);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
