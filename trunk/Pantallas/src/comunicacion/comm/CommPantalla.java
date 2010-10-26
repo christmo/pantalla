@@ -17,7 +17,6 @@ import javax.comm.NoSuchPortException;
 import javax.comm.PortInUseException;
 import javax.comm.SerialPort;
 import javax.comm.UnsupportedCommOperationException;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -104,16 +103,17 @@ public class CommPantalla extends Thread {
             return true;
         } catch (PortInUseException ex) {
             //Logger.getLogger(CommPantalla.class.getName()).log(Level.SEVERE, null, ex);
-            JOptionPane.showMessageDialog(null, "Puerto del COMM está en uso por otra apicación...\nModificar los paramatros de inicio.", "error", 0);
+            //JOptionPane.showMessageDialog(null, "Puerto del COMM está en uso por otra apicación...\nModificar los paramatros de inicio.", "error", 0);
             System.err.println("Cerrar Apicación - puerto en uso o no hay puerto serial disponible...");
-            System.exit(1);
+            //CerrarPuerto();
+            //System.exit(0);
         } catch (NoSuchPortException ex) {
-            JOptionPane.showMessageDialog(null, "No se ha cargado el driver COMM de java:\n\n" + ex + "\n\nNo se puede cargar la aplicación...", "error", 0);
-            //JOptionPane.showMessageDialog(null, "Se ha producido el siguiente error:\n\n" + ex + "\n\nNo se puede cargar la aplicación...", "error", 0);
+            //JOptionPane.showMessageDialog(null, "No se ha cargado el driver COMM de java:\n\n" + ex + "\n\nNo se puede cargar la aplicación...", "error", 0);
             CargarDriverCOMM();
             Logger.getLogger(CommPantalla.class.getName()).log(Level.SEVERE, null, ex);
-            System.exit(0);
+            //System.exit(0);
         }
+        CerrarPuerto();
         return false;
     }
     /*
@@ -176,9 +176,10 @@ public class CommPantalla extends Thread {
             sPuerto.setSerialPortParams(baudRate, dataBits, stopBits, paridad);
             return true;
         } catch (UnsupportedCommOperationException ex) {
-            Logger.getLogger(CommPantalla.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println("Cerrar Apicación");
+            //Logger.getLogger(CommPantalla.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Cerrar Aplicación");
             System.exit(0);
+        } catch (NullPointerException ex) {
         }
         return false;
     }
@@ -275,6 +276,7 @@ public class CommPantalla extends Thread {
         try {
             os.close();
             sPuerto.close();
+            System.out.println("Cerrar puerto COMM...");
         } catch (IOException ex) {
             Logger.getLogger(CommPantalla.class.getName()).log(Level.SEVERE, null, ex);
         } catch (NullPointerException ex) {
