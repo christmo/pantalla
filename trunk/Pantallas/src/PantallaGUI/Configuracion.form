@@ -28,22 +28,22 @@
           <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jLabel5" alignment="0" pref="617" max="32767" attributes="1"/>
+                  <Component id="jLabel5" alignment="0" max="32767" attributes="1"/>
                   <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Group type="102" alignment="0" attributes="1">
                       <Component id="btnEscribir" min="-2" max="-2" attributes="1"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="btnBorrar" min="-2" max="-2" attributes="1"/>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <EmptySpace pref="34" max="32767" attributes="0"/>
                       <Component id="btnGuardar" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                       <Component id="btnAbrir" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="jScrollPane1" alignment="0" pref="617" max="32767" attributes="1"/>
+                  <Component id="jScrollPane1" alignment="0" pref="530" max="32767" attributes="1"/>
                   <Component id="jPanel4" alignment="1" max="32767" attributes="1"/>
                   <Group type="102" alignment="0" attributes="0">
                       <Component id="btnSalir" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="336" max="32767" attributes="0"/>
+                      <EmptySpace pref="298" max="32767" attributes="0"/>
                       <Component id="btnInvertir" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Component id="jPanel3" alignment="0" max="32767" attributes="1"/>
@@ -305,7 +305,7 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="img" pref="121" max="32767" attributes="0"/>
+                      <Component id="img" pref="70" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
@@ -450,7 +450,7 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="btnHora" min="-2" max="-2" attributes="1"/>
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="txtHora" pref="193" max="32767" attributes="0"/>
+                  <Component id="txtHora" pref="138" max="32767" attributes="0"/>
                   <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
                   <Component id="btnFecha" min="-2" max="-2" attributes="1"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>

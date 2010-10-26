@@ -46,11 +46,11 @@ public class Configuracion extends javax.swing.JFrame {
 
     /** Creates new form Configuracion */
     public Configuracion() {
-//        super.setIconImage(new ImageIcon(getClass().getResource("/PantallaGUI/iconos/kradac_icono.png")).getImage());
+        super.setIconImage(new ImageIcon(getClass().getResource("/iconos/kradac_icono.png")).getImage());
+        bd = new BaseDatos();
         initComponents();
         llenarArrayBotonesFuentes();
         formatearHoraFecha();
-        bd = new BaseDatos();
         this.setVisible(true);
     }
 
@@ -279,7 +279,7 @@ public class Configuracion extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(img, javax.swing.GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE)
+                .addComponent(img, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -391,7 +391,7 @@ public class Configuracion extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(btnHora)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtHora, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
+                .addComponent(txtHora, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
                 .addGap(14, 14, 14)
                 .addComponent(btnFecha)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -430,21 +430,21 @@ public class Configuracion extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, 617, Short.MAX_VALUE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel1)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnEscribir)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnBorrar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                         .addComponent(btnGuardar)
                         .addGap(10, 10, 10)
                         .addComponent(btnAbrir))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 617, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 530, Short.MAX_VALUE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnSalir)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 336, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 298, Short.MAX_VALUE)
                         .addComponent(btnInvertir))
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
@@ -547,7 +547,7 @@ public class Configuracion extends javax.swing.JFrame {
         String mensaje = txtTexto.getText();
         if (!mensaje.equals("")) {
             if (bd.guardarMensajePantalla(Utilitarios.quitarEnterTexto(mensaje))) {
-                ic = new ImageIcon(getClass().getResource("/PantallaGUI/iconos/correcto.png"));
+                ic = new ImageIcon(getClass().getResource("/iconos/correcto.png"));
                 JOptionPane.showMessageDialog(this,
                         "Mensaje guardado correctamente...",
                         "OK...",
@@ -555,7 +555,7 @@ public class Configuracion extends javax.swing.JFrame {
                         ic);
                 txtTexto.setText("");
             } else {
-                ic = new ImageIcon(getClass().getResource("/PantallaGUI/iconos/error.png"));
+                ic = new ImageIcon(getClass().getResource("/iconos/error.png"));
                 JOptionPane.showMessageDialog(this,
                         "No se pudo guardar el mensaje...",
                         "Error...",
@@ -586,7 +586,7 @@ public class Configuracion extends javax.swing.JFrame {
         //<MENS1\rEl texto\r
         String comandoBorrar = "<BORRA\r";
         String comandoEscribir = "<MENS1\r" + txt + "\r";
-        enviarDatosPantalla(comandoBorrar+"&%"+comandoEscribir);
+        enviarDatosPantalla(comandoBorrar + "&%" + comandoEscribir);
     }//GEN-LAST:event_btnEscribirActionPerformed
 
     private void btnMasVelocidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMasVelocidadActionPerformed
