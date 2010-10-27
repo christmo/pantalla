@@ -578,6 +578,7 @@ public class Configuracion extends javax.swing.JFrame {
         //<BORRA\r
         String comando = "<BORRA\r";
         enviarDatosPantalla(comando);
+        txtTexto.setText("");
     }//GEN-LAST:event_btnBorrarActionPerformed
 
     private void btnEscribirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEscribirActionPerformed
