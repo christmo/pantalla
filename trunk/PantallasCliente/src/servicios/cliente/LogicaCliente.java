@@ -34,7 +34,11 @@ public class LogicaCliente implements PantallaRMI {
         this.port = port;
     }
 
-    private synchronized void connect() throws java.rmi.RemoteException {
+    /**
+     * Conecta el sock del cliente contra el servidor
+     * @throws java.rmi.RemoteException
+     */
+    private void conectar() throws java.rmi.RemoteException {
         try {
             //EJERCICIO: Implemente el método connect
             echoSocket = new Socket(host, port);
@@ -46,14 +50,14 @@ public class LogicaCliente implements PantallaRMI {
             System.err.println("" + ex);
         } catch (IOException ex) {
             if (ex.getMessage().equals("Connection refused")) {
-                JOptionPane.showMessageDialog(null, "Conexión NO establecida con el servidor se puede deber"
-                        + "\na problemas con la red o con el servidor de turnos...", "Error...", 0);
                 System.out.println("Conexion rechazada por el servidor...");
+                //JOptionPane.showMessageDialog(null, "Conexión NO establecida con el servidor se puede deber"
+                //        + "\na problemas con la red o con el servidor de turnos...", "Error...", 0);
                 System.exit(0);
             } else if (ex.getMessage().equals("Connection refused: connect")) {
-                JOptionPane.showMessageDialog(null, "Conexión NO establecida con el servidor se puede deber"
-                        + "\na problemas con la red o con el servidor de turnos...", "Error...", 0);
                 System.out.println("Conexion rechazada por el servidor...");
+                //JOptionPane.showMessageDialog(null, "Conexión NO establecida con el servidor se puede deber"
+                //        + "\na problemas con la red o con el servidor de turnos...", "Error...", 0);
                 System.exit(0);
             } else {
                 //System.out.println("Conexion rechazada por el servidor...");
@@ -62,7 +66,10 @@ public class LogicaCliente implements PantallaRMI {
         }
     }
 
-    private synchronized void disconnect() {
+    /**
+     * Desconecta el Socket contra el servidor
+     */
+    private void desconectar() {
         try {
             //EJERCICIO: Implemente el método disconnect
             os.close();
@@ -74,8 +81,15 @@ public class LogicaCliente implements PantallaRMI {
         }
     }
 
+    /**
+     * Envia el comando al servidor para que se presente en la pantalla y se
+     * presente el mensaje en el pantalla pasamensajes
+     * @param input
+     * @return String
+     * @throws RemoteException
+     */
     public String enviarComando(String input) throws RemoteException {
-        connect();
+        conectar();
         if (echoSocket != null && os != null && is != null) {
             try {
                 os.println(input);
@@ -87,7 +101,7 @@ public class LogicaCliente implements PantallaRMI {
             } catch (NullPointerException nex) {
             }
         }
-        disconnect();
+        desconectar();
         return output;
     }
 }
