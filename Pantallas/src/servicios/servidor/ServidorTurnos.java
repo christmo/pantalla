@@ -30,6 +30,10 @@ public class ServidorTurnos extends Thread {
     public ServidorTurnos() {
     }
 
+    /**
+     * Establece un sock con el cliente y abre conexoón con la base de
+     * datos para que se registren las llamadas a los clientes
+     */
     private void levantarServidorTurnos() {
         try {
             rb = ResourceBundle.getBundle("BaseDatos.configsystem");
