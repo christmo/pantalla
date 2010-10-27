@@ -46,6 +46,11 @@ public class Cliente extends javax.swing.JFrame {
     private ResourceBundle rb;
     private JPopupMenu popup = new JPopupMenu();
     private TrayIcon trayIcon;
+    /**
+     * Mantiene el estado del sistema cliente para saber si se puede llamar clientes
+     * con la tecla F12, por defecto al ejecutar el cliente va estar en true
+     */
+    public static boolean boolEstadoTurnos = true;
 
     /** Creates new form Cliente */
     public Cliente() {
@@ -192,7 +197,6 @@ public class Cliente extends javax.swing.JFrame {
         int vAncho = this.getWidth();
         int vAlto = this.getHeight();
         this.setLocation((ancho - vAncho), (alto - vAlto) - 50);
-
     }
 
     /** This method is called from within the constructor to
@@ -211,11 +215,6 @@ public class Cliente extends javax.swing.JFrame {
         setAlwaysOnTop(true);
         setFocusable(false);
         setResizable(false);
-        addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                formFocusLost(evt);
-            }
-        });
 
         btnLlamar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/llamar.png"))); // NOI18N
         btnLlamar.setToolTipText("Llama a un nuevo servicios.cliente...");
@@ -265,16 +264,14 @@ public class Cliente extends javax.swing.JFrame {
         setLocation((screenSize.width-dialogSize.width)/2,(screenSize.height-dialogSize.height)/2);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void formFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusLost
-        System.out.println("focus lost");
-    }//GEN-LAST:event_formFocusLost
-
     private void btnRellamarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRellamarActionPerformed
         if (btnRellamar.isSelected()) {
             btnLlamar.setEnabled(false);
             btnLlamar.requestFocus();
             accionesBotonesCliente("INACTIVO");
+            boolEstadoTurnos = false;
         } else {
+            boolEstadoTurnos = true;
             btnLlamar.setEnabled(true);
             btnLlamar.requestFocus();
         }
@@ -284,14 +281,14 @@ public class Cliente extends javax.swing.JFrame {
         /**
          * Ejecutar cuando se precione F12
          */
-        if (evt.getKeyCode() == 123) {
-            try {
-                accionesBotonesCliente("ACTIVO");
-                Thread.sleep(1000);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        /*if (evt.getKeyCode() == 123) {
+        try {
+        accionesBotonesCliente("ACTIVO");
+        Thread.sleep(1000);
+        } catch (InterruptedException ex) {
+        Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
         }
+        }*/
     }//GEN-LAST:event_btnLlamarKeyPressed
 
     private void btnLlamarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLlamarActionPerformed
@@ -310,7 +307,9 @@ public class Cliente extends javax.swing.JFrame {
 
             public void run() {
                 try {
+                    boolEstadoTurnos = false;
                     Thread.sleep(1000);
+                    boolEstadoTurnos = true;
                     btnLlamar.setEnabled(true);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
@@ -355,7 +354,7 @@ public class Cliente extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnLlamar;
+    public static javax.swing.JButton btnLlamar;
     private javax.swing.JToggleButton btnRellamar;
     // End of variables declaration//GEN-END:variables
 }
