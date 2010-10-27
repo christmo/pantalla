@@ -27,7 +27,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
@@ -37,9 +37,9 @@ import javax.swing.UIManager;
  *
  * @author kradac
  */
-public class Cliente extends javax.swing.JFrame {
+public class Cliente extends javax.swing.JDialog {
 
-    public static JFrame gui;
+    public static JDialog gui;
     private static LogicaCliente stubCliente;
     private PrintWriter stdOut = new PrintWriter(System.out);
     private String output;
