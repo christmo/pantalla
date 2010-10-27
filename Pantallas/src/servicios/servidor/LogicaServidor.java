@@ -48,7 +48,6 @@ public class LogicaServidor implements PantallaRMI {
         } catch (IndexOutOfBoundsException ioex) {
         }
         if (resultado) {
-            System.out.println("Turno guardado correctamente..." + turno[2]);
             String cmd = "<MENS3\r" + "CAJA" + " " + turno[2] + " " + turno[0] + "\r";
             comm.enviarComando(cmd);
             comm.start();
