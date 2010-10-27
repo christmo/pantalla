@@ -28,7 +28,6 @@ public class ServidorTurnos extends Thread {
     private static ResourceBundle rb;
 
     public ServidorTurnos() {
-        //levantarServidorTurnos();
     }
 
     private void levantarServidorTurnos() {
@@ -60,15 +59,10 @@ public class ServidorTurnos extends Thread {
             serverSocket.close();
         } catch (IOException e) {
             System.err.println("Error sending/receiving" + e.getMessage());
-            e.printStackTrace();
         }
     }
 
     public void run() {
         levantarServidorTurnos();
     }
-
-//    public static void main(String[] args) {
-//        new ServidorTurnos();
-//    }
 }
