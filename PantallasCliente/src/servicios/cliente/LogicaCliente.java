@@ -13,7 +13,6 @@ import java.net.UnknownHostException;
 import java.rmi.RemoteException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 import servicios.rmi.PantallaRMI;
 
 /**
@@ -96,8 +95,8 @@ public class LogicaCliente implements PantallaRMI {
                 os.flush();
                 output = is.readLine();
             } catch (IOException e) {
-                System.err.println("Erro al escribir en el servidor...");
-                throw new java.rmi.RemoteException("Erro al escribir en el servidor...");
+                System.err.println("Error al escribir en el servidor...");
+                throw new java.rmi.RemoteException("Error al escribir en el servidor...");
             } catch (NullPointerException nex) {
             }
         }
