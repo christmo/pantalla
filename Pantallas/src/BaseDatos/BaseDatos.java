@@ -80,4 +80,43 @@ public class BaseDatos {
         String sql = "INSERT INTO TURNOS(ID_CAJA,ESTADO,FECHA,HORA) VALUES (" + intIdCaja + ",'" + estado + "',NOW(),NOW())";
         return cb.ejecutarSentencia(sql);
     }
+
+    /**
+     * Obtener las cajas que estan en la base de datos reportando y reciviendo
+     * a los clientes
+     * @return String[]
+     */
+    public String[] obtenerNumeroCajas() {
+        String sql = "SELECT DISTINCT ID_CAJA FROM TURNOS ORDER BY ID_CAJA ASC";
+        rs = cb.ejecutarConsulta(sql);
+        ArrayList caja = new ArrayList();
+        try {
+            while (rs.next()) {
+                caja.add(rs.getString("ID_CAJA"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(BaseDatos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        String [] cajas = new String[caja.size()];
+        return (String[]) caja.toArray(cajas);
+    }
+
+    /**
+     * Obtiene los años dentro de la base de datos de los turnos registrados
+     * @return String[]
+     */
+    public String[] obtenerAniosBase() {
+        String sql = "SELECT DISTINCT YEAR(FECHA) AS ANIO FROM TURNOS;";
+        rs = cb.ejecutarConsulta(sql);
+        ArrayList anio = new ArrayList();
+        try {
+            while (rs.next()) {
+                anio.add(rs.getString("ANIO"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(BaseDatos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        String [] anios = new String[anio.size()];
+        return (String[]) anio.toArray(anios);
+    }
 }
