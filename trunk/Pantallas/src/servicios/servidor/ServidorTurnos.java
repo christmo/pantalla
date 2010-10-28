@@ -4,12 +4,14 @@
  */
 package servicios.servidor;
 
+import PantallaGUI.utilitarios.Utilitarios;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Properties;
 import java.util.ResourceBundle;
 import javax.swing.JOptionPane;
 
@@ -36,8 +38,10 @@ public class ServidorTurnos extends Thread {
      */
     private void levantarServidorTurnos() {
         try {
-            rb = ResourceBundle.getBundle("BaseDatos.configsystem");
-            int puerto = Integer.parseInt(rb.getString("puerto"));
+            //rb = ResourceBundle.getBundle("BaseDatos.configsystem");
+            Properties prop = Utilitarios.obtenerArchivoPropiedades("configsystem.properties");
+            int puerto = Integer.parseInt(prop.getProperty("puerto"));
+            //int puerto = Integer.parseInt(rb.getString("puerto"));
             serverSocket = new ServerSocket(puerto);
             System.out.println("Escuchando el pruerto: " + puerto);
         } catch (IOException e) {
