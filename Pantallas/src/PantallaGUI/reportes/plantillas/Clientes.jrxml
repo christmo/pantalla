@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" printOrder="Horizontal" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[SELECT DISTINCT
+     HOUR(turnos.`HORA`) AS turnos_HORA,
+     COUNT(*) AS TOTAL
+FROM
+     `turnos` turnos
+WHERE turnos.`FECHA` = '2010-10-27'
+GROUP BY turnos_HORA]]>
+	</queryString>
+	<field name="turnos_HORA" class="java.lang.Integer"/>
+	<field name="TOTAL" class="java.lang.Long"/>
+	<variable name="titulo" class="java.lang.String">
+		<initialValueExpression><![CDATA["Clientes"]]></initialValueExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="45" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="18" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="33" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="201" splitType="Stretch">
+			<elementGroup/>
+			<lineChart>
+				<chart>
+					<reportElement x="66" y="15" width="677" height="171"/>
+					<chartTitle position="Top"/>
+					<chartSubtitle/>
+					<chartLegend position="Bottom"/>
+				</chart>
+				<categoryDataset>
+					<categorySeries>
+						<seriesExpression><![CDATA[$V{titulo}]]></seriesExpression>
+						<categoryExpression><![CDATA[$F{turnos_HORA}]]></categoryExpression>
+						<valueExpression><![CDATA[$F{TOTAL}]]></valueExpression>
+					</categorySeries>
+				</categoryDataset>
+				<linePlot>
+					<plot/>
+					<categoryAxisFormat>
+						<axisFormat>
+							<labelFont/>
+							<tickLabelFont/>
+						</axisFormat>
+					</categoryAxisFormat>
+					<valueAxisFormat>
+						<axisFormat>
+							<labelFont/>
+							<tickLabelFont/>
+						</axisFormat>
+					</valueAxisFormat>
+				</linePlot>
+			</lineChart>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="21" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="13" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="19" splitType="Stretch"/>
+	</summary>
+</jasperReport>
