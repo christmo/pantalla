@@ -27,7 +27,6 @@ public class ServidorTurnos extends Thread {
     private static PrintWriter os = null;
     private static String inputline = new String();
     private static LogicaServidor server = new LogicaServidor();
-    private static ResourceBundle rb;
 
     public ServidorTurnos() {
     }
@@ -38,10 +37,8 @@ public class ServidorTurnos extends Thread {
      */
     private void levantarServidorTurnos() {
         try {
-            //rb = ResourceBundle.getBundle("BaseDatos.configsystem");
             Properties prop = Utilitarios.obtenerArchivoPropiedades("configsystem.properties");
             int puerto = Integer.parseInt(prop.getProperty("puerto"));
-            //int puerto = Integer.parseInt(rb.getString("puerto"));
             serverSocket = new ServerSocket(puerto);
             System.out.println("Escuchando el pruerto: " + puerto);
         } catch (IOException e) {
@@ -70,6 +67,7 @@ public class ServidorTurnos extends Thread {
         }
     }
 
+    @Override
     public void run() {
         levantarServidorTurnos();
     }
