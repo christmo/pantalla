@@ -4,7 +4,16 @@
  */
 package PantallaGUI.utilitarios;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.security.CodeSource;
 import java.util.ArrayList;
+import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JToggleButton;
 
 /**
@@ -38,7 +47,7 @@ public class Utilitarios {
         String[] arrHora = hora.split(":");
         String nuevaHora = "";
         int dato;
-        
+
         if (arrHora.length == 3) {
             for (int i = 0; i < arrHora.length; i++) {
                 try {
@@ -97,5 +106,30 @@ public class Utilitarios {
      */
     public static String quitarEnterTexto(String mensaje) {
         return mensaje.replace("\n", " ");
+    }
+
+    /**
+     * Trae el archivo properties que se encuentre en el direcctorio del jar
+     * @param arc -> "configsystem.properties" nombre del archivo properties
+     * @return Properties
+     */
+    public static Properties obtenerArchivoPropiedades(String arc) {
+        Properties prop = null;
+        try {
+            CodeSource codeSource = Utilitarios.class.getProtectionDomain().getCodeSource();
+            File jarFile = new File(codeSource.getLocation().toURI().getPath());
+            File jarDir = jarFile.getParentFile();
+
+            if (jarDir != null && jarDir.isDirectory()) {
+                File propFile = new File(jarDir, arc);
+                prop = new Properties();
+                prop.load(new BufferedReader(new FileReader(propFile.getAbsoluteFile())));
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(Utilitarios.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (URISyntaxException ex) {
+            Logger.getLogger(Utilitarios.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return prop;
     }
 }
