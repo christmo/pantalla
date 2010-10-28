@@ -48,7 +48,8 @@ public class LogicaServidor implements PantallaRMI {
         } catch (IndexOutOfBoundsException ioex) {
         }
         if (resultado) {
-            String cmd = "<MENS3\r" + "CAJA" + " " + turno[2] + " " + turno[0] + "\r";
+            //String cmd = "<MENS3\r" + "CAJA" + " " + turno[2] + " " + turno[0] + "\r";
+            String cmd = "3" + "CAJA" + " " + turno[2] + " " + turno[0] + "\r";
             comm.enviarComando(cmd);
             comm.start();
         } else {
