@@ -10,6 +10,7 @@
  */
 package PantallaGUI;
 
+import PantallaGUI.reportes.Reportes;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
@@ -23,6 +24,7 @@ public class PrincipalGUI extends javax.swing.JFrame {
 
     private Configuracion con;
     private ServidorTurnos serverTurnos;
+    private Reportes reportes;
 
     /** Creates new form PrincipalGUI */
     public PrincipalGUI() {
@@ -124,15 +126,15 @@ public class PrincipalGUI extends javax.swing.JFrame {
 //        }
 //    }
     private void configurarBotones() {
-        btnConfigurar.setText("<html><center>Configurar<br> Pantalla</center></html>");
+        btnConfigurar.setText("<html><center>Configurar<br>Pantalla</center></html>");
 
         btnConfigurar.setVerticalTextPosition(SwingConstants.BOTTOM);
         btnConfigurar.setHorizontalTextPosition(SwingConstants.CENTER);
 
-        btnUsuarios.setText("<html><center>Usuarios</center></html>");
+        btnReportes.setText("<html><center>Reportes y<br>Estadísticas</center></html>");
 
-        btnUsuarios.setVerticalTextPosition(SwingConstants.BOTTOM);
-        btnUsuarios.setHorizontalTextPosition(SwingConstants.CENTER);
+        btnReportes.setVerticalTextPosition(SwingConstants.BOTTOM);
+        btnReportes.setHorizontalTextPosition(SwingConstants.CENTER);
     }
 
     /** This method is called from within the constructor to
@@ -146,7 +148,7 @@ public class PrincipalGUI extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         btnConfigurar = new javax.swing.JButton();
-        btnUsuarios = new javax.swing.JButton();
+        btnReportes = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
@@ -165,8 +167,13 @@ public class PrincipalGUI extends javax.swing.JFrame {
             }
         });
 
-        btnUsuarios.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/user.png"))); // NOI18N
-        btnUsuarios.setText("Usuarios");
+        btnReportes.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/estadistica.png"))); // NOI18N
+        btnReportes.setText("Reportes");
+        btnReportes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReportesActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("jButton3");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -185,7 +192,7 @@ public class PrincipalGUI extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(btnConfigurar, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(btnUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnReportes, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -197,7 +204,7 @@ public class PrincipalGUI extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnUsuarios, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnReportes, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnConfigurar, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -261,6 +268,15 @@ public class PrincipalGUI extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
     }//GEN-LAST:event_jButton3ActionPerformed
 
+    private void btnReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportesActionPerformed
+        if (reportes == null) {
+            reportes = new Reportes();
+        } else {
+            reportes.dispose();
+            reportes = new Reportes();
+        }
+    }//GEN-LAST:event_btnReportesActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -284,7 +300,7 @@ public class PrincipalGUI extends javax.swing.JFrame {
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnConfigurar;
-    private javax.swing.JButton btnUsuarios;
+    private javax.swing.JButton btnReportes;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
