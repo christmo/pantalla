@@ -1,5 +1,6 @@
 package BaseDatos;
 
+import PantallaGUI.utilitarios.Utilitarios;
 import com.mysql.jdbc.Statement;
 
 import java.io.BufferedReader;
@@ -34,7 +35,9 @@ public class ConexionBase {
     private Connection conexion;
     private Statement st;
     private ResultSet rs = null;
-    private ResourceBundle rb;
+    /**
+     * Archivo de configuracion de la base de datos y de parametros iniciales
+     */
     private Properties arcConfig;
 
     /**
@@ -43,12 +46,12 @@ public class ConexionBase {
      */
     public ConexionBase() {
         try {
-            rb = ResourceBundle.getBundle("BaseDatos.configsystem");
+            arcConfig = Utilitarios.obtenerArchivoPropiedades("configsystem.properties");
             driver = "com.mysql.jdbc.Driver";
-            this.ip = rb.getString("ip_base");
-            this.bd = rb.getString("base");
-            this.usr = rb.getString("user");
-            this.pass = rb.getString("pass");
+            this.ip = arcConfig.getProperty("ip_base");
+            this.bd = arcConfig.getProperty("base");
+            this.usr = arcConfig.getProperty("user");
+            this.pass = arcConfig.getProperty("pass");
 
             url = "jdbc:mysql://" + ip + "/" + bd;
 
