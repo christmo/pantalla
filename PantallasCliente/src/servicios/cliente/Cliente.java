@@ -22,6 +22,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.io.PrintWriter;
 import java.rmi.RemoteException;
+import java.util.Properties;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -43,9 +44,10 @@ public class Cliente extends javax.swing.JDialog {
     private static LogicaCliente stubCliente;
     private PrintWriter stdOut = new PrintWriter(System.out);
     private String output;
-    private ResourceBundle rb;
+    //private ResourceBundle rb;
     private JPopupMenu popup = new JPopupMenu();
     private TrayIcon trayIcon;
+    private Properties prop;
     /**
      * Mantiene el estado del sistema cliente para saber si se puede llamar clientes
      * con la tecla F12, por defecto al ejecutar el cliente va estar en true
@@ -65,13 +67,13 @@ public class Cliente extends javax.swing.JDialog {
         //File jar = new File(System.getProperty("java.class.path"));
         //String srcDirProyecto = jar.getPath().substring(0, jar.getPath().length() - jar.getName().length());
 
-        rb = ResourceBundle.getBundle("servicios.cliente.configuracion");
+        //rb = ResourceBundle.getBundle("servicios.cliente.configuracion");
         ConectarServer();
     }
 
     private void ConectarServer() {
-        String host = rb.getString("host");
-        int puerto = Integer.parseInt(rb.getString("puerto"));
+        String host = prop.getProperty("host");
+        int puerto = Integer.parseInt(prop.getProperty("puerto"));
         stubCliente = new LogicaCliente(host, puerto);//EJERCICIO: crear una instancia del stub
     }
 
@@ -321,8 +323,8 @@ public class Cliente extends javax.swing.JDialog {
 
     private void accionesBotonesCliente(String estado) {
         try {
-            String caja = rb.getString("caja");
-            String dir = rb.getString("dir");
+            String caja = prop.getProperty("caja");
+            String dir = prop.getProperty("dir");
             String cmd = caja + "%" + estado + "%" + dir;
             output = stubCliente.enviarComando(cmd);
             stdOut.write(output);
