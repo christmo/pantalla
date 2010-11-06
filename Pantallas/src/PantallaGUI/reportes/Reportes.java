@@ -13,6 +13,7 @@ package PantallaGUI.reportes;
 import BaseDatos.BaseDatos;
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import javax.swing.ImageIcon;
 
 /**
@@ -21,7 +22,7 @@ import javax.swing.ImageIcon;
  */
 public class Reportes extends javax.swing.JFrame {
 
-    BaseDatos bd;
+    private BaseDatos bd;
 
     /** Creates new form Reportes */
     public Reportes() {
@@ -65,7 +66,8 @@ public class Reportes extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        bgTipoReporte = new javax.swing.ButtonGroup();
+        bgPeriodoReporte = new javax.swing.ButtonGroup();
+        rgTipoReporte = new javax.swing.ButtonGroup();
         jLabel1 = new javax.swing.JLabel();
         btnGenerar = new javax.swing.JButton();
         btnSalir = new javax.swing.JButton();
@@ -76,16 +78,21 @@ public class Reportes extends javax.swing.JFrame {
         jrDia = new javax.swing.JRadioButton();
         jrMes = new javax.swing.JRadioButton();
         jrAnual = new javax.swing.JRadioButton();
+        jrTodo = new javax.swing.JRadioButton();
         jpTipoReporte = new javax.swing.JPanel();
         jxDia = new org.jdesktop.swingx.JXDatePicker();
         jcMes = new javax.swing.JComboBox();
         jcAnio = new javax.swing.JComboBox();
+        jLabel4 = new javax.swing.JLabel();
+        jrNumeroClientesCaja = new javax.swing.JRadioButton();
+        jrTotalClientesTodasLasCajas = new javax.swing.JRadioButton();
+        jRadioButton4 = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Reportes");
         setResizable(false);
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Reportes");
 
@@ -107,9 +114,9 @@ public class Reportes extends javax.swing.JFrame {
 
         jLabel2.setText("Número de caja:");
 
-        jLabel3.setText("Tipo de reporte:");
+        jLabel3.setText("Periodo de reporte:");
 
-        bgTipoReporte.add(jrDia);
+        bgPeriodoReporte.add(jrDia);
         jrDia.setSelected(true);
         jrDia.setText("Día");
         jrDia.addActionListener(new java.awt.event.ActionListener() {
@@ -118,7 +125,7 @@ public class Reportes extends javax.swing.JFrame {
             }
         });
 
-        bgTipoReporte.add(jrMes);
+        bgPeriodoReporte.add(jrMes);
         jrMes.setText("Mes");
         jrMes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -126,13 +133,16 @@ public class Reportes extends javax.swing.JFrame {
             }
         });
 
-        bgTipoReporte.add(jrAnual);
+        bgPeriodoReporte.add(jrAnual);
         jrAnual.setText("Año");
         jrAnual.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jrAnualActionPerformed(evt);
             }
         });
+
+        bgPeriodoReporte.add(jrTodo);
+        jrTodo.setText("Todo");
 
         jcMes.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" }));
 
@@ -160,6 +170,28 @@ public class Reportes extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        jLabel4.setText("Tipos de reporte:");
+
+        rgTipoReporte.add(jrNumeroClientesCaja);
+        jrNumeroClientesCaja.setSelected(true);
+        jrNumeroClientesCaja.setText("Número de clientes por caja");
+        jrNumeroClientesCaja.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jrNumeroClientesCajaActionPerformed(evt);
+            }
+        });
+
+        rgTipoReporte.add(jrTotalClientesTodasLasCajas);
+        jrTotalClientesTodasLasCajas.setText("Total de clientes de todas las cajas");
+        jrTotalClientesTodasLasCajas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jrTotalClientesTodasLasCajasActionPerformed(evt);
+            }
+        });
+
+        rgTipoReporte.add(jRadioButton4);
+        jRadioButton4.setText("jRadioButton4");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -168,26 +200,42 @@ public class Reportes extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(18, 18, 18)
-                        .addComponent(jcNumeroCaja, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel4)
+                        .addGap(29, 29, 29)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jrTotalClientesTodasLasCajas)
+                            .addComponent(jrNumeroClientesCaja)
+                            .addComponent(jRadioButton4)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel2))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jcNumeroCaja, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jpTipoReporte, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jrDia)
                                 .addGap(18, 18, 18)
                                 .addComponent(jrMes)
                                 .addGap(18, 18, 18)
-                                .addComponent(jrAnual)))))
-                .addGap(267, 267, 267))
+                                .addComponent(jrAnual)
+                                .addGap(18, 18, 18)
+                                .addComponent(jrTodo)))))
+                .addContainerGap(50, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jrNumeroClientesCaja))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jrTotalClientesTodasLasCajas)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jRadioButton4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 86, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jcNumeroCaja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -196,10 +244,11 @@ public class Reportes extends javax.swing.JFrame {
                     .addComponent(jLabel3)
                     .addComponent(jrDia)
                     .addComponent(jrMes)
-                    .addComponent(jrAnual))
+                    .addComponent(jrAnual)
+                    .addComponent(jrTodo))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jpTipoReporte, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(277, Short.MAX_VALUE))
+                .addGap(72, 72, 72))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -209,12 +258,12 @@ public class Reportes extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 754, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(btnSalir)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 558, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 458, Short.MAX_VALUE)
                         .addComponent(btnGenerar))
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 754, Short.MAX_VALUE))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 654, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -232,7 +281,7 @@ public class Reportes extends javax.swing.JFrame {
         );
 
         java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-        setBounds((screenSize.width-790)/2, (screenSize.height-554)/2, 790, 554);
+        setBounds((screenSize.width-690)/2, (screenSize.height-506)/2, 690, 506);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
@@ -252,16 +301,35 @@ public class Reportes extends javax.swing.JFrame {
         activarTipoReporte(3);
     }//GEN-LAST:event_jrAnualActionPerformed
 
+    private void jrTotalClientesTodasLasCajasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrTotalClientesTodasLasCajasActionPerformed
+        jcNumeroCaja.setEnabled(false);
+    }//GEN-LAST:event_jrTotalClientesTodasLasCajasActionPerformed
+
+    private void jrNumeroClientesCajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrNumeroClientesCajaActionPerformed
+        jcNumeroCaja.setEnabled(true);
+    }//GEN-LAST:event_jrNumeroClientesCajaActionPerformed
+
     private void btnGenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarActionPerformed
-        // TODO add your handling code here:
+        if (jrNumeroClientesCaja.isSelected()) {
+            GenerarReporte(0);
+        } else {
+            if (jrTotalClientesTodasLasCajas.isSelected()) {
+                GenerarReporte(1);
+            } else {
+                /*if (jrNumeroClientesCaja.isSelected()) {
+                    GenerarReporte(2);
+                } else {
+                }*/
+            }
+        }
     }//GEN-LAST:event_btnGenerarActionPerformed
 
     /**
      * Activa las cajas de informacion para seleccionar de los dias, meses o años
      * @param tipo
      */
-    private void activarTipoReporte(int tipo){
-        switch(tipo){
+    private void activarTipoReporte(int tipo) {
+        switch (tipo) {
             case 1:
                 jxDia.setVisible(true);
                 jcMes.setVisible(false);
@@ -277,6 +345,12 @@ public class Reportes extends javax.swing.JFrame {
                 jcMes.setVisible(false);
                 jcAnio.setVisible(true);
                 break;
+            case 4:
+                jxDia.setVisible(false);
+                jcMes.setVisible(false);
+                jcAnio.setVisible(false);
+                break;
+
         }
         jpTipoReporte.setVisible(true);
     }
@@ -284,22 +358,34 @@ public class Reportes extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
+    /*public static void main(String args[]) {
+    java.awt.EventQueue.invokeLater(new Runnable() {
 
-            public void run() {
-                new Reportes().setVisible(true);
-            }
-        });
+    public void run() {
+    new Reportes().setVisible(true);
+    }
+    });
+    }*/
+    /**
+     * Obtiene los datos de los estados del taxi
+     * @return HashMap
+     */
+    private HashMap getDatosReporte() {
+        HashMap map = new HashMap();
+        map.put("todo", "true");
+
+        return map;
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.ButtonGroup bgTipoReporte;
+    private javax.swing.ButtonGroup bgPeriodoReporte;
     private javax.swing.JButton btnGenerar;
     private javax.swing.JButton btnSalir;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JRadioButton jRadioButton4;
     private javax.swing.JComboBox jcAnio;
     private javax.swing.JComboBox jcMes;
     private javax.swing.JComboBox jcNumeroCaja;
@@ -307,6 +393,19 @@ public class Reportes extends javax.swing.JFrame {
     private javax.swing.JRadioButton jrAnual;
     private javax.swing.JRadioButton jrDia;
     private javax.swing.JRadioButton jrMes;
+    private javax.swing.JRadioButton jrNumeroClientesCaja;
+    private javax.swing.JRadioButton jrTodo;
+    private javax.swing.JRadioButton jrTotalClientesTodasLasCajas;
     private org.jdesktop.swingx.JXDatePicker jxDia;
+    private javax.swing.ButtonGroup rgTipoReporte;
     // End of variables declaration//GEN-END:variables
+
+    private void GenerarReporte(int idx) {
+        switch (idx) {
+            case 1:
+                GenerarReporteTotalesCajas totalesCajas = new GenerarReporteTotalesCajas(bd.obtenerConexionBaseDatos(), getDatosReporte());
+                totalesCajas.Generar();
+                break;
+        }
+    }
 }
