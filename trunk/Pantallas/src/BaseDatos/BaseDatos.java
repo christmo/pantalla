@@ -25,6 +25,15 @@ public class BaseDatos {
     }
 
     /**
+     * Obtiene el objeto encargado de la conexión a la base de datos y las
+     * transacciones con ella
+     * @return ConexionBase
+     */
+    public ConexionBase obtenerConexionBaseDatos(){
+        return cb;
+    }
+
+    /**
      * Guarda un mensaje en la base de datos para ponerlo en el futuro en la
      * pantalla
      * @param mensaje
