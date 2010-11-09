@@ -8,45 +8,38 @@
 	</parameter>
 	<parameter name="sql" class="java.lang.String">
 		<defaultValueExpression><![CDATA["SELECT "+
-     "turnos.`ID_CAJA` AS turnos_ID_CAJA,"+
-      "COUNT(*) AS TOTAL "+
+    "DAY(turnos.`FECHA`) AS turnos_DIA,"+
+    "COUNT(*) AS TOTAL "+
 "FROM "+
      "`turnos` turnos "+
 "WHERE "+
-      "turnos.`ESTADO` = 'ACTIVO' "+
-"GROUP BY "+
-    "turnos.`ID_CAJA`"]]></defaultValueExpression>
+      "turnos.`ESTADO` = 'ACTIVO' AND "+
+      "MONTH(turnos.`FECHA`) = '$P!{fecha}' "+
+"GROUP BY " +
+    "DAY(turnos.`FECHA`)"]]></defaultValueExpression>
 	</parameter>
 	<parameter name="fecha" class="java.lang.String"/>
 	<parameter name="ano" class="java.lang.String">
 		<defaultValueExpression><![CDATA[2010]]></defaultValueExpression>
 	</parameter>
+	<parameter name="caja" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[$P!{sql}]]>
 	</queryString>
-	<field name="turnos_ID_CAJA" class="java.lang.Long"/>
+	<field name="turnos_DIA" class="java.lang.Integer"/>
 	<field name="TOTAL" class="java.lang.Long"/>
+	<variable name="maxN" class="java.lang.Integer" calculation="Highest">
+		<variableExpression><![CDATA[$F{TOTAL}]]></variableExpression>
+	</variable>
 	<variable name="totalClientes" class="java.lang.Integer" incrementType="Report">
-		<variableExpression><![CDATA[$V{totalClientes}+$F{TOTAL}]]></variableExpression>
+		<variableExpression><![CDATA[$V{totalClientes}+1]]></variableExpression>
 		<initialValueExpression><![CDATA[0]]></initialValueExpression>
 	</variable>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="104" splitType="Stretch">
-			<textField>
-				<reportElement x="0" y="29" width="426" height="24"/>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font size="18"/>
-				</textElement>
-				<textFieldExpression class="java.lang.String"><![CDATA["\""+$P{empresa}+"\""]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="0" y="63" width="215" height="20"/>
-				<textElement verticalAlignment="Middle"/>
-				<text><![CDATA[Total de clientes atendidos en cada caja.]]></text>
-			</staticText>
+		<band height="95" splitType="Stretch">
 			<staticText>
 				<reportElement x="0" y="0" width="426" height="29"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
@@ -55,6 +48,23 @@
 				<text><![CDATA[Reporte de Turnos
                 ]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="0" y="63" width="230" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Total de clientes atendidos por día en la caja:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="29" width="426" height="24"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="18"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["\""+$P{empresa}+"\""]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="230" y="63" width="100" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{caja}]]></textFieldExpression>
+			</textField>
 		</band>
 	</title>
 	<pageHeader>
@@ -63,32 +73,44 @@
 	<columnHeader>
 		<band height="20" splitType="Stretch">
 			<staticText>
-				<reportElement x="44" y="0" width="36" height="20"/>
+				<reportElement x="101" y="0" width="45" height="20"/>
 				<textElement textAlignment="Center">
 					<font isBold="true"/>
 				</textElement>
-				<text><![CDATA[Caja]]></text>
+				<text><![CDATA[Dia]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="136" y="0" width="55" height="20"/>
+				<reportElement x="175" y="0" width="45" height="20"/>
 				<textElement textAlignment="Center">
 					<font isBold="true"/>
 				</textElement>
 				<text><![CDATA[Total]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="31" y="0" width="44" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Número]]></text>
+			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="25" splitType="Stretch">
+		<band height="20" splitType="Stretch">
 			<textField>
-				<reportElement x="44" y="0" width="36" height="20"/>
+				<reportElement x="101" y="0" width="45" height="20"/>
 				<textElement textAlignment="Center"/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$F{turnos_ID_CAJA}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{turnos_DIA}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="136" y="0" width="55" height="20"/>
+				<reportElement x="175" y="0" width="45" height="20"/>
 				<textElement textAlignment="Center"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{TOTAL}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="31" y="0" width="44" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{totalClientes}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
@@ -99,16 +121,16 @@
 		<band splitType="Stretch"/>
 	</pageFooter>
 	<summary>
-		<band height="42" splitType="Stretch">
+		<band height="52" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="10" width="136" height="20"/>
+				<reportElement x="1" y="15" width="145" height="20"/>
 				<textElement/>
-				<text><![CDATA[Total de clientes atendidos:]]></text>
+				<text><![CDATA[Mayor número de clientes es:]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="136" y="10" width="100" height="20"/>
+				<reportElement x="146" y="15" width="100" height="20"/>
 				<textElement/>
-				<textFieldExpression class="java.lang.String"><![CDATA[$V{totalClientes}]]></textFieldExpression>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{maxN}]]></textFieldExpression>
 			</textField>
 		</band>
 	</summary>

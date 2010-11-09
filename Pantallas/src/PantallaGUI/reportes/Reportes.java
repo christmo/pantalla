@@ -54,7 +54,6 @@ public class Reportes extends javax.swing.JFrame {
         for (int i = 0; i < anios.length; i++) {
             jcAnio.addItem(anios[i]);
         }
-
     }
 
     /** This method is called from within the constructor to
@@ -86,7 +85,9 @@ public class Reportes extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jrNumeroClientesCaja = new javax.swing.JRadioButton();
         jrTotalClientesTodasLasCajas = new javax.swing.JRadioButton();
-        jRadioButton4 = new javax.swing.JRadioButton();
+        jrNumeroClientesHora = new javax.swing.JRadioButton();
+        jrNumeroClientesDias = new javax.swing.JRadioButton();
+        jrNumeroClientesMes = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Reportes");
@@ -117,7 +118,6 @@ public class Reportes extends javax.swing.JFrame {
         jLabel3.setText("Periodo de reporte:");
 
         bgPeriodoReporte.add(jrDia);
-        jrDia.setSelected(true);
         jrDia.setText("Día");
         jrDia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -142,7 +142,13 @@ public class Reportes extends javax.swing.JFrame {
         });
 
         bgPeriodoReporte.add(jrTodo);
+        jrTodo.setSelected(true);
         jrTodo.setText("Todo");
+        jrTodo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jrTodoActionPerformed(evt);
+            }
+        });
 
         jcMes.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre" }));
 
@@ -189,8 +195,29 @@ public class Reportes extends javax.swing.JFrame {
             }
         });
 
-        rgTipoReporte.add(jRadioButton4);
-        jRadioButton4.setText("jRadioButton4");
+        rgTipoReporte.add(jrNumeroClientesHora);
+        jrNumeroClientesHora.setText("Número de clientes por hora");
+        jrNumeroClientesHora.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jrNumeroClientesHoraActionPerformed(evt);
+            }
+        });
+
+        rgTipoReporte.add(jrNumeroClientesDias);
+        jrNumeroClientesDias.setText("Número de clientes por día");
+        jrNumeroClientesDias.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jrNumeroClientesDiasActionPerformed(evt);
+            }
+        });
+
+        rgTipoReporte.add(jrNumeroClientesMes);
+        jrNumeroClientesMes.setText("Número de clientes por mes");
+        jrNumeroClientesMes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jrNumeroClientesMesActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -205,7 +232,9 @@ public class Reportes extends javax.swing.JFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jrTotalClientesTodasLasCajas)
                             .addComponent(jrNumeroClientesCaja)
-                            .addComponent(jRadioButton4)))
+                            .addComponent(jrNumeroClientesHora)
+                            .addComponent(jrNumeroClientesDias)
+                            .addComponent(jrNumeroClientesMes)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
@@ -216,13 +245,13 @@ public class Reportes extends javax.swing.JFrame {
                             .addComponent(jpTipoReporte, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jrDia)
-                                .addGap(18, 18, 18)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jrMes)
-                                .addGap(18, 18, 18)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jrAnual)
-                                .addGap(18, 18, 18)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jrTodo)))))
-                .addContainerGap(50, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -234,8 +263,12 @@ public class Reportes extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jrTotalClientesTodasLasCajas)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jRadioButton4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 86, Short.MAX_VALUE)
+                .addComponent(jrNumeroClientesHora)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jrNumeroClientesDias)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jrNumeroClientesMes)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jcNumeroCaja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -248,7 +281,7 @@ public class Reportes extends javax.swing.JFrame {
                     .addComponent(jrTodo))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jpTipoReporte, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(72, 72, 72))
+                .addGap(39, 39, 39))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -261,9 +294,9 @@ public class Reportes extends javax.swing.JFrame {
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(btnSalir)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 458, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 418, Short.MAX_VALUE)
                         .addComponent(btnGenerar))
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 654, Short.MAX_VALUE))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 614, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -273,7 +306,7 @@ public class Reportes extends javax.swing.JFrame {
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGenerar)
                     .addComponent(btnSalir))
@@ -281,7 +314,7 @@ public class Reportes extends javax.swing.JFrame {
         );
 
         java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-        setBounds((screenSize.width-690)/2, (screenSize.height-506)/2, 690, 506);
+        setBounds((screenSize.width-650)/2, (screenSize.height-476)/2, 650, 476);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
@@ -303,10 +336,12 @@ public class Reportes extends javax.swing.JFrame {
 
     private void jrTotalClientesTodasLasCajasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrTotalClientesTodasLasCajasActionPerformed
         jcNumeroCaja.setEnabled(false);
+        ocultarPeriodosTiempo(5, false);
     }//GEN-LAST:event_jrTotalClientesTodasLasCajasActionPerformed
 
     private void jrNumeroClientesCajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrNumeroClientesCajaActionPerformed
         jcNumeroCaja.setEnabled(true);
+        ocultarPeriodosTiempo(5, false);
     }//GEN-LAST:event_jrNumeroClientesCajaActionPerformed
 
     private void btnGenerarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarActionPerformed
@@ -316,13 +351,82 @@ public class Reportes extends javax.swing.JFrame {
             if (jrTotalClientesTodasLasCajas.isSelected()) {
                 GenerarReporte(1);
             } else {
-                /*if (jrNumeroClientesCaja.isSelected()) {
+                if (jrNumeroClientesHora.isSelected()) {
                     GenerarReporte(2);
                 } else {
-                }*/
+                    if (jrNumeroClientesDias.isSelected()) {
+                        GenerarReporte(3);
+                    } else {
+                        if (jrNumeroClientesMes.isSelected()) {
+                            GenerarReporte(4);
+                        } else {
+                        }
+                    }
+                }
             }
         }
     }//GEN-LAST:event_btnGenerarActionPerformed
+
+    private void jrTodoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrTodoActionPerformed
+        activarTipoReporte(4);
+    }//GEN-LAST:event_jrTodoActionPerformed
+
+    private void jrNumeroClientesHoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrNumeroClientesHoraActionPerformed
+        jcNumeroCaja.setEnabled(true);
+        ocultarPeriodosTiempo(1, true);
+    }//GEN-LAST:event_jrNumeroClientesHoraActionPerformed
+
+    private void jrNumeroClientesMesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrNumeroClientesMesActionPerformed
+        jcNumeroCaja.setEnabled(true);
+        ocultarPeriodosTiempo(3, true);
+    }//GEN-LAST:event_jrNumeroClientesMesActionPerformed
+
+    private void jrNumeroClientesDiasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jrNumeroClientesDiasActionPerformed
+        jcNumeroCaja.setEnabled(true);
+        ocultarPeriodosTiempo(2, true);
+    }//GEN-LAST:event_jrNumeroClientesDiasActionPerformed
+
+    /**
+     * Oculta o mustra las opciones de los periodos que se puede escojer para
+     * sacar los reportes
+     * @param op
+     */
+    private void ocultarPeriodosTiempo(int periodo, boolean op) {
+        switch (periodo) {
+            case 1:
+                jrDia.setVisible(op);
+                jrMes.setVisible(!op);
+                jrAnual.setVisible(!op);
+                jrTodo.setVisible(!op);
+                break;
+            case 2:
+                jrDia.setVisible(!op);
+                jrMes.setVisible(op);
+                jrAnual.setVisible(!op);
+                jrTodo.setVisible(!op);
+                break;
+            case 3:
+                jrDia.setVisible(!op);
+                jrMes.setVisible(!op);
+                jrAnual.setVisible(op);
+                jrTodo.setVisible(!op);
+                break;
+            case 4:
+                jrDia.setVisible(!op);
+                jrMes.setVisible(!op);
+                jrAnual.setVisible(!op);
+                jrTodo.setVisible(op);
+                break;
+            case 5:
+                jrDia.setVisible(!op);
+                jrMes.setVisible(!op);
+                jrAnual.setVisible(!op);
+                jrTodo.setVisible(!op);
+                jrTodo.setSelected(true);
+                break;
+        }
+        activarTipoReporte(4);
+    }
 
     /**
      * Activa las cajas de informacion para seleccionar de los dias, meses o años
@@ -338,7 +442,7 @@ public class Reportes extends javax.swing.JFrame {
             case 2:
                 jxDia.setVisible(false);
                 jcMes.setVisible(true);
-                jcAnio.setVisible(false);
+                jcAnio.setVisible(true);
                 break;
             case 3:
                 jxDia.setVisible(false);
@@ -372,7 +476,37 @@ public class Reportes extends javax.swing.JFrame {
      */
     private HashMap getDatosReporte() {
         HashMap map = new HashMap();
-        map.put("todo", "true");
+        if (jrNumeroClientesCaja.isSelected()) {
+            map.put("op", "n_clientes");
+            map.put("caja", jcNumeroCaja.getSelectedItem().toString());
+        } else {
+            if (jrTotalClientesTodasLasCajas.isSelected()) {
+                map.put("op", "todo");
+            } else {
+                if (jrNumeroClientesHora.isSelected()
+                        || jrNumeroClientesDias.isSelected()
+                        || jrNumeroClientesMes.isSelected()) {
+                    map.put("op", "clientesHora");
+                    map.put("caja", jcNumeroCaja.getSelectedItem().toString());
+                } else {
+                }
+            }
+        }
+
+        if (jrDia.isSelected()) {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            map.put("tiempo", "dia");
+            map.put("dia", sdf.format(jxDia.getDate()));
+        } else if (jrMes.isSelected()) {
+            map.put("tiempo", "mes");
+            map.put("mes", jcMes.getSelectedIndex() + 1);
+            map.put("ano", jcAnio.getSelectedItem().toString());
+        } else if (jrAnual.isSelected()) {
+            map.put("tiempo", "ano");
+            map.put("ano", jcAnio.getSelectedItem().toString());
+        } else if (jrTodo.isSelected()) {
+            map.put("tiempo", "todo");
+        }
 
         return map;
     }
@@ -385,7 +519,6 @@ public class Reportes extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JRadioButton jRadioButton4;
     private javax.swing.JComboBox jcAnio;
     private javax.swing.JComboBox jcMes;
     private javax.swing.JComboBox jcNumeroCaja;
@@ -394,6 +527,9 @@ public class Reportes extends javax.swing.JFrame {
     private javax.swing.JRadioButton jrDia;
     private javax.swing.JRadioButton jrMes;
     private javax.swing.JRadioButton jrNumeroClientesCaja;
+    private javax.swing.JRadioButton jrNumeroClientesDias;
+    private javax.swing.JRadioButton jrNumeroClientesHora;
+    private javax.swing.JRadioButton jrNumeroClientesMes;
     private javax.swing.JRadioButton jrTodo;
     private javax.swing.JRadioButton jrTotalClientesTodasLasCajas;
     private org.jdesktop.swingx.JXDatePicker jxDia;
@@ -402,9 +538,25 @@ public class Reportes extends javax.swing.JFrame {
 
     private void GenerarReporte(int idx) {
         switch (idx) {
+            case 0:
+                GenerarReporteClientes nClientes = new GenerarReporteClientes(bd.obtenerConexionBaseDatos(), getDatosReporte());
+                nClientes.Generar();
+                break;
             case 1:
                 GenerarReporteTotalesCajas totalesCajas = new GenerarReporteTotalesCajas(bd.obtenerConexionBaseDatos(), getDatosReporte());
                 totalesCajas.Generar();
+                break;
+            case 2:
+                GenerarReporteClientesPorHora clientePorHora = new GenerarReporteClientesPorHora(bd.obtenerConexionBaseDatos(), getDatosReporte());
+                clientePorHora.GenerarPorHora();
+                break;
+            case 3:
+                GenerarReporteClientesPorHora clientePorDia = new GenerarReporteClientesPorHora(bd.obtenerConexionBaseDatos(), getDatosReporte());
+                clientePorDia.GenerarPorDia();
+                break;
+            case 4:
+                GenerarReporteClientesPorHora clientePorMes = new GenerarReporteClientesPorHora(bd.obtenerConexionBaseDatos(), getDatosReporte());
+                clientePorMes.GenerarPorMes();
                 break;
         }
     }
