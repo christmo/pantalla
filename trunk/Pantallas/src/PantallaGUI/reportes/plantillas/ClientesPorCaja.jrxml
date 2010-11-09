@@ -19,6 +19,10 @@
 	<parameter name="empresa" class="java.lang.String">
 		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
 	</parameter>
+	<parameter name="fecha" class="java.lang.String"/>
+	<parameter name="ano" class="java.lang.String">
+		<defaultValueExpression><![CDATA[2010]]></defaultValueExpression>
+	</parameter>
 	<queryString>
 		<![CDATA[$P!{sql}]]>
 	</queryString>

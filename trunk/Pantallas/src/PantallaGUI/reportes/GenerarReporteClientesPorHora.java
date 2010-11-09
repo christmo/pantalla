@@ -15,7 +15,7 @@ import java.util.Properties;
  *
  * @author christmo
  */
-public class GenerarReporteClientes {
+public class GenerarReporteClientesPorHora {
 
     private ConexionBase bd;
     private HashMap campos;
@@ -23,27 +23,40 @@ public class GenerarReporteClientes {
     private InputStream RutaJasper;
     private Properties arcConfig;
 
-    public GenerarReporteClientes(ConexionBase cb, HashMap camp) {
+    public GenerarReporteClientesPorHora(ConexionBase cb, HashMap camp) {
         this.bd = cb;
         this.campos = camp;
         arcConfig = Utilitarios.obtenerArchivoPropiedades("configsystem.properties");
         empresa = arcConfig.getProperty("empresa");
-        RutaJasper = getClass().getResourceAsStream("plantillas/ClientesPorCaja.jrxml");
+
     }
 
     /**
      * Genera segun los campos que se haya llenado
      */
-    public void Generar() {
-        if (campos.get("op").toString().equals("n_clientes")) {
+    public void GenerarPorHora() {
+        if (campos.get("op").toString().equals("clientesHora")) {
             if (campos.get("tiempo").toString().equals("dia")) {
+                RutaJasper = getClass().getResourceAsStream("plantillas/ClientesPorHora.jrxml");
                 GenerarClientesPorDia();
-            } else if (campos.get("tiempo").toString().equals("mes")) {
+            }
+        }
+    }
+
+    public void GenerarPorDia() {
+        if (campos.get("op").toString().equals("clientesHora")) {
+            if (campos.get("tiempo").toString().equals("mes")) {
+                RutaJasper = getClass().getResourceAsStream("plantillas/ClientesPorMes.jrxml");
                 GenerarClientesPorMes();
-            } else if (campos.get("tiempo").toString().equals("ano")) {
+            }
+        }
+    }
+
+    public void GenerarPorMes() {
+        if (campos.get("op").toString().equals("clientesHora")) {
+            if (campos.get("tiempo").toString().equals("ano")) {
+                RutaJasper = getClass().getResourceAsStream("plantillas/ClientesPorAnio.jrxml");
                 GenerarTotalClientesPorAno();
-            } else if (campos.get("tiempo").toString().equals("todo")) {
-                GenerarTotalClientesCajas();
             }
         }
     }
@@ -57,16 +70,17 @@ public class GenerarReporteClientes {
         String caja = campos.get("caja").toString();
 
         String sql = "SELECT "
-                + "turnos.`HORA` AS turnos_HORA,"
-                + "turnos.`FECHA` AS turnos_FECHA,"
-                + "turnos.`ESTADO` AS turnos_ESTADO,"
-                + "turnos.`ID_CAJA` AS turnos_ID_CAJA "
+                + "Hour(turnos.`HORA`) AS turnos_HORA,"
+                + "turnos.`FECHA` AS FECHA,"
+                + "count(*) AS TOTAL "
                 + "FROM "
                 + "`turnos` turnos "
                 + "WHERE "
                 + "turnos.`ESTADO` = 'ACTIVO' AND "
                 + "turnos.`FECHA` = '$P!{fecha}' AND "
-                + "turnos.`ID_CAJA` = $P!{caja}";
+                + "turnos.`ID_CAJA` = $P!{caja} "
+                + "GROUP BY "
+                + "Hour(turnos.`HORA`)";
 
         System.out.println("SQL: " + sql);
 
@@ -79,27 +93,22 @@ public class GenerarReporteClientes {
         GenerarReporte.Generar(parametro, RutaJasper, bd);
     }
 
-    /**
-     * Genera el reporte de todos los registros pertenecientes a un mes especifico
-     * en un año especifico
-     */
     private void GenerarClientesPorMes() {
         String fecha = campos.get("mes").toString();
         String ano = campos.get("ano").toString();
         String caja = campos.get("caja").toString();
 
         String sql = "SELECT "
-                + "turnos.`HORA` AS turnos_HORA,"
-                + "turnos.`FECHA` AS turnos_FECHA,"
-                + "turnos.`ESTADO` AS turnos_ESTADO,"
-                + "turnos.`ID_CAJA` AS turnos_ID_CAJA "
+                + "DAY(turnos.`FECHA`) AS turnos_DIA,"
+                + "COUNT(*) AS TOTAL "
                 + "FROM "
                 + "`turnos` turnos "
                 + "WHERE "
                 + "turnos.`ESTADO` = 'ACTIVO' AND "
                 + "MONTH(turnos.`FECHA`) = '$P!{fecha}' AND "
-                + "YEAR(turnos.`FECHA`)='$P!{ano}' AND "
-                + "turnos.`ID_CAJA` = $P!{caja}";
+                + "turnos.`ID_CAJA` = $P!{caja} "
+                + "GROUP BY "
+                + "DAY(turnos.`FECHA`)";
 
         System.out.println("SQL: " + sql);
 
@@ -113,58 +122,28 @@ public class GenerarReporteClientes {
         GenerarReporte.Generar(parametro, RutaJasper, bd);
     }
 
-    /**
-     * Genera los registros correspondientes a todo un año de trabajo
-     */
     private void GenerarTotalClientesPorAno() {
         String fecha = campos.get("ano").toString();
         String caja = campos.get("caja").toString();
 
         String sql = "SELECT "
-                + "turnos.`HORA` AS turnos_HORA,"
-                + "turnos.`FECHA` AS turnos_FECHA,"
-                + "turnos.`ESTADO` AS turnos_ESTADO,"
-                + "turnos.`ID_CAJA` AS turnos_ID_CAJA "
+                + "MONTHNAME(turnos.`FECHA`) AS Nombre_mes,"
+                + "MONTH(turnos.`FECHA`) AS MES,"
+                + "count(*) AS TOTAL "
                 + "FROM "
                 + "`turnos` turnos "
                 + "WHERE "
                 + "turnos.`ESTADO` = 'ACTIVO' AND "
                 + "YEAR(turnos.`FECHA`) = '$P!{fecha}' AND "
-                + "turnos.`ID_CAJA` = $P!{caja}";
+                + "turnos.`ID_CAJA` = $P!{caja} "
+                + "group by "
+                + "MONTH(turnos.`FECHA`)";
 
         System.out.println("SQL: " + sql);
 
         Map parametro = new HashMap();
         parametro.put("sql", sql);
         parametro.put("fecha", fecha);
-        parametro.put("caja", caja);
-        parametro.put("empresa", empresa);
-
-        GenerarReporte.Generar(parametro, RutaJasper, bd);
-    }
-
-    /**
-     * Genera los registros consernientes a todos los años desde que se implmento
-     * el sistema
-     */
-    private void GenerarTotalClientesCajas() {
-        String caja = campos.get("caja").toString();
-
-        String sql = "SELECT "
-                + "turnos.`HORA` AS turnos_HORA,"
-                + "turnos.`FECHA` AS turnos_FECHA,"
-                + "turnos.`ESTADO` AS turnos_ESTADO,"
-                + "turnos.`ID_CAJA` AS turnos_ID_CAJA "
-                + "FROM "
-                + "`turnos` turnos "
-                + "WHERE "
-                + "turnos.`ESTADO` = 'ACTIVO' AND "
-                + "turnos.`ID_CAJA` = $P!{caja}";
-
-        System.out.println("SQL: " + sql);
-
-        Map parametro = new HashMap();
-        parametro.put("sql", sql);
         parametro.put("caja", caja);
         parametro.put("empresa", empresa);
 
