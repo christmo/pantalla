@@ -56,6 +56,7 @@
           <Image iconType="3" name="/iconos/llamar.png"/>
         </Property>
         <Property name="toolTipText" type="java.lang.String" value="Llama a un nuevo servicios.cliente..."/>
+        <Property name="focusable" type="boolean" value="false"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnLlamarActionPerformed"/>

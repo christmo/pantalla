@@ -33,6 +33,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.UIManager;
+import utilitarios.Utilitarios;
 
 /**
  *
@@ -68,6 +69,7 @@ public class Cliente extends javax.swing.JDialog {
         //String srcDirProyecto = jar.getPath().substring(0, jar.getPath().length() - jar.getName().length());
 
         //rb = ResourceBundle.getBundle("servicios.cliente.configuracion");
+        prop = Utilitarios.obtenerArchivoPropiedades("configuracion.properties");
         ConectarServer();
     }
 
@@ -220,6 +222,7 @@ public class Cliente extends javax.swing.JDialog {
 
         btnLlamar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/llamar.png"))); // NOI18N
         btnLlamar.setToolTipText("Llama a un nuevo servicios.cliente...");
+        btnLlamar.setFocusable(false);
         btnLlamar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLlamarActionPerformed(evt);
