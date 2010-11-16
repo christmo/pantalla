@@ -75,91 +75,6 @@
         </rollingPolicy>
     </appender>
 
-    <!-- Trace para el guardado de informacion en el servidor de KRADAC-->
-    <appender name="TRACE_GSK" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>TRACE</level>
-        </filter>
-        <File>${logPath}/${fecha}/GSK/${appName}.log</File>
-
-        <!-- 5 líneas de stacktrace para las excepciones -->
-        <layout class="ch.qos.logback.classic.PatternLayout">
-            <Pattern>
-                [%p][%d{dd/MM/yyyy HH:mm:ss}][%F][%thread][linea %L][Metodo %M] %logger{36} - %msg%n
-            </Pattern>
-        </layout>
-
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>${logPath}/%d{yyyy-MM-dd}/GSK.%d{yyyy-MM-dd}.log</FileNamePattern>
-            <MaxHistory>5</MaxHistory>
-        </rollingPolicy>
-    </appender>
-
-    <!-- Trace para el actualizado de informacion en el servidor de KRADAC-->
-    <appender name="TRACE_ASK" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>TRACE</level>
-        </filter>
-        <File>${logPath}/${fecha}/ASK/${appName}.log</File>
-
-        <!-- 5 líneas de stacktrace para las excepciones -->
-        <layout class="ch.qos.logback.classic.PatternLayout">
-            <Pattern>
-                [%p][%d{dd/MM/yyyy HH:mm:ss}][%F][%thread][linea %L][Metodo %M] %logger{36} - %msg%n
-            </Pattern>
-        </layout>
-
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>${logPath}/%d{yyyy-MM-dd}/ASK.%d{yyyy-MM-dd}.log</FileNamePattern>
-            <MaxHistory>5</MaxHistory>
-        </rollingPolicy>
-    </appender>
-
-    <!-- Trace para Seguir los movimientos de la base de datos-->
-    <appender name="TRACE_BD" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>TRACE</level>
-        </filter>
-
-        <File>${logPath}/${fecha}/${appName}-base.log</File>
-
-        <!-- full stacktrace para las excepciones -->
-        <layout class="ch.qos.logback.classic.PatternLayout">
-            <Pattern>
-                [%p][%d{dd/MM/yyyy HH:mm:ss}][%F][linea %L] %logger{36} - %msg%n[excepciones] %exception{full}%n{2}
-            </Pattern>
-        </layout>
-
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>${logPath}/%d{yyyy-MM-dd}/${appName}-base.log</FileNamePattern>
-            <!-- mantener 5 días de historia -->
-            <MaxHistory>5</MaxHistory>
-        </rollingPolicy>
-        <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-            <maxFileSize>5MB</maxFileSize>
-        </triggeringPolicy>
-    </appender>
-
-    <!--
-    <appender name="ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>ERROR</level>
-        </filter>
-        <File>${logPath}/${fecha}/${appName}.log</File>
-
-        <layout class="ch.qos.logback.classic.PatternLayout">
-            <Pattern>
-                [%p][%d{dd/MM/yyyy HH:mm:ss}] [%F] [%thread] [linea %L] [Metodo %M] %logger{36} - %msg%n[excepciones] %exception{full}%n
-            </Pattern>
-        </layout>
-
-        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>${logPath}/%d{yyyy-MM-dd}/${appName}.e.%d{yyyy-MM-dd}.log</FileNamePattern>
-            <MaxHistory>5</MaxHistory>
-        </rollingPolicy>
-    </appender>
-    -->
-
     <appender name="pantalla" class="ch.qos.logback.core.ConsoleAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
             <Pattern>
@@ -168,46 +83,7 @@
         </layout>
     </appender>
 
-    <!--
-     Enviar mail cuando se produsca un error
-    -->
-    <appender name="EMAIL" class="ch.qos.logback.classic.net.SMTPAppender">
-        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>ERROR</level>
-        </filter>
-        <SMTPHost>smtp.gmail.com</SMTPHost>
-        <SMTPPort>465</SMTPPort>
-        <SSL>true</SSL>
-        <Username>soporte@kradac.com</Username>
-        <Password>superkradacalrescate</Password>
-
-        <To>soporte@kradac.com</To>
-        <From>soporte@kradac.com</From>
-        <Subject>Logs: %logger{20} - %m</Subject>
-        <layout class="ch.qos.logback.classic.PatternLayout">
-            <Pattern>
-                [%p][%d{dd/MM/yyyy HH:mm:ss}][%F][linea %L][Metodo %M] %logger{36} - %msg%n[excepciones] %exception{full}%n{2}
-            </Pattern>
-        </layout>
-    </appender>
-
-    <logger name="Pruebas" level="ALL">
-        <appender-ref ref="INFO"/>
-        <appender-ref ref="DEBUG"/>
-        <appender-ref ref="TRACE"/>
-        <appender-ref ref="pantalla"/>
-    </logger>
-
-    <logger name="BaseDatos" level="TRACE">
-        <appender-ref ref="TRACE_BD"/>
-        <appender-ref ref="EMAIL"/>
-    </logger>
-
     <logger name="PantallaGUI" level="ALL">
-        <appender-ref ref="EMAIL"/>
-        <appender-ref ref="INFO"/>
-        <appender-ref ref="DEBUG"/>
-        <appender-ref ref="TRACE"/>
         <appender-ref ref="pantalla"/>
     </logger>
 

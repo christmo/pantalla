@@ -29,7 +29,7 @@ public class BaseDatos {
      * transacciones con ella
      * @return ConexionBase
      */
-    public ConexionBase obtenerConexionBaseDatos(){
+    public ConexionBase obtenerConexionBaseDatos() {
         return cb;
     }
 
@@ -45,6 +45,72 @@ public class BaseDatos {
     }
 
     /**
+     * Guarda el registro de los mensajes que se escriben en la pantalla, fecha,
+     * hora, con sus respectivos estados
+     * TODO: poner el usuario registrado en el Active Directory
+     * @param mensaje
+     * @param estado -> MOSTRAR EN LA LISTA DE MENSAJES GUARDADOS -> ACT | INA
+     * @param accion -> REGISTRO DE LA ACCION EJECUTADA GUARDADO O BORRADO
+     * @return boolean
+     */
+    public boolean guardarMensajePantalla(String mensaje, String estado, String accion) {
+        String sql = "INSERT INTO MENSAJES(MENSAJE,FECHA,HORA,ESTADO,ACCION) "
+                + "VALUES('"
+                + mensaje
+                + "',"
+                + "NOW()"
+                + ","
+                + "NOW()"
+                + ",'"
+                + estado
+                + "','"
+                + accion
+                + "')";
+        return cb.ejecutarSentencia(sql);
+    }
+
+    /**
+     * Borrar mensajes guardados en la pantalla 
+     * @return boolean
+     */
+    public boolean borrarUltimoMensajeGuardadoPantalla() {
+        String ultimoMensaje = ultimoMensajeGuardadoPantalla();
+        System.out.println("Ultimo mensaje: " + ultimoMensaje);
+        String sql = "INSERT INTO MENSAJES(MENSAJE,FECHA,HORA,ESTADO,ACCION) "
+                + "VALUES('"
+                + ultimoMensaje
+                + "',"
+                + "NOW()"
+                + ","
+                + "NOW()"
+                + ",'"
+                + "INA"
+                + "','"
+                + "BORRADO"
+                + "')";
+        return cb.ejecutarSentencia(sql);
+    }
+
+    /**
+     * Obtener el ultimo mensaje guardado en pantalla
+     * @return String
+     */
+    private String ultimoMensajeGuardadoPantalla() {
+        String sql = "SELECT MENSAJE "
+                + "FROM MENSAJES "
+                + "WHERE CONCAT(FECHA,' ',HORA) = ("
+                + "SELECT MAX(CONCAT(FECHA,' ',HORA)) FROM MENSAJES WHERE ACCION = 'GUARDADO' AND ESTADO = 'INA'"
+                + ") AND ACCION = 'GUARDADO' AND ESTADO = 'INA'";
+        rs = cb.ejecutarConsultaUnDato(sql);
+        try {
+            return rs.getString("MENSAJE");
+        } catch (SQLException ex) {
+            //Logger.getLogger(BaseDatos.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+
+    /**
      * Cierra la conexion de la base de datos
      */
     public void cerrarConexionBase() {
@@ -56,7 +122,7 @@ public class BaseDatos {
      * @return String[]
      */
     public String[] obtenerMensajesGuardados() {
-        String sql = "SELECT MENSAJE FROM MENSAJES ORDER BY MENSAJE DESC";
+        String sql = "SELECT MENSAJE FROM MENSAJES WHERE ESTADO='ACT' AND ACCION = 'GUARDADO' ORDER BY MENSAJE DESC";
         rs = cb.ejecutarConsulta(sql);
         ArrayList mensajes = new ArrayList<String>();
         try {
@@ -106,7 +172,7 @@ public class BaseDatos {
         } catch (SQLException ex) {
             Logger.getLogger(BaseDatos.class.getName()).log(Level.SEVERE, null, ex);
         }
-        String [] cajas = new String[caja.size()];
+        String[] cajas = new String[caja.size()];
         return (String[]) caja.toArray(cajas);
     }
 
@@ -125,7 +191,7 @@ public class BaseDatos {
         } catch (SQLException ex) {
             Logger.getLogger(BaseDatos.class.getName()).log(Level.SEVERE, null, ex);
         }
-        String [] anios = new String[anio.size()];
+        String[] anios = new String[anio.size()];
         return (String[]) anio.toArray(anios);
     }
 }

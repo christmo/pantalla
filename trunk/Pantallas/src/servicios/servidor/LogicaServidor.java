@@ -36,7 +36,7 @@ public class LogicaServidor implements PantallaRMI {
          * direccion -> [2] -> donde debe apuntar la flecha
          */
         int nCaja = 0;
-        comm = new CommPantalla();
+
         String[] turno = comando.split("%");
         try {
             nCaja = Integer.parseInt(turno[0]);
@@ -49,9 +49,16 @@ public class LogicaServidor implements PantallaRMI {
         }
         if (resultado) {
             //String cmd = "<MENS3\r" + "CAJA" + " " + turno[2] + " " + turno[0] + "\r";
-            String cmd = "3" + "CAJA" + " " + turno[2] + " " + turno[0] + "\r";
-            comm.enviarComando(cmd);
-            comm.start();
+            //3A > 5CAJ
+            //3A >08CAJ
+            //String cmd = "3A > " + "CAJA" + " " + turno[2] + " " + turno[0] + "\r";
+            if (!turno[1].equals("INACTIVO")) {
+                String cmd = "3A" + " " + turno[2] + " " + turno[0] + "CAJ\r";
+                comm = new CommPantalla();
+                //cmd ="312345678\r";
+                comm.enviarComando(cmd);
+                comm.start();
+            }
         } else {
             System.out.println("NO se guardo turno...");
         }

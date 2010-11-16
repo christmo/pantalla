@@ -170,16 +170,22 @@ public class MensajesGuardados extends JDialog {
 
     private void btnSeleccionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarActionPerformed
         int fila = jtMensajes.getSelectedRow();
-        String dato = (String) jtMensajes.getValueAt(fila, 0);
-        Configuracion.insertarMensaje(dato);
-        this.dispose();
+        try {
+            String dato = (String) jtMensajes.getValueAt(fila, 0);
+            Configuracion.insertarMensaje(dato);
+            this.dispose();
+        } catch (IndexOutOfBoundsException iobw) {
+        }
     }//GEN-LAST:event_btnSeleccionarActionPerformed
 
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
-         int fila = jtMensajes.getSelectedRow();
-         String dato = (String) jtMensajes.getValueAt(fila, 0);
-         bd.eliminarMensaje(dato);
-         dtm.removeRow(fila);
+        try {
+            int fila = jtMensajes.getSelectedRow();
+            String dato = (String) jtMensajes.getValueAt(fila, 0);
+            bd.eliminarMensaje(dato);
+            dtm.removeRow(fila);
+        } catch (IndexOutOfBoundsException iobw) {
+        }
     }//GEN-LAST:event_btnBorrarActionPerformed
     /**
      * @param args the command line arguments

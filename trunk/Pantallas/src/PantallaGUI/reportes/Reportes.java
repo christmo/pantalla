@@ -34,7 +34,7 @@ public class Reportes extends javax.swing.JFrame {
 
     private void configuracionInicial() {
         cargarCajasCombo();
-        activarTipoReporte(1);
+        activarTipoReporte(4);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         jxDia.setFormats(sdf);
         jxDia.setDate(GregorianCalendar.getInstance().getTime());
@@ -112,6 +112,8 @@ public class Reportes extends javax.swing.JFrame {
                 btnSalirActionPerformed(evt);
             }
         });
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel2.setText("Número de caja:");
 
@@ -268,7 +270,7 @@ public class Reportes extends javax.swing.JFrame {
                 .addComponent(jrNumeroClientesDias)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jrNumeroClientesMes)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jcNumeroCaja, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -294,9 +296,9 @@ public class Reportes extends javax.swing.JFrame {
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(btnSalir)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 418, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 422, Short.MAX_VALUE)
                         .addComponent(btnGenerar))
-                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 614, Short.MAX_VALUE))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 618, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(

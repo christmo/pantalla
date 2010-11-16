@@ -12,7 +12,6 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Properties;
-import java.util.ResourceBundle;
 import javax.swing.JOptionPane;
 
 /**
@@ -29,6 +28,7 @@ public class ServidorTurnos extends Thread {
     private static LogicaServidor server = new LogicaServidor();
 
     public ServidorTurnos() {
+        this.start();
     }
 
     /**
@@ -42,9 +42,9 @@ public class ServidorTurnos extends Thread {
             serverSocket = new ServerSocket(puerto);
             System.out.println("Escuchando el pruerto: " + puerto);
         } catch (IOException e) {
-            System.out.println("El pueto esta en uso...");
-            JOptionPane.showMessageDialog(null,"El servidor ya se encuentra corriendo...","Error...", 0);
-            //System.exit(1);
+            System.out.println("El puerto esta en uso, el servidor ya esta corriendo...");
+            //JOptionPane.showMessageDialog(null, "El servidor ya se encuentra corriendo...", "Error...", 0);
+            System.exit(1);
         }
 
         try {

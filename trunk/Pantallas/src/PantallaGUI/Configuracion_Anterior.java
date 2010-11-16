@@ -24,7 +24,7 @@ import javax.swing.JOptionPane;
  *
  * @author kradac
  */
-public class Configuracion extends javax.swing.JFrame {
+public class Configuracion_Anterior extends javax.swing.JFrame {
 
     /**
      * Escribe el texto en la caja desde la ventana que recupera los mensajes
@@ -45,10 +45,11 @@ public class Configuracion extends javax.swing.JFrame {
     private CommPantalla comm;
 
     /** Creates new form Configuracion */
-    public Configuracion() {
+    public Configuracion_Anterior() {
         super.setIconImage(new ImageIcon(getClass().getResource("/iconos/kradac_icono.png")).getImage());
         bd = new BaseDatos();
         initComponents();
+        llenarArrayBotonesFuentes();
         formatearHoraFecha();
         this.setVisible(true);
     }
@@ -63,6 +64,19 @@ public class Configuracion extends javax.swing.JFrame {
         SimpleDateFormat sfd = new SimpleDateFormat("dd/MM/yyyy");
         jxFecha.setFormats(sfd);
         jxFecha.setDate(fecha);
+    }
+
+    /**
+     * Agrega los botones de la fuente en un arreglo para permitir que se
+     * seleccione solo uno del conjunto de 6
+     */
+    private void llenarArrayBotonesFuentes() {
+        arrayBotonesFuentes.add(btnFuente1);
+        arrayBotonesFuentes.add(btnFuente2);
+        arrayBotonesFuentes.add(btnFuente3);
+        arrayBotonesFuentes.add(btnFuente4);
+        arrayBotonesFuentes.add(btnFuente5);
+        arrayBotonesFuentes.add(btnFuente6);
     }
 
     private void enviarDatosPantalla(String cmd) {
@@ -94,9 +108,15 @@ public class Configuracion extends javax.swing.JFrame {
         btnMenosVelocidad = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        btnFuente = new javax.swing.JButton();
-        btnInvertir = new javax.swing.JButton();
+        img = new javax.swing.JLabel();
+        btnFuente1 = new javax.swing.JToggleButton();
+        btnFuente2 = new javax.swing.JToggleButton();
+        btnFuente3 = new javax.swing.JToggleButton();
+        btnFuente4 = new javax.swing.JToggleButton();
+        btnFuente5 = new javax.swing.JToggleButton();
+        btnFuente6 = new javax.swing.JToggleButton();
         jLabel2 = new javax.swing.JLabel();
+        btnInvertir = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jxFecha = new org.jdesktop.swingx.JXDatePicker();
         btnFecha = new javax.swing.JButton();
@@ -107,7 +127,6 @@ public class Configuracion extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Configuración Pantalla");
-        setResizable(false);
 
         txtTexto.setColumns(20);
         txtTexto.setLineWrap(true);
@@ -126,7 +145,6 @@ public class Configuracion extends javax.swing.JFrame {
 
         btnEscribir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/text.png"))); // NOI18N
         btnEscribir.setText("Escribir Pantalla");
-        btnEscribir.setToolTipText("Publica en la pantalla el mensaje escrito en la caja de texto...");
         btnEscribir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEscribirActionPerformed(evt);
@@ -135,7 +153,6 @@ public class Configuracion extends javax.swing.JFrame {
 
         btnBorrar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/limpiar.png"))); // NOI18N
         btnBorrar.setText("Borrar Pantalla");
-        btnBorrar.setToolTipText("Borra el contenido de la pantalla solo deja la fecha y hora...");
         btnBorrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBorrarActionPerformed(evt);
@@ -144,7 +161,6 @@ public class Configuracion extends javax.swing.JFrame {
 
         btnGuardar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/guardar.png"))); // NOI18N
         btnGuardar.setText("Guardar");
-        btnGuardar.setToolTipText("Guarda un mensaje...");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGuardarActionPerformed(evt);
@@ -153,7 +169,6 @@ public class Configuracion extends javax.swing.JFrame {
 
         btnAbrir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/abrir.png"))); // NOI18N
         btnAbrir.setText("Abrir");
-        btnAbrir.setToolTipText("Ver mensajes guardados en la base de datos...");
         btnAbrir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnAbrirActionPerformed(evt);
@@ -168,7 +183,6 @@ public class Configuracion extends javax.swing.JFrame {
 
         btnMasVelocidad.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/mas.png"))); // NOI18N
         btnMasVelocidad.setText("Más");
-        btnMasVelocidad.setToolTipText("Incrementa la velocidad del paso de los mensajes por la pantalla.\n");
         btnMasVelocidad.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnMasVelocidadActionPerformed(evt);
@@ -177,7 +191,6 @@ public class Configuracion extends javax.swing.JFrame {
 
         btnMenosVelocidad.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/menos.png"))); // NOI18N
         btnMenosVelocidad.setText("Menos");
-        btnMenosVelocidad.setToolTipText("Disminuye la velocidad del paso de mensajes por la pantalla.");
         btnMenosVelocidad.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnMenosVelocidadActionPerformed(evt);
@@ -205,7 +218,7 @@ public class Configuracion extends javax.swing.JFrame {
                     .addComponent(jLabel3)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(btnMasVelocidad, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
                         .addComponent(btnMenosVelocidad, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -215,19 +228,48 @@ public class Configuracion extends javax.swing.JFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        btnFuente.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/fuente.png"))); // NOI18N
-        btnFuente.setText("Cambiar Formato");
-        btnFuente.addActionListener(new java.awt.event.ActionListener() {
+        img.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        img.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/fuente.png"))); // NOI18N
+
+        btnFuente1.setText("1");
+        btnFuente1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnFuenteActionPerformed(evt);
+                btnFuente1ActionPerformed(evt);
             }
         });
 
-        btnInvertir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/color.png"))); // NOI18N
-        btnInvertir.setText("Invertir Colores");
-        btnInvertir.addActionListener(new java.awt.event.ActionListener() {
+        btnFuente2.setText("2");
+        btnFuente2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnInvertirActionPerformed(evt);
+                btnFuente2ActionPerformed(evt);
+            }
+        });
+
+        btnFuente3.setText("3");
+        btnFuente3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFuente3ActionPerformed(evt);
+            }
+        });
+
+        btnFuente4.setText("4");
+        btnFuente4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFuente4ActionPerformed(evt);
+            }
+        });
+
+        btnFuente5.setText("5");
+        btnFuente5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFuente5ActionPerformed(evt);
+            }
+        });
+
+        btnFuente6.setText("6");
+        btnFuente6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFuente6ActionPerformed(evt);
             }
         });
 
@@ -237,23 +279,44 @@ public class Configuracion extends javax.swing.JFrame {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btnInvertir, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE)
-                    .addComponent(btnFuente, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 205, Short.MAX_VALUE))
+                .addComponent(img, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnFuente1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnFuente2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnFuente3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnFuente4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnFuente5, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnFuente6, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btnFuente)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnInvertir)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(img, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnFuente1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnFuente2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnFuente3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnFuente4, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnFuente5, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnFuente6, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap())
         );
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11));
-        jLabel2.setText("Formato de la letra");
+        jLabel2.setText("Formato de la Letra");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -275,14 +338,24 @@ public class Configuracion extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel3Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
+
+        btnInvertir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/color.png"))); // NOI18N
+        btnInvertir.setText("Invertir Colores");
+        btnInvertir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInvertirActionPerformed(evt);
+            }
+        });
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tiempo", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Tahoma", 1, 11))); // NOI18N
 
@@ -369,8 +442,11 @@ public class Configuracion extends javax.swing.JFrame {
                         .addComponent(btnAbrir))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 530, Short.MAX_VALUE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnSalir)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 298, Short.MAX_VALUE)
+                        .addComponent(btnInvertir))
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -393,8 +469,10 @@ public class Configuracion extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnSalir)
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnSalir)
+                    .addComponent(btnInvertir))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -408,15 +486,51 @@ public class Configuracion extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 
+    private void btnFuente1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFuente1ActionPerformed
+        Utilitarios.botonesFuentes(1, arrayBotonesFuentes);
+        String comando = "<MENTA\r";
+        enviarDatosPantalla(comando);
+    }//GEN-LAST:event_btnFuente1ActionPerformed
+
+    private void btnFuente2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFuente2ActionPerformed
+        Utilitarios.botonesFuentes(2, arrayBotonesFuentes);
+        String comando = "<MENTB\r";
+        enviarDatosPantalla(comando);
+    }//GEN-LAST:event_btnFuente2ActionPerformed
+
+    private void btnFuente3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFuente3ActionPerformed
+        Utilitarios.botonesFuentes(3, arrayBotonesFuentes);
+        String comando = "<MENTC\r";
+        enviarDatosPantalla(comando);
+    }//GEN-LAST:event_btnFuente3ActionPerformed
+
+    private void btnFuente4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFuente4ActionPerformed
+        Utilitarios.botonesFuentes(4, arrayBotonesFuentes);
+        String comando = "<MENT7\r";
+        enviarDatosPantalla(comando);
+    }//GEN-LAST:event_btnFuente4ActionPerformed
+
+    private void btnFuente5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFuente5ActionPerformed
+        Utilitarios.botonesFuentes(5, arrayBotonesFuentes);
+        String comando = "<MENT8\r";
+        enviarDatosPantalla(comando);
+    }//GEN-LAST:event_btnFuente5ActionPerformed
+
+    private void btnFuente6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFuente6ActionPerformed
+        Utilitarios.botonesFuentes(6, arrayBotonesFuentes);
+        String comando = "<MENT9\r";
+        enviarDatosPantalla(comando);
+    }//GEN-LAST:event_btnFuente6ActionPerformed
+
     private void txtTextoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtTextoFocusLost
-        //txtTexto.setText(txtTexto.getText().toUpperCase());
+        txtTexto.setText(txtTexto.getText().toUpperCase());
     }//GEN-LAST:event_txtTextoFocusLost
 
     private void btnHoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHoraActionPerformed
         String hora = txtHora.getText();
         if (!hora.equals("")) {
             //<TIME$\r11:07:51\r\r
-            String comando = "t" + hora + "\r";
+            String comando = "<TIME$\r" + hora + "\r\r";
             enviarDatosPantalla(comando);
             System.out.println("Enviar: " + comando);
         } else {
@@ -432,7 +546,7 @@ public class Configuracion extends javax.swing.JFrame {
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         String mensaje = txtTexto.getText();
         if (!mensaje.equals("")) {
-            if (bd.guardarMensajePantalla(Utilitarios.quitarEnterTexto(mensaje), "ACT", "GUARDADO")) {
+            if (bd.guardarMensajePantalla(Utilitarios.quitarEnterTexto(mensaje))) {
                 ic = new ImageIcon(getClass().getResource("/iconos/correcto.png"));
                 JOptionPane.showMessageDialog(this,
                         "Mensaje guardado correctamente...",
@@ -461,34 +575,30 @@ public class Configuracion extends javax.swing.JFrame {
 
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
         // BORRAR
-        String comando = "2\r";
-        bd.borrarUltimoMensajeGuardadoPantalla();
+        //<BORRA\r
+        String comando = "<BORRA\r";
         enviarDatosPantalla(comando);
         txtTexto.setText("");
     }//GEN-LAST:event_btnBorrarActionPerformed
 
     private void btnEscribirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEscribirActionPerformed
-        if (!txtTexto.getText().equals("")) {
-            String txt = Utilitarios.quitarEnterTexto(txtTexto.getText());
-            //GRABAR UN MENSAJE
-            String comandoBorrar = "2\r";
-            bd.borrarUltimoMensajeGuardadoPantalla();
-            String comandoEscribir = "1   " + txt + "       \r";
-            bd.guardarMensajePantalla(txt, "INA", "GUARDADO");
-            enviarDatosPantalla(comandoBorrar + "&%" + comandoEscribir);
-            txtTexto.setText("");
-        }
+        String txt = Utilitarios.quitarEnterTexto(txtTexto.getText());
+        //GRABAR UN MENSAJE
+        //<MENS1\rEl texto\r
+        String comandoBorrar = "<BORRA\r";
+        String comandoEscribir = "<MENS1\r" + txt + "\r";
+        enviarDatosPantalla(comandoBorrar + "&%" + comandoEscribir);
     }//GEN-LAST:event_btnEscribirActionPerformed
 
     private void btnMasVelocidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMasVelocidadActionPerformed
         // <MENSv
-        String comando = "V";
+        String comando = "<MENSv";
         enviarDatosPantalla(comando);
     }//GEN-LAST:event_btnMasVelocidadActionPerformed
 
     private void btnMenosVelocidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenosVelocidadActionPerformed
         // <MENSV
-        String comando = "v";
+        String comando = "<MENSV";
         enviarDatosPantalla(comando);
     }//GEN-LAST:event_btnMenosVelocidadActionPerformed
 
@@ -496,19 +606,14 @@ public class Configuracion extends javax.swing.JFrame {
         // <DATE$\r10/09/10\r
         Date fecha = jxFecha.getDate();
         SimpleDateFormat sfd = new SimpleDateFormat("MM/dd/yy");
-        String comando = "d" + sfd.format(fecha) + "\r";
+        String comando = "<DATE$\r" + sfd.format(fecha) + "\r";
         enviarDatosPantalla(comando);
     }//GEN-LAST:event_btnFechaActionPerformed
 
     private void btnInvertirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInvertirActionPerformed
-        String comando = "I";
+        String comando = "<MENSI\r";
         enviarDatosPantalla(comando);
     }//GEN-LAST:event_btnInvertirActionPerformed
-
-    private void btnFuenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFuenteActionPerformed
-        String comando = "T\r";
-        enviarDatosPantalla(comando);
-    }//GEN-LAST:event_btnFuenteActionPerformed
     /**
      * @param args the command line arguments
      */
@@ -525,13 +630,19 @@ public class Configuracion extends javax.swing.JFrame {
     private javax.swing.JButton btnBorrar;
     private javax.swing.JButton btnEscribir;
     private javax.swing.JButton btnFecha;
-    private javax.swing.JButton btnFuente;
+    private javax.swing.JToggleButton btnFuente1;
+    private javax.swing.JToggleButton btnFuente2;
+    private javax.swing.JToggleButton btnFuente3;
+    private javax.swing.JToggleButton btnFuente4;
+    private javax.swing.JToggleButton btnFuente5;
+    private javax.swing.JToggleButton btnFuente6;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnHora;
     private javax.swing.JButton btnInvertir;
     private javax.swing.JButton btnMasVelocidad;
     private javax.swing.JButton btnMenosVelocidad;
     private javax.swing.JButton btnSalir;
+    private javax.swing.JLabel img;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
