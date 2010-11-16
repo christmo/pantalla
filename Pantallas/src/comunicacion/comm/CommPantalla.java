@@ -81,7 +81,7 @@ public class CommPantalla extends Thread {
                 //System.out.println("" + l);
                 enviarDatos("" + l);
                 try {
-                    Thread.sleep(10);
+                    Thread.sleep(30);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(CommPantalla.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -99,7 +99,7 @@ public class CommPantalla extends Thread {
     private boolean AbrirPuerto(String comm) {
         try {
             id_Puerto = CommPortIdentifier.getPortIdentifier(comm);
-            sPuerto = (SerialPort) id_Puerto.open("MonitoreoKradac", 5000); //tiempo de bloqueo 1m
+            sPuerto = (SerialPort) id_Puerto.open("PantallasKradac", 5000); //tiempo de bloqueo 1m
             return true;
         } catch (PortInUseException ex) {
             //Logger.getLogger(CommPantalla.class.getName()).log(Level.SEVERE, null, ex);

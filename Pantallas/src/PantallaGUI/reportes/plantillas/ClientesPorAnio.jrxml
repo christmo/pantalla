@@ -75,7 +75,7 @@
 	<columnHeader>
 		<band height="20" splitType="Stretch">
 			<staticText>
-				<reportElement x="101" y="0" width="45" height="20"/>
+				<reportElement x="93" y="0" width="63" height="20"/>
 				<textElement textAlignment="Left">
 					<font isBold="true"/>
 				</textElement>
@@ -107,7 +107,7 @@
 	<detail>
 		<band height="20" splitType="Stretch">
 			<textField>
-				<reportElement x="101" y="0" width="45" height="20"/>
+				<reportElement x="93" y="0" width="63" height="20"/>
 				<textElement textAlignment="Left"/>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{Nombre_mes}]]></textFieldExpression>
 			</textField>
