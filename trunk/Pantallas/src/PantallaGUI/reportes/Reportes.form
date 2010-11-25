@@ -121,6 +121,7 @@
                               <Component id="jrNumeroClientesHora" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="jrNumeroClientesDias" alignment="0" min="-2" max="-2" attributes="0"/>
                               <Component id="jrNumeroClientesMes" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="jrTiemposAtencion" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
@@ -164,7 +165,9 @@
                   <Component id="jrNumeroClientesDias" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="jrNumeroClientesMes" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="38" max="32767" attributes="0"/>
+                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                  <Component id="jrTiemposAtencion" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace pref="12" max="32767" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jcNumeroCaja" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -363,6 +366,17 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jrNumeroClientesMesActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JRadioButton" name="jrTiemposAtencion">
+          <Properties>
+            <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+              <ComponentRef name="rgTipoReporte"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Tiempos de atenci&#xf3;n por caja"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jrTiemposAtencionActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

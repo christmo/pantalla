@@ -482,7 +482,7 @@ public class Configuracion_Anterior extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-        bd.cerrarConexionBase();
+        //bd.cerrarConexionBase();
         this.dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 

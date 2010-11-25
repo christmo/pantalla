@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="null" language="groovy" pageWidth="595" pageHeight="842" columnWidth="426" leftMargin="99" rightMargin="70" topMargin="70" bottomMargin="70" scriptletClass="PantallaGUI.reportes.plantillas.FormateoCamposReportes">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<import value="PantallaGUI.reportes.plantillas.*"/>
+	<parameter name="empresa" class="java.lang.String">
+		<defaultValueExpression><![CDATA[""]]></defaultValueExpression>
+	</parameter>
+	<parameter name="sql" class="java.lang.String">
+		<defaultValueExpression><![CDATA["SELECT "+
+     "turnos.`FECHA` AS FECHA,"+
+     "turnos.`HORA` AS HORA_INI,"+
+     "turnos.`HORA` AS HORA_FIN,"+
+     "turnos.`HORA` AS DIFERENCIA,"+
+     "turnos.`ID_CAJA` AS SEGUNDOS "+
+"FROM "+
+     "`turnos` turnos"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="fecha" class="java.lang.String"/>
+	<parameter name="caja" class="java.lang.String">
+		<defaultValueExpression><![CDATA[1]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[$P!{sql}]]>
+	</queryString>
+	<field name="FECHA" class="java.sql.Date"/>
+	<field name="HORA_INI" class="java.sql.Time"/>
+	<field name="HORA_FIN" class="java.sql.Time"/>
+	<field name="DIFERENCIA" class="java.sql.Time"/>
+	<field name="SEGUNDOS" class="java.lang.Long"/>
+	<variable name="promedio" class="java.lang.Double" calculation="Average">
+		<variableExpression><![CDATA[$F{SEGUNDOS}]]></variableExpression>
+		<initialValueExpression><![CDATA[0]]></initialValueExpression>
+	</variable>
+	<variable name="minutos" class="java.lang.Double">
+		<variableExpression><![CDATA[new Double($V{minutos}.doubleValue()==0?0:($V{promedio}.doubleValue()/60))]]></variableExpression>
+		<initialValueExpression><![CDATA[new java.math.BigDecimal(60.0)]]></initialValueExpression>
+	</variable>
+	<variable name="segundos" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="97" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="426" height="29"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Reporte de Turnos
+                ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="29" width="426" height="24"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="18"/>
+				</textElement>
+				<textFieldExpression class="java.lang.String"><![CDATA["\""+$P{empresa}+"\""]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="63" width="223" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<text><![CDATA[Tiempos de atención a los clientes en la caja:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="228" y="63" width="100" height="20"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$P{caja}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<staticText>
+				<reportElement x="33" y="0" width="65" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="113" y="0" width="61" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Hora Inicio]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="193" y="0" width="55" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Hora Fin]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="275" y="0" width="53" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tiempo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="343" y="0" width="61" height="20"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Segundos]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="31" splitType="Stretch">
+			<textField>
+				<reportElement x="33" y="6" width="65" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{FECHA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="113" y="6" width="61" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{HORA_INI}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="193" y="6" width="55" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{HORA_FIN}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="275" y="6" width="53" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{DIFERENCIA}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="343" y="6" width="61" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$F{SEGUNDOS}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="58" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="11" width="151" height="20"/>
+				<textElement/>
+				<text><![CDATA[Tiempo promedio de atención:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="151" y="11" width="42" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{promedio}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="198" y="11" width="50" height="20"/>
+				<textElement/>
+				<text><![CDATA[segundos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="31" width="151" height="20"/>
+				<textElement/>
+				<text><![CDATA[Tiempo promedio de atención:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="151" y="31" width="42" height="20"/>
+				<textElement/>
+				<textFieldExpression class="java.lang.String"><![CDATA[$V{minutos}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="198" y="31" width="50" height="20"/>
+				<textElement/>
+				<text><![CDATA[minutos]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

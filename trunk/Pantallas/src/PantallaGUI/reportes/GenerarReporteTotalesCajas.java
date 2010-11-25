@@ -4,7 +4,6 @@
  */
 package PantallaGUI.reportes;
 
-import BaseDatos.ConexionBase;
 import PantallaGUI.utilitarios.Utilitarios;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -17,14 +16,12 @@ import java.util.Properties;
  */
 public class GenerarReporteTotalesCajas {
 
-    private ConexionBase bd;
     private HashMap campos;
     private String empresa;
     private InputStream RutaJasper;
     private Properties arcConfig;
 
-    public GenerarReporteTotalesCajas(ConexionBase cb, HashMap camp) {
-        this.bd = cb;
+    public GenerarReporteTotalesCajas( HashMap camp) {
         this.campos = camp;
         arcConfig = Utilitarios.obtenerArchivoPropiedades("configsystem.properties");
         empresa = arcConfig.getProperty("empresa");
@@ -71,7 +68,7 @@ public class GenerarReporteTotalesCajas {
         parametro.put("fecha", fecha);
         parametro.put("empresa", empresa);
 
-        GenerarReporte.Generar(parametro, RutaJasper, bd);
+        GenerarReporte.Generar(parametro, RutaJasper);
     }
 
     /**
@@ -101,7 +98,7 @@ public class GenerarReporteTotalesCajas {
         parametro.put("ano", ano);
         parametro.put("empresa", empresa);
 
-        GenerarReporte.Generar(parametro, RutaJasper, bd);
+        GenerarReporte.Generar(parametro, RutaJasper);
     }
 
     /**
@@ -126,7 +123,7 @@ public class GenerarReporteTotalesCajas {
         parametro.put("fecha", fecha);
         parametro.put("empresa", empresa);
 
-        GenerarReporte.Generar(parametro, RutaJasper, bd);
+        GenerarReporte.Generar(parametro, RutaJasper);
     }
 
     /**
@@ -150,6 +147,6 @@ public class GenerarReporteTotalesCajas {
         parametro.put("sql", sql);
         parametro.put("empresa", empresa);
 
-        GenerarReporte.Generar(parametro, RutaJasper, bd);
+        GenerarReporte.Generar(parametro, RutaJasper);
     }
 }

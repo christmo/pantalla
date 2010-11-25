@@ -12,11 +12,12 @@ package PantallaGUI;
 
 import BaseDatos.BaseDatos;
 import PantallaGUI.utilitarios.Utilitarios;
+import comunicacion.ComunicacionPantalla;
 import comunicacion.comm.CommPantalla;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Properties;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
@@ -38,16 +39,19 @@ public class Configuracion extends javax.swing.JFrame {
      * permite tener todos los botones de las fuentes en un arreglo para permitir
      * tener seleccionado solo un boton de todo el conjunto de 6
      */
-    private ArrayList arrayBotonesFuentes = new ArrayList();
+    //private ArrayList arrayBotonesFuentes = new ArrayList();
     private MensajesGuardados mg;
     private BaseDatos bd;
     private ImageIcon ic;
-    private CommPantalla comm;
+    private Properties arcConfig;
+    //private CommPantalla comm;
 
     /** Creates new form Configuracion */
-    public Configuracion() {
+    public Configuracion(BaseDatos db, Properties prop) {
         super.setIconImage(new ImageIcon(getClass().getResource("/iconos/kradac_icono.png")).getImage());
-        bd = new BaseDatos();
+        //bd = new BaseDatos();
+        this.bd = db;
+        arcConfig = prop;
         initComponents();
         formatearHoraFecha();
         this.setVisible(true);
@@ -66,9 +70,7 @@ public class Configuracion extends javax.swing.JFrame {
     }
 
     private void enviarDatosPantalla(String cmd) {
-        comm = new CommPantalla();
-        comm.enviarComando(cmd);
-        comm.start();
+        ComunicacionPantalla enlacePantalla = new ComunicacionPantalla(cmd, arcConfig);
     }
 
     /** This method is called from within the constructor to
@@ -404,7 +406,6 @@ public class Configuracion extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalirActionPerformed
-        bd.cerrarConexionBase();
         this.dispose();
     }//GEN-LAST:event_btnSalirActionPerformed
 
@@ -509,17 +510,6 @@ public class Configuracion extends javax.swing.JFrame {
         String comando = "T\r";
         enviarDatosPantalla(comando);
     }//GEN-LAST:event_btnFuenteActionPerformed
-    /**
-     * @param args the command line arguments
-     */
-//    public static void main(String args[]) {
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//
-//            public void run() {
-//                new Configuracion().setVisible(true);
-//            }
-//        });
-//    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAbrir;
     private javax.swing.JButton btnBorrar;
