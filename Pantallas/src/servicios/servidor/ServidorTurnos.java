@@ -4,6 +4,7 @@
  */
 package servicios.servidor;
 
+import BaseDatos.BaseDatos;
 import PantallaGUI.utilitarios.Utilitarios;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,7 +13,6 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Properties;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -25,9 +25,13 @@ public class ServidorTurnos extends Thread {
     private static BufferedReader is = null;
     private static PrintWriter os = null;
     private static String inputline = new String();
-    private static LogicaServidor server = new LogicaServidor();
+    private static LogicaServidor server;
+    private BaseDatos bd;
+    Properties prop;
 
-    public ServidorTurnos() {
+    public ServidorTurnos(BaseDatos db, Properties arcConfig) {
+        bd = db;
+        prop = arcConfig;
         this.start();
     }
 
@@ -37,7 +41,8 @@ public class ServidorTurnos extends Thread {
      */
     private void levantarServidorTurnos() {
         try {
-            Properties prop = Utilitarios.obtenerArchivoPropiedades("configsystem.properties");
+            //Properties prop = Utilitarios.obtenerArchivoPropiedades("configsystem.properties");
+            server = new LogicaServidor(prop, bd);
             int puerto = Integer.parseInt(prop.getProperty("puerto"));
             serverSocket = new ServerSocket(puerto);
             System.out.println("Escuchando el pruerto: " + puerto);

@@ -22,6 +22,8 @@ import javax.swing.JToggleButton;
  */
 public class Utilitarios {
 
+    public static Properties arcConfig;
+
     /**
      * Permite deseleccionar los botones de las fuentes para que solo este
      * seleccionado uno de todo el conjunto de 6
@@ -114,7 +116,7 @@ public class Utilitarios {
      * @return Properties
      */
     public static Properties obtenerArchivoPropiedades(String arc) {
-        Properties prop = null;
+
         try {
             CodeSource codeSource = Utilitarios.class.getProtectionDomain().getCodeSource();
             File jarFile = new File(codeSource.getLocation().toURI().getPath());
@@ -122,14 +124,14 @@ public class Utilitarios {
 
             if (jarDir != null && jarDir.isDirectory()) {
                 File propFile = new File(jarDir, arc);
-                prop = new Properties();
-                prop.load(new BufferedReader(new FileReader(propFile.getAbsoluteFile())));
+                arcConfig = new Properties();
+                arcConfig.load(new BufferedReader(new FileReader(propFile.getAbsoluteFile())));
             }
         } catch (IOException ex) {
             Logger.getLogger(Utilitarios.class.getName()).log(Level.SEVERE, null, ex);
         } catch (URISyntaxException ex) {
             Logger.getLogger(Utilitarios.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return prop;
+        return arcConfig;
     }
 }

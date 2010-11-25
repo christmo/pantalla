@@ -10,7 +10,10 @@
  */
 package PantallaGUI;
 
+import BaseDatos.BaseDatos;
 import PantallaGUI.reportes.Reportes;
+import PantallaGUI.utilitarios.Utilitarios;
+import java.util.Properties;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
@@ -23,108 +26,26 @@ import servicios.servidor.ServidorTurnos;
 public class PrincipalGUI extends javax.swing.JFrame {
 
     private Configuracion con;
-    private ServidorTurnos serverTurnos;
+    //private ServidorTurnos serverTurnos;
     private Reportes reportes;
+    private BaseDatos bd;
+    private Properties arcConfig;
 
     /** Creates new form PrincipalGUI */
     public PrincipalGUI() {
         super.setIconImage(new ImageIcon(getClass().getResource("/iconos/kradac_icono.png")).getImage());
+        bd = new BaseDatos();
+        arcConfig = Utilitarios.obtenerArchivoPropiedades("configsystem.properties");
         initComponents();
         configurarBotones();
         iniciarServidorTurnos();
+        System.out.println("Usuario: " + System.getProperty("user.name"));
     }
 
     private void iniciarServidorTurnos() {
-        serverTurnos = new ServidorTurnos();
-        //serverTurnos.start();
+        ServidorTurnos serverTurnos = new ServidorTurnos(bd, arcConfig);
     }
 
-//    private void trayICON() {
-//        final TrayIcon trayIcon;
-//
-//        if (SystemTray.isSupported()) {
-//
-//            SystemTray tray = SystemTray.getSystemTray();
-//            Image image = Toolkit.getDefaultToolkit().getImage(servidor.class.getResource("/iconos/kradac_icono.png"));
-//
-//            MouseListener mouseListener = new MouseListener() {
-//
-//                public void mouseClicked(MouseEvent e) {
-//                    System.out.println("Tray Icon - Mouse clicked!");
-//
-//                }
-//
-//                public void mouseEntered(MouseEvent e) {
-//                    System.out.println("Tray Icon - Mouse entered!");
-//                }
-//
-//                public void mouseExited(MouseEvent e) {
-//                    System.out.println("Tray Icon - Mouse exited!");
-//                }
-//
-//                public void mousePressed(MouseEvent e) {
-//                    System.out.println("Tray Icon - Mouse pressed!");
-//                }
-//
-//                public void mouseReleased(MouseEvent e) {
-//                    System.out.println("Tray Icon - Mouse released!");
-//                }
-//            };
-//
-//            ActionListener exitListener = new ActionListener() {
-//
-//                public void actionPerformed(ActionEvent e) {
-//                    System.out.println("Saliendo...");
-//                    System.exit(0);
-//                }
-//            };
-//
-//            PopupMenu popup = new PopupMenu();
-//            MenuItem defaultItem = new MenuItem("Salir");
-//            defaultItem.addActionListener(exitListener);
-//            popup.add(defaultItem);
-//
-//
-//            MenuItem mostrar = new MenuItem("Mostrar Menu");
-//            ActionListener otro = new ActionListener() {
-//
-//                public void actionPerformed(ActionEvent e) {
-//                    System.out.println("Mostrar Menu...");
-//                    PrincipalGUI.main(null);
-//                }
-//            };
-//            mostrar.addActionListener(otro);
-//            mostrar.setShortcut(new MenuShortcut(KeyEvent.VK_F12, false));
-//
-//            popup.add(mostrar);
-//
-//            trayIcon = new TrayIcon(image, "Sistema de Turnos Activado...", popup);
-//
-//            ActionListener actionListener = new ActionListener() {
-//
-//                public void actionPerformed(ActionEvent e) {
-//                    trayIcon.displayMessage("Action Event",
-//                            "An Action Event Has Been Performed!",
-//                            TrayIcon.MessageType.INFO);
-//                }
-//            };
-//
-//            trayIcon.setImageAutoSize(true);
-//            trayIcon.addActionListener(actionListener);
-//            trayIcon.addMouseListener(mouseListener);
-//
-//            try {
-//                tray.add(trayIcon);
-//            } catch (AWTException e) {
-//                System.err.println("TrayIcon could not be added.");
-//            }
-//
-//
-//
-//        } else {
-//            //  System Tray is not supported
-//        }
-//    }
     private void configurarBotones() {
         btnConfigurar.setText("<html><center>Configurar<br>Pantalla</center></html>");
 
@@ -237,23 +158,24 @@ public class PrincipalGUI extends javax.swing.JFrame {
 
     private void btnConfigurarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfigurarActionPerformed
         if (con == null) {
-            con = new Configuracion();
+            con = new Configuracion(bd, arcConfig);
         } else {
             con.dispose();
-            con = new Configuracion();
+            con = new Configuracion(bd, arcConfig);
         }
     }//GEN-LAST:event_btnConfigurarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        bd.cerrarConexionBaseDatos();
         System.exit(0);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void btnReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportesActionPerformed
         if (reportes == null) {
-            reportes = new Reportes();
+            reportes = new Reportes(bd);
         } else {
             reportes.dispose();
-            reportes = new Reportes();
+            reportes = new Reportes(bd);
         }
     }//GEN-LAST:event_btnReportesActionPerformed
 

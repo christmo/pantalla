@@ -4,7 +4,7 @@
  */
 package PantallaGUI.reportes;
 
-import BaseDatos.ConexionBase;
+import BaseDatos.BaseDatos;
 import java.io.InputStream;
 import java.util.Map;
 import net.sf.jasperreports.engine.JasperCompileManager;
@@ -28,7 +28,7 @@ public class GenerarReporte {
      * @param ruta
      * @param bd
      */
-    public static void Generar(Map par, InputStream ruta, ConexionBase bd) {
+    public static void Generar(Map par, InputStream ruta) {
         try {
             Map parameters = par;
 
@@ -37,13 +37,15 @@ public class GenerarReporte {
 
             //InputStream report= GenerarReporteClientes.class.getResourceAsStream("/interfaz/Reportes/Clientes.jasper");
             //JasperReport report = JasperCompileManager.compileReport("/interfaz/Reportes/prueba.jrxml");
-            JasperPrint print = JasperFillManager.fillReport(report, parameters, bd.getConexion());
+            JasperPrint print = JasperFillManager.fillReport(report, parameters, BaseDatos.getConexion());
             // Exporta el informe a PDF
             //JasperExportManager.exportReportToPdfFile(print,"/tmp/demodos.pdf");
             //Para visualizar el pdf directamente desde java
             JasperViewer.viewReport(print, false);
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            // BaseDatos.manejadorTransaccionesBaseDatos.cerrarConexionBaseDatos();
         }
     }
 }

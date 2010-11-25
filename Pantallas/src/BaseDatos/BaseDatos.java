@@ -4,9 +4,17 @@
  */
 package BaseDatos;
 
+import DAO.DAOFabricaBasesDatos;
+import DAO.ManejadorBaseDAO;
+import DAO.MySQLConexionDAO;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -16,21 +24,17 @@ import java.util.logging.Logger;
  */
 public class BaseDatos {
 
-    private ConexionBase cb;
-    ResultSet rs;
+    private ResultSet rs;
+    private static ManejadorBaseDAO manejadorTransaccionesBaseDatos;
 
     public BaseDatos() {
-        //cb = new ConexionBase("localhost", "turnoskradac", "root", "");
-        cb = new ConexionBase();
+        DAOFabricaBasesDatos mysql = DAOFabricaBasesDatos.getDAOFabricaBasesDatos(DAOFabricaBasesDatos.MYSQL);
+        manejadorTransaccionesBaseDatos = mysql.getManejadorBaseDAO();
     }
 
-    /**
-     * Obtiene el objeto encargado de la conexión a la base de datos y las
-     * transacciones con ella
-     * @return ConexionBase
-     */
-    public ConexionBase obtenerConexionBaseDatos() {
-        return cb;
+    public static Connection getConexion() {
+        Connection c = MySQLConexionDAO.con;
+        return c;
     }
 
     /**
@@ -41,7 +45,7 @@ public class BaseDatos {
      */
     public boolean guardarMensajePantalla(String mensaje) {
         String sql = "INSERT INTO MENSAJES(MENSAJE) VALUES('" + mensaje + "')";
-        return cb.ejecutarSentencia(sql);
+        return manejadorTransaccionesBaseDatos.ejecutarSentencia(sql);
     }
 
     /**
@@ -54,9 +58,12 @@ public class BaseDatos {
      * @return boolean
      */
     public boolean guardarMensajePantalla(String mensaje, String estado, String accion) {
-        String sql = "INSERT INTO MENSAJES(MENSAJE,FECHA,HORA,ESTADO,ACCION) "
+        String usuario = System.getProperty("user.name");
+        String sql = "INSERT INTO MENSAJES(MENSAJE,USUARIO,FECHA,HORA,ESTADO,ACCION) "
                 + "VALUES('"
                 + mensaje
+                + "','"
+                + usuario
                 + "',"
                 + "NOW()"
                 + ","
@@ -66,7 +73,7 @@ public class BaseDatos {
                 + "','"
                 + accion
                 + "')";
-        return cb.ejecutarSentencia(sql);
+        return manejadorTransaccionesBaseDatos.ejecutarSentencia(sql);
     }
 
     /**
@@ -88,7 +95,7 @@ public class BaseDatos {
                 + "','"
                 + "BORRADO"
                 + "')";
-        return cb.ejecutarSentencia(sql);
+        return manejadorTransaccionesBaseDatos.ejecutarSentencia(sql);
     }
 
     /**
@@ -101,20 +108,14 @@ public class BaseDatos {
                 + "WHERE CONCAT(FECHA,' ',HORA) = ("
                 + "SELECT MAX(CONCAT(FECHA,' ',HORA)) FROM MENSAJES WHERE ACCION = 'GUARDADO' AND ESTADO = 'INA'"
                 + ") AND ACCION = 'GUARDADO' AND ESTADO = 'INA'";
-        rs = cb.ejecutarConsultaUnDato(sql);
+        rs = manejadorTransaccionesBaseDatos.ejecutarConsultaUnDato(sql);
         try {
             return rs.getString("MENSAJE");
         } catch (SQLException ex) {
-            //Logger.getLogger(BaseDatos.class.getName()).log(Level.SEVERE, null, ex);
             return null;
+        } finally {
+            //manejadorTransaccionesBaseDatos.cerrarConexionBaseDatos();
         }
-    }
-
-    /**
-     * Cierra la conexion de la base de datos
-     */
-    public void cerrarConexionBase() {
-        cb.CerrarConexion();
     }
 
     /**
@@ -123,14 +124,15 @@ public class BaseDatos {
      */
     public String[] obtenerMensajesGuardados() {
         String sql = "SELECT MENSAJE FROM MENSAJES WHERE ESTADO='ACT' AND ACCION = 'GUARDADO' ORDER BY MENSAJE DESC";
-        rs = cb.ejecutarConsulta(sql);
+        rs = manejadorTransaccionesBaseDatos.ejecutarConsulta(sql);
         ArrayList mensajes = new ArrayList<String>();
         try {
             while (rs.next()) {
                 mensajes.add(rs.getString("MENSAJE"));
             }
         } catch (SQLException ex) {
-            //Logger.getLogger(BaseDatos.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            //manejadorTransaccionesBaseDatos.cerrarConexionBaseDatos();
         }
         String[] cast = new String[mensajes.size()];
         cast = (String[]) mensajes.toArray(cast);
@@ -143,17 +145,18 @@ public class BaseDatos {
      */
     public void eliminarMensaje(String dato) {
         String sql = "DELETE FROM MENSAJES WHERE MENSAJE='" + dato + "'";
-        cb.ejecutarSentencia(sql);
+        manejadorTransaccionesBaseDatos.ejecutarSentencia(sql);
     }
 
     /**
      * Guarda el turno de atencion al cliente en la base de datos
-     * @param string
-     * @param string0
+     * @param intIdCaja
+     * @param estado
      */
     public boolean guardarTurno(int intIdCaja, String estado) {
-        String sql = "INSERT INTO TURNOS(ID_CAJA,ESTADO,FECHA,HORA) VALUES (" + intIdCaja + ",'" + estado + "',NOW(),NOW())";
-        return cb.ejecutarSentencia(sql);
+        String sql = "INSERT INTO TURNOS(ID_CAJA,ESTADO,FECHA,HORA) "
+                + "VALUES (" + intIdCaja + ",'" + estado + "',NOW(),NOW())";
+        return manejadorTransaccionesBaseDatos.ejecutarSentencia(sql);
     }
 
     /**
@@ -163,7 +166,7 @@ public class BaseDatos {
      */
     public String[] obtenerNumeroCajas() {
         String sql = "SELECT DISTINCT ID_CAJA FROM TURNOS ORDER BY ID_CAJA ASC";
-        rs = cb.ejecutarConsulta(sql);
+        rs = manejadorTransaccionesBaseDatos.ejecutarConsulta(sql);
         ArrayList caja = new ArrayList();
         try {
             while (rs.next()) {
@@ -171,6 +174,8 @@ public class BaseDatos {
             }
         } catch (SQLException ex) {
             Logger.getLogger(BaseDatos.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            //manejadorTransaccionesBaseDatos.cerrarConexionBaseDatos();
         }
         String[] cajas = new String[caja.size()];
         return (String[]) caja.toArray(cajas);
@@ -182,7 +187,7 @@ public class BaseDatos {
      */
     public String[] obtenerAniosBase() {
         String sql = "SELECT DISTINCT YEAR(FECHA) AS ANIO FROM TURNOS;";
-        rs = cb.ejecutarConsulta(sql);
+        rs = manejadorTransaccionesBaseDatos.ejecutarConsulta(sql);
         ArrayList anio = new ArrayList();
         try {
             while (rs.next()) {
@@ -190,8 +195,37 @@ public class BaseDatos {
             }
         } catch (SQLException ex) {
             Logger.getLogger(BaseDatos.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            //manejadorTransaccionesBaseDatos.cerrarConexionBaseDatos();
         }
         String[] anios = new String[anio.size()];
         return (String[]) anio.toArray(anios);
+    }
+
+    public Date obtenerUltimaLlamadaCaja(int caja) {
+        String sql = "SELECT CONCAT(FECHA,'-',MAX(HORA)) AS HORA "
+                + "FROM TURNOS "
+                + "WHERE  FECHA = DATE(NOW()) AND ID_CAJA = " + caja
+                + " GROUP BY FECHA;";
+        rs = manejadorTransaccionesBaseDatos.ejecutarConsultaUnDato(sql);
+        try {
+            String hora = rs.getString("HORA");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss");
+            Date horaUltimaLlamada = null;
+            try {
+                horaUltimaLlamada = sdf.parse(hora);
+            } catch (ParseException ex) {
+                Logger.getLogger(BaseDatos.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return horaUltimaLlamada;
+        } catch (SQLException ex) {
+            return null;
+        } finally {
+            //manejadorTransaccionesBaseDatos.cerrarConexionBaseDatos();
+        }
+    }
+
+    public void cerrarConexionBaseDatos() {
+        manejadorTransaccionesBaseDatos.cerrarConexionBaseDatos();
     }
 }

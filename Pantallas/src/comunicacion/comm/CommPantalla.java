@@ -4,12 +4,14 @@
  */
 package comunicacion.comm;
 
+import PantallaGUI.utilitarios.Utilitarios;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Enumeration;
-import java.util.ResourceBundle;
+import java.util.Properties;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.comm.CommPortIdentifier;
@@ -28,11 +30,12 @@ public class CommPantalla extends Thread {
     private SerialPort sPuerto;
     public Enumeration listaPuertos;
     private String cmd;
-    private ResourceBundle rb;
     private OutputStream os;
+    /**
+     * Archivo de configuracion de la base de datos y de parametros iniciales
+     */
+    private Properties arcConfig;
 
-//    public CommPantalla() {
-//    }
     /**
      * Abrir el puerto con configuraciones por defecto
      * @param puerto
@@ -49,8 +52,8 @@ public class CommPantalla extends Thread {
     }
 
     public CommPantalla() {
-        rb = ResourceBundle.getBundle("BaseDatos.configsystem");
-        String puerto = rb.getString("comm");
+        arcConfig = Utilitarios.obtenerArchivoPropiedades("configsystem.properties");
+        String puerto = arcConfig.getProperty("comm");
         System.out.println("Puerto: " + puerto);
         if (!puerto.equals("0")) {
             if (!AbrirPuerto(puerto)) {
@@ -77,9 +80,12 @@ public class CommPantalla extends Thread {
     public void run() {
         String[] comandos = cmd.split("&%");
         for (int i = 0; i < comandos.length; i++) {
-            for (char l : comandos[i].toCharArray()) {
-                //System.out.println("" + l);
-                enviarDatos("" + l);
+            for (char letra : comandos[i].toCharArray()) {
+                /**
+                 * Envia letra a letra con una pausa para que pa pantalla pueda
+                 * procesar la informacion
+                 */
+                enviarDatos("" + letra);
                 try {
                     Thread.sleep(30);
                 } catch (InterruptedException ex) {

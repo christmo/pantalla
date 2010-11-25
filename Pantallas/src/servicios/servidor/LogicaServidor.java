@@ -5,8 +5,13 @@
 package servicios.servidor;
 
 import BaseDatos.BaseDatos;
+import comunicacion.ComunicacionPantalla;
 import comunicacion.comm.CommPantalla;
 import java.rmi.RemoteException;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Properties;
 import servicios.rmi.PantallaRMI;
 
 /**
@@ -16,10 +21,20 @@ import servicios.rmi.PantallaRMI;
 public class LogicaServidor implements PantallaRMI {
 
     private BaseDatos bd;
-    private CommPantalla comm;
+    private Properties arcConfig;
+    // private CommPantalla comm;
+    private int TIEMPO;
 
-    public LogicaServidor() {
-        bd = new BaseDatos();
+    public LogicaServidor(Properties arch, BaseDatos db) {
+        //bd = new BaseDatos();
+        bd = db;
+        arcConfig = arch;
+        try {
+            TIEMPO = Integer.parseInt(arch.getProperty("tiempo_atencion"));
+        } catch (NumberFormatException ex) {
+            //tiempo de atención por defecto para un cliente
+            TIEMPO = 50;
+        }
     }
 
     /**
@@ -34,6 +49,7 @@ public class LogicaServidor implements PantallaRMI {
          * ID caja -> [0]
          * estado ->  [1]
          * direccion -> [2] -> donde debe apuntar la flecha
+         * usuario -> [3]
          */
         int nCaja = 0;
 
@@ -42,10 +58,16 @@ public class LogicaServidor implements PantallaRMI {
             nCaja = Integer.parseInt(turno[0]);
         } catch (NumberFormatException ex) {
         }
-        boolean resultado = false;
-        try {
-            resultado = bd.guardarTurno(nCaja, turno[1]);
-        } catch (IndexOutOfBoundsException ioex) {
+        boolean resultado = true;
+
+        if (tiempoEntreLlamadas(nCaja) >= TIEMPO) {
+            try {
+                resultado = bd.guardarTurno(nCaja, turno[1]);
+                System.out.println("Guardar");
+            } catch (IndexOutOfBoundsException ioex) {
+            }
+        } else {
+            System.out.println("No guardar");
         }
         if (resultado) {
             //String cmd = "<MENS3\r" + "CAJA" + " " + turno[2] + " " + turno[0] + "\r";
@@ -54,15 +76,27 @@ public class LogicaServidor implements PantallaRMI {
             //String cmd = "3A > " + "CAJA" + " " + turno[2] + " " + turno[0] + "\r";
             if (!turno[1].equals("INACTIVO")) {
                 String cmd = "3A" + " " + turno[2] + " " + turno[0] + "CAJ\r";
-                comm = new CommPantalla();
-                //cmd ="312345678\r";
-                comm.enviarComando(cmd);
-                comm.start();
+                ComunicacionPantalla enlacePantalla = new ComunicacionPantalla(cmd, arcConfig);
             }
         } else {
             System.out.println("NO se guardo turno...");
         }
 
         return "" + resultado;
+    }
+
+    private long tiempoEntreLlamadas(int caja) {
+        Date horaUltimaLlamada = bd.obtenerUltimaLlamadaCaja(caja);
+        Calendar c = GregorianCalendar.getInstance();
+
+        long diferencia;
+        try {
+            diferencia = (c.getTimeInMillis() - horaUltimaLlamada.getTime()) / 1000;
+        } catch (NullPointerException ex) {
+            //Tiempo de diferencia por defecto para una atención
+            diferencia = 60;
+        }
+        System.out.println("difer:" + diferencia);
+        return diferencia;
     }
 }

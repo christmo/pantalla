@@ -4,7 +4,6 @@
  */
 package PantallaGUI.reportes;
 
-import BaseDatos.ConexionBase;
 import PantallaGUI.utilitarios.Utilitarios;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -17,14 +16,14 @@ import java.util.Properties;
  */
 public class GenerarReporteClientesPorHora {
 
-    private ConexionBase bd;
+    //   private ConexionBase bd;
     private HashMap campos;
     private String empresa;
     private InputStream RutaJasper;
     private Properties arcConfig;
 
-    public GenerarReporteClientesPorHora(ConexionBase cb, HashMap camp) {
-        this.bd = cb;
+    public GenerarReporteClientesPorHora(HashMap camp) {
+
         this.campos = camp;
         arcConfig = Utilitarios.obtenerArchivoPropiedades("configsystem.properties");
         empresa = arcConfig.getProperty("empresa");
@@ -90,7 +89,7 @@ public class GenerarReporteClientesPorHora {
         parametro.put("caja", caja);
         parametro.put("empresa", empresa);
 
-        GenerarReporte.Generar(parametro, RutaJasper, bd);
+        GenerarReporte.Generar(parametro, RutaJasper);
     }
 
     private void GenerarClientesPorMes() {
@@ -119,7 +118,7 @@ public class GenerarReporteClientesPorHora {
         parametro.put("caja", caja);
         parametro.put("empresa", empresa);
 
-        GenerarReporte.Generar(parametro, RutaJasper, bd);
+        GenerarReporte.Generar(parametro, RutaJasper);
     }
 
     private void GenerarTotalClientesPorAno() {
@@ -147,6 +146,6 @@ public class GenerarReporteClientesPorHora {
         parametro.put("caja", caja);
         parametro.put("empresa", empresa);
 
-        GenerarReporte.Generar(parametro, RutaJasper, bd);
+        GenerarReporte.Generar(parametro, RutaJasper);
     }
 }
