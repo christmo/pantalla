@@ -79,11 +79,15 @@ public class GenerarReporteTiempoAtencion {
         System.out.println("SQL: " + sql);
 
         Map parametro = new HashMap();
+
         parametro.put("sql", sql);
+
         parametro.put("fecha", fecha);
+
         parametro.put("caja", caja);
         parametro.put("empresa", empresa);
 
         GenerarReporte.Generar(parametro, RutaJasper);
+
     }
 }
