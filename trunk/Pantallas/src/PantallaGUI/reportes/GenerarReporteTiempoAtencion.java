@@ -47,6 +47,15 @@ public class GenerarReporteTiempoAtencion {
         String fecha = campos.get("dia").toString();
         String caja = campos.get("caja").toString();
 
+        String horaIni = arcConfig.getProperty("hora_inicio");
+        if (horaIni.equals("") || horaIni.equals("0")) {
+            horaIni = "0:0";
+        }
+        String horaFin = arcConfig.getProperty("hora_fin");
+        if (horaFin.equals("") || horaFin.equals("0")) {
+            horaIni = "23:59";
+        }
+
         String sql = "SELECT "
                 + "turnos.`FECHA` AS FECHA, "
                 + "turnos.`HORA` AS HORA_INI, "
@@ -64,7 +73,8 @@ public class GenerarReporteTiempoAtencion {
                 + "ORDER BY T2.`HORA` LIMIT 1),turnos.`HORA`)),'') AS SEGUNDOS "
                 + "FROM "
                 + "`turnos` turnos "
-                + "WHERE turnos.`ESTADO`='ACTIVO' AND turnos.`FECHA` = '$P!{fecha}' AND turnos.`ID_CAJA` = $P!{caja}";
+                + "WHERE turnos.`ESTADO`='ACTIVO' AND turnos.`FECHA` = '$P!{fecha}' AND turnos.`ID_CAJA` = $P!{caja} "
+                + "AND turnos.`HORA` >= '" + horaIni + "' AND turnos.`HORA` <= '" + horaFin + "'";
 
         System.out.println("SQL: " + sql);
 
