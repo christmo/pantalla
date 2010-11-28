@@ -21,6 +21,7 @@ public class SocketPantalla extends Thread {
 
     private Socket socket = null;
     private PrintWriter os = null;
+   // private BufferedReader is;
     private String host;
     private int port;
     private String cmd;
@@ -48,6 +49,7 @@ public class SocketPantalla extends Thread {
 
     @Override
     public void run() {
+        conectar();
         String[] comandos = cmd.split("&%");
         for (int i = 0; i < comandos.length; i++) {
             for (char letra : comandos[i].toCharArray()) {
@@ -57,13 +59,13 @@ public class SocketPantalla extends Thread {
                  */
                 enviarDatos("" + letra);
                 try {
-                    Thread.sleep(30);
+                    Thread.sleep(150);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(SocketPantalla.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
-        //desconectar();
+        desconectar();
         System.out.println("Comando: " + cmd);
     }
 
@@ -91,6 +93,8 @@ public class SocketPantalla extends Thread {
                 //JOptionPane.showMessageDialog(null, "Conexión NO establecida con el servidor se puede deber"
                 //        + "\na problemas con la red o con el servidor de turnos...", "Error...", 0);
                 System.exit(0);
+            } else if (ex.getMessage().equals("Connection timed out: connect")) {
+                System.out.println("No se puede conectar con la pantalla");
             } else {
                 //System.out.println("Conexion rechazada por el servidor...");
                 Logger.getLogger(SocketPantalla.class.getName()).log(Level.SEVERE, null, ex);
@@ -119,15 +123,15 @@ public class SocketPantalla extends Thread {
      * @throws RemoteException
      */
     public void enviarDatos(String input) {
-        conectar();
+
         if (socket != null && os != null) {
             try {
-                os.println(input);
+                os.print(input);
                 os.flush();
             } catch (NullPointerException nex) {
             }
         }
-        desconectar();
+
     }
 //    public static void main(String[] args) {
 //        SocketPantalla s = new SocketPantalla("localhost", 9999);

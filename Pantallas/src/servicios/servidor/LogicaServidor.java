@@ -63,11 +63,8 @@ public class LogicaServidor implements PantallaRMI {
         if (tiempoEntreLlamadas(nCaja) >= TIEMPO) {
             try {
                 resultado = bd.guardarTurno(nCaja, turno[1]);
-                System.out.println("Guardar");
             } catch (IndexOutOfBoundsException ioex) {
             }
-        } else {
-            System.out.println("No guardar");
         }
         if (resultado) {
             //String cmd = "<MENS3\r" + "CAJA" + " " + turno[2] + " " + turno[0] + "\r";
@@ -96,7 +93,6 @@ public class LogicaServidor implements PantallaRMI {
             //Tiempo de diferencia por defecto para una atención
             diferencia = 60;
         }
-        System.out.println("difer:" + diferencia);
         return diferencia;
     }
 }
