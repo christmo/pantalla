@@ -328,7 +328,8 @@ public class Cliente extends javax.swing.JDialog {
         try {
             String caja = prop.getProperty("caja");
             String dir = prop.getProperty("dir");
-            String cmd = caja + "%" + estado + "%" + dir;
+            String usuario = System.getProperty("user.name");
+            String cmd = caja + "%" + estado + "%" + dir + "%" + usuario;
             output = stubCliente.enviarComando(cmd);
             stdOut.write(output);
         } catch (RemoteException ex) {
