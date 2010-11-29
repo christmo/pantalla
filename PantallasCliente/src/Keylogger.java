@@ -45,9 +45,15 @@ public class Keylogger extends Thread {
                     if (Cliente.boolEstadoTurnos) {
                         LogicaCliente lc = new LogicaCliente(host, puerto);
                         try {
+                            /**
+                             * NOTA: Todo cambio que se haga aqui se tiene
+                             * que replicar en la clase Keylogger.java que
+                             * es la que controla el teclado, aqui solo clic
+                             */
                             String caja = prop.getProperty("caja");
                             String dir = prop.getProperty("dir");
-                            String cmd = caja + "%" + "ACTIVO" + "%" + dir;
+                            String usuario = System.getProperty("user.name");
+                            String cmd = caja + "%" + "ACTIVO" + "%" + dir + "%" + usuario;
                             lc.enviarComando(cmd);
                             Cliente.btnLlamar.setEnabled(false);
                             Thread.sleep(DELAY);
