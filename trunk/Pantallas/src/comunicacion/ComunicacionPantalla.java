@@ -4,7 +4,6 @@
  */
 package comunicacion;
 
-import PantallaGUI.utilitarios.Utilitarios;
 import comunicacion.comm.CommPantalla;
 import comunicacion.socket.SocketPantalla;
 import java.util.Properties;

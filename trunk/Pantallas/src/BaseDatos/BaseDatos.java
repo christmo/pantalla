@@ -82,10 +82,13 @@ public class BaseDatos {
      */
     public boolean borrarUltimoMensajeGuardadoPantalla() {
         String ultimoMensaje = ultimoMensajeGuardadoPantalla();
+        String usuario = System.getProperty("user.name");
         System.out.println("Ultimo mensaje: " + ultimoMensaje);
-        String sql = "INSERT INTO MENSAJES(MENSAJE,FECHA,HORA,ESTADO,ACCION) "
+        String sql = "INSERT INTO MENSAJES(MENSAJE,USUARIO,FECHA,HORA,ESTADO,ACCION) "
                 + "VALUES('"
                 + ultimoMensaje
+                + "','"
+                + usuario
                 + "',"
                 + "NOW()"
                 + ","
@@ -156,6 +159,17 @@ public class BaseDatos {
     public boolean guardarTurno(int intIdCaja, String estado) {
         String sql = "INSERT INTO TURNOS(ID_CAJA,ESTADO,FECHA,HORA) "
                 + "VALUES (" + intIdCaja + ",'" + estado + "',NOW(),NOW())";
+        return manejadorTransaccionesBaseDatos.ejecutarSentencia(sql);
+    }
+
+    /**
+     * Guarda el turno de atencion al cliente en la base de datos
+     * @param intIdCaja
+     * @param estado
+     */
+    public boolean guardarTurnoConUsuario(int intIdCaja, String estado, String usuario) {
+        String sql = "INSERT INTO TURNOS(ID_CAJA,ESTADO,FECHA,HORA,USUARIO) "
+                + "VALUES (" + intIdCaja + ",'" + estado + "',NOW(),NOW(),'" + usuario + "')";
         return manejadorTransaccionesBaseDatos.ejecutarSentencia(sql);
     }
 
