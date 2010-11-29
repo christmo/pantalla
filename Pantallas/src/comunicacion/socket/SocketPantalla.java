@@ -21,7 +21,7 @@ public class SocketPantalla extends Thread {
 
     private Socket socket = null;
     private PrintWriter os = null;
-   // private BufferedReader is;
+    // private BufferedReader is;
     private String host;
     private int port;
     private String cmd;
@@ -95,6 +95,7 @@ public class SocketPantalla extends Thread {
                 System.exit(0);
             } else if (ex.getMessage().equals("Connection timed out: connect")) {
                 System.out.println("No se puede conectar con la pantalla");
+                System.exit(1);
             } else {
                 //System.out.println("Conexion rechazada por el servidor...");
                 Logger.getLogger(SocketPantalla.class.getName()).log(Level.SEVERE, null, ex);

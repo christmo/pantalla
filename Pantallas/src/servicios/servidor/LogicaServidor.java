@@ -6,7 +6,6 @@ package servicios.servidor;
 
 import BaseDatos.BaseDatos;
 import comunicacion.ComunicacionPantalla;
-import comunicacion.comm.CommPantalla;
 import java.rmi.RemoteException;
 import java.util.Calendar;
 import java.util.Date;
@@ -24,6 +23,7 @@ public class LogicaServidor implements PantallaRMI {
     private Properties arcConfig;
     // private CommPantalla comm;
     private int TIEMPO;
+    private int contResgistros = 0;
 
     public LogicaServidor(Properties arch, BaseDatos db) {
         //bd = new BaseDatos();
@@ -46,10 +46,10 @@ public class LogicaServidor implements PantallaRMI {
      */
     public String enviarComando(String comando) throws RemoteException {
         /**
-         * ID caja -> [0]
-         * estado ->  [1]
+         * ID caja -> [0] --> numero de la caja donde se envia el llamado
+         * estado ->  [1] --> ACT||INA --> de la caja
          * direccion -> [2] -> donde debe apuntar la flecha
-         * usuario -> [3]
+         * usuario -> [3] --> usuario que envia la llamada al servidor
          */
         int nCaja = 0;
 
@@ -62,14 +62,19 @@ public class LogicaServidor implements PantallaRMI {
 
         if (tiempoEntreLlamadas(nCaja) >= TIEMPO) {
             try {
-                resultado = bd.guardarTurno(nCaja, turno[1]);
+                //resultado = bd.guardarTurno(nCaja, turno[1]);
+                //resultado = bd.guardarTurno(nCaja, turno[1]);
+                resultado = bd.guardarTurnoConUsuario(nCaja, turno[1], turno[3]);
             } catch (IndexOutOfBoundsException ioex) {
+            }
+        } else {
+            if (contResgistros == 0) {
+                resultado = bd.guardarTurnoConUsuario(nCaja, turno[1], turno[3]);
+                contResgistros++;
             }
         }
         if (resultado) {
             //String cmd = "<MENS3\r" + "CAJA" + " " + turno[2] + " " + turno[0] + "\r";
-            //3A > 5CAJ
-            //3A >08CAJ
             //String cmd = "3A > " + "CAJA" + " " + turno[2] + " " + turno[0] + "\r";
             if (!turno[1].equals("INACTIVO")) {
                 String cmd = "3A" + " " + turno[2] + " " + turno[0] + "CAJ\r";
@@ -89,9 +94,10 @@ public class LogicaServidor implements PantallaRMI {
         long diferencia;
         try {
             diferencia = (c.getTimeInMillis() - horaUltimaLlamada.getTime()) / 1000;
+            System.out.println("Diferencia: " + diferencia);
         } catch (NullPointerException ex) {
-            //Tiempo de diferencia por defecto para una atención
-            diferencia = 60;
+            //Tiempo de diferencia por defecto para una atención (segundos)
+            diferencia = 30;
         }
         return diferencia;
     }
