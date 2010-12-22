@@ -78,7 +78,7 @@ public class LogicaServidor implements PantallaRMI {
             //String cmd = "3A > " + "CAJA" + " " + turno[2] + " " + turno[0] + "\r";
             if (!turno[1].equals("INACTIVO")) {
                 String cmd = "3A" + " " + turno[2] + " " + turno[0] + "CAJ\r";
-                ComunicacionPantalla enlacePantalla = new ComunicacionPantalla(cmd, arcConfig);
+                ComunicacionPantalla enlacePantalla = new ComunicacionPantalla(cmd, arcConfig, 1);
             }
         } else {
             System.out.println("NO se guardo turno...");

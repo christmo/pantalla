@@ -9,6 +9,7 @@ import java.sql.Statement;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import javax.swing.JOptionPane;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,7 +49,7 @@ public class MySQLTransaccionesDAO implements ManejadorBaseDAO {
      */
     public ResultSet ejecutarConsulta(String sql) {
         System.out.println("Consultar: " + sql);
-        //log.trace("{}", sql);
+        log.trace("Consultar: {}", sql);
         try {
             rs = st.executeQuery(sql);
 
@@ -72,6 +73,7 @@ public class MySQLTransaccionesDAO implements ManejadorBaseDAO {
      */
     public ResultSet ejecutarConsultaUnDato(String sql) {
         System.out.println("Consultar: " + sql);
+        log.trace("Consultar: {}", sql);
         try {
             rs = st.executeQuery(sql);
             rs.next();
@@ -79,6 +81,10 @@ public class MySQLTransaccionesDAO implements ManejadorBaseDAO {
             if (!ex.getMessage().equals("No operations allowed after statement closed.")) {
                 log.trace("Statement cerrado");
             }
+        } catch (NullPointerException ex) {
+            log.error("Revisar los parametros de configuración de la base de datos...");
+            JOptionPane.showMessageDialog(null, "Revisar los parametros de la base de datos...", "Error...", 0);
+            System.exit(1);
         }
         return rs;
     }

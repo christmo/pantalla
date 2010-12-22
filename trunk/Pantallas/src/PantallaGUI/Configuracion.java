@@ -13,7 +13,6 @@ package PantallaGUI;
 import BaseDatos.BaseDatos;
 import PantallaGUI.utilitarios.Utilitarios;
 import comunicacion.ComunicacionPantalla;
-import comunicacion.comm.CommPantalla;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -55,6 +54,16 @@ public class Configuracion extends javax.swing.JFrame {
         initComponents();
         formatearHoraFecha();
         this.setVisible(true);
+        cargarNombresPantallas();
+    }
+
+    /**
+     * Carga los nombres de las pantallas segun esten escritos en el archivo
+     * de confiuguracion
+     */
+    private void cargarNombresPantallas() {
+        jcPantalla.addItem(arcConfig.getProperty("nombre_p1"));
+        jcPantalla.addItem(arcConfig.getProperty("nombre_p2"));
     }
 
     /**
@@ -70,7 +79,8 @@ public class Configuracion extends javax.swing.JFrame {
     }
 
     private void enviarDatosPantalla(String cmd) {
-        ComunicacionPantalla enlacePantalla = new ComunicacionPantalla(cmd, arcConfig);
+        int idPantalla = jcPantalla.getSelectedIndex() + 1;
+        ComunicacionPantalla enlacePantalla = new ComunicacionPantalla(cmd, arcConfig, idPantalla);
     }
 
     /** This method is called from within the constructor to
@@ -106,6 +116,8 @@ public class Configuracion extends javax.swing.JFrame {
         txtHora = new javax.swing.JFormattedTextField();
         btnSalir = new javax.swing.JButton();
         jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jcPantalla = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Configuración Pantalla");
@@ -352,6 +364,9 @@ public class Configuracion extends javax.swing.JFrame {
         jLabel5.setText("Cartel Pasa Mensajes Modelo - KER001");
         jLabel5.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
+        jLabel6.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
+        jLabel6.setText("Pantalla");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -372,7 +387,13 @@ public class Configuracion extends javax.swing.JFrame {
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 530, Short.MAX_VALUE)
                     .addComponent(jPanel4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 207, Short.MAX_VALUE)
+                        .addComponent(jLabel6)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jcPantalla, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(13, 13, 13)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -395,7 +416,10 @@ public class Configuracion extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnSalir)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnSalir)
+                    .addComponent(jcPantalla, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6))
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
@@ -527,11 +551,13 @@ public class Configuracion extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JComboBox jcPantalla;
     private org.jdesktop.swingx.JXDatePicker jxFecha;
     private javax.swing.JFormattedTextField txtHora;
     private static javax.swing.JTextArea txtTexto;

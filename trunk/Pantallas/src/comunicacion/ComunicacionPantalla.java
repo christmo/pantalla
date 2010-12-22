@@ -20,12 +20,12 @@ public class ComunicacionPantalla {
      * @param cmd
      * @param prop
      */
-    public ComunicacionPantalla(String cmd, Properties prop) {
+    public ComunicacionPantalla(String cmd, Properties prop, int id_pantalla) {
         String comm = prop.getProperty("comm");
         if (!comm.equals("0")) {
             envioInformacionPantallaCOMM(cmd);
         } else {
-            envioInformacionPantallaSocket(cmd);
+            envioInformacionPantallaSocket(cmd,id_pantalla);
         }
     }
 
@@ -33,8 +33,8 @@ public class ComunicacionPantalla {
      * Envia los comando a travez de socket
      * @param cmd
      */
-    private void envioInformacionPantallaSocket(String cmd) {
-        SocketPantalla sockPantalla = new SocketPantalla();
+    private void envioInformacionPantallaSocket(String cmd,int idPantalla) {
+        SocketPantalla sockPantalla = new SocketPantalla(idPantalla);
         sockPantalla.enviarComando(cmd);
         sockPantalla.start();
     }

@@ -33,6 +33,8 @@ public class MySQLConexionDAO extends DAOFabricaBasesDatos {
             st = (Statement) con.createStatement();
         } catch (SQLException ex) {
             Logger.getLogger(MySQLConexionDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NullPointerException ex) {
+            System.out.println("Revisar parametros de conexion a la base de datos...");
         }
         System.out.println("Conexion Base MYSQL ok");
     }
