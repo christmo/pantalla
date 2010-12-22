@@ -96,6 +96,7 @@ public class LogicaCliente implements PantallaRMI {
                 output = is.readLine();
             } catch (IOException e) {
                 System.err.println("Error al escribir en el servidor...");
+                System.exit(1);
                 throw new java.rmi.RemoteException("Error al escribir en el servidor...");
             } catch (NullPointerException nex) {
             }
