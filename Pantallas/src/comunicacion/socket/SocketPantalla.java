@@ -26,14 +26,30 @@ public class SocketPantalla extends Thread {
     private int port;
     private String cmd;
 
-    public SocketPantalla() {
+    public SocketPantalla(int idPantalla) {
         Properties arcConfig = Utilitarios.obtenerArchivoPropiedades("configsystem.properties");
-        String ipPantalla = arcConfig.getProperty("ip_pantalla");
+        String ipPantalla = "";
         int puertoPantalla;
-        try {
-            puertoPantalla = Integer.parseInt(arcConfig.getProperty("puerto_pantalla"));
-        } catch (NumberFormatException ex) {
-            puertoPantalla = 0;
+        if (idPantalla == 1) {
+            /**
+             * Pantalla de los clientes para hacer las llamadas a los clientes
+             */
+            ipPantalla = arcConfig.getProperty("ip_pantalla1");
+            try {
+                puertoPantalla = Integer.parseInt(arcConfig.getProperty("puerto_pantalla1"));
+            } catch (NumberFormatException ex) {
+                puertoPantalla = 0;
+            }
+        } else {
+            /**
+             * Pantalla para pasar los mensajes que se requiera
+             */
+            ipPantalla = arcConfig.getProperty("ip_pantalla2");
+            try {
+                puertoPantalla = Integer.parseInt(arcConfig.getProperty("puerto_pantalla2"));
+            } catch (NumberFormatException ex) {
+                puertoPantalla = 0;
+            }
         }
         this.host = ipPantalla;
         this.port = puertoPantalla;
@@ -59,7 +75,7 @@ public class SocketPantalla extends Thread {
                  */
                 enviarDatos("" + letra);
                 try {
-                    Thread.sleep(150);
+                    Thread.sleep(50);
                 } catch (InterruptedException ex) {
                     Logger.getLogger(SocketPantalla.class.getName()).log(Level.SEVERE, null, ex);
                 }

@@ -10,13 +10,13 @@ import DAO.MySQLConexionDAO;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -51,7 +51,6 @@ public class BaseDatos {
     /**
      * Guarda el registro de los mensajes que se escriben en la pantalla, fecha,
      * hora, con sus respectivos estados
-     * TODO: poner el usuario registrado en el Active Directory
      * @param mensaje
      * @param estado -> MOSTRAR EN LA LISTA DE MENSAJES GUARDADOS -> ACT | INA
      * @param accion -> REGISTRO DE LA ACCION EJECUTADA GUARDADO O BORRADO
@@ -188,9 +187,10 @@ public class BaseDatos {
             }
         } catch (SQLException ex) {
             Logger.getLogger(BaseDatos.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            //manejadorTransaccionesBaseDatos.cerrarConexionBaseDatos();
-        }
+        } catch (NullPointerException npe) {
+            JOptionPane.showMessageDialog(null, "Revisar los parametros de la base de datos...", "Error...", 0);
+            System.exit(1);
+        } 
         String[] cajas = new String[caja.size()];
         return (String[]) caja.toArray(cajas);
     }
@@ -209,8 +209,9 @@ public class BaseDatos {
             }
         } catch (SQLException ex) {
             Logger.getLogger(BaseDatos.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            //manejadorTransaccionesBaseDatos.cerrarConexionBaseDatos();
+        } catch (NullPointerException ex) {
+            JOptionPane.showMessageDialog(null, "Revisar los parametros de la base de datos...", "Error...", 0);
+            System.exit(1);
         }
         String[] anios = new String[anio.size()];
         return (String[]) anio.toArray(anios);
@@ -234,8 +235,10 @@ public class BaseDatos {
             return horaUltimaLlamada;
         } catch (SQLException ex) {
             return null;
-        } finally {
-            //manejadorTransaccionesBaseDatos.cerrarConexionBaseDatos();
+        } catch (NullPointerException ex) {
+            System.out.println("Revisar los paramentros de configuración de la base de datos...");
+            System.exit(1);
+            return null;
         }
     }
 
