@@ -63,8 +63,8 @@ public class GenerarReporteTiempoAtencion {
                 + "FROM `TURNOS` T2 "
                 + "WHERE T2.`HORA` > turnos.`HORA` AND T2.`FECHA` ='$P!{fecha}' AND T2.`ID_CAJA` = $P!{caja} "
                 + "ORDER BY T2.`HORA` LIMIT 1),'00:00:00') AS HORA_FIN, "
-                + "IFNULL(SUBTIME((SELECT t2.`HORA` "
-                + "FROM `TURNOS` t2 "
+                + "IFNULL(SUBTIME((SELECT T2.`HORA` "
+                + "FROM `TURNOS` T2 "
                 + "WHERE T2.`HORA` > turnos.`HORA` AND T2.`FECHA` ='$P!{fecha}' AND T2.`ID_CAJA` = $P!{caja} "
                 + "ORDER BY T2.`HORA` LIMIT 1),turnos.`HORA`),'00:00:00') AS DIFERENCIA, "
                 + "IFNULL(TIME_TO_SEC(SUBTIME((SELECT T2.`HORA` "
@@ -83,7 +83,7 @@ public class GenerarReporteTiempoAtencion {
         parametro.put("fecha", fecha);
         parametro.put("caja", caja);
         parametro.put("empresa", empresa);
-        
+
         GenerarReporte.Generar(parametro, RutaJasper);
     }
 }
