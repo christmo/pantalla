@@ -22,7 +22,7 @@ public class GenerarReporteClientes {
     private InputStream RutaJasper;
     private Properties arcConfig;
 
-    public GenerarReporteClientes( HashMap camp) {
+    public GenerarReporteClientes(HashMap camp) {
         //this.bd = cb;
         this.campos = camp;
         arcConfig = Utilitarios.obtenerArchivoPropiedades("configsystem.properties");
@@ -34,16 +34,19 @@ public class GenerarReporteClientes {
      * Genera segun los campos que se haya llenado
      */
     public void Generar() {
-        if (campos.get("op").toString().equals("n_clientes")) {
-            if (campos.get("tiempo").toString().equals("dia")) {
-                GenerarClientesPorDia();
-            } else if (campos.get("tiempo").toString().equals("mes")) {
-                GenerarClientesPorMes();
-            } else if (campos.get("tiempo").toString().equals("ano")) {
-                GenerarTotalClientesPorAno();
-            } else if (campos.get("tiempo").toString().equals("todo")) {
-                GenerarTotalClientesCajas();
+        try {
+            if (campos.get("op").toString().equals("n_clientes")) {
+                if (campos.get("tiempo").toString().equals("dia")) {
+                    GenerarClientesPorDia();
+                } else if (campos.get("tiempo").toString().equals("mes")) {
+                    GenerarClientesPorMes();
+                } else if (campos.get("tiempo").toString().equals("ano")) {
+                    GenerarTotalClientesPorAno();
+                } else if (campos.get("tiempo").toString().equals("todo")) {
+                    GenerarTotalClientesCajas();
+                }
             }
+        } catch (NullPointerException ex) {
         }
     }
 
@@ -147,26 +150,29 @@ public class GenerarReporteClientes {
      * el sistema
      */
     private void GenerarTotalClientesCajas() {
-        String caja = campos.get("caja").toString();
+        try {
+            String caja = campos.get("caja").toString();
 
-        String sql = "SELECT "
-                + "turnos.`HORA` AS turnos_HORA,"
-                + "turnos.`FECHA` AS turnos_FECHA,"
-                + "turnos.`ESTADO` AS turnos_ESTADO,"
-                + "turnos.`ID_CAJA` AS turnos_ID_CAJA "
-                + "FROM "
-                + "`TURNOS` turnos "
-                + "WHERE "
-                + "turnos.`ESTADO` = 'ACTIVO' AND "
-                + "turnos.`ID_CAJA` = $P!{caja}";
+            String sql = "SELECT "
+                    + "turnos.`HORA` AS turnos_HORA,"
+                    + "turnos.`FECHA` AS turnos_FECHA,"
+                    + "turnos.`ESTADO` AS turnos_ESTADO,"
+                    + "turnos.`ID_CAJA` AS turnos_ID_CAJA "
+                    + "FROM "
+                    + "`TURNOS` turnos "
+                    + "WHERE "
+                    + "turnos.`ESTADO` = 'ACTIVO' AND "
+                    + "turnos.`ID_CAJA` = $P!{caja}";
 
-        System.out.println("SQL: " + sql);
+            System.out.println("SQL: " + sql);
 
-        Map parametro = new HashMap();
-        parametro.put("sql", sql);
-        parametro.put("caja", caja);
-        parametro.put("empresa", empresa);
+            Map parametro = new HashMap();
+            parametro.put("sql", sql);
+            parametro.put("caja", caja);
+            parametro.put("empresa", empresa);
 
-        GenerarReporte.Generar(parametro, RutaJasper);
+            GenerarReporte.Generar(parametro, RutaJasper);
+        } catch (NullPointerException ex) {
+        }
     }
 }

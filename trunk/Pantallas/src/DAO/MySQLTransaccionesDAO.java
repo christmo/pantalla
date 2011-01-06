@@ -47,7 +47,7 @@ public class MySQLTransaccionesDAO implements ManejadorBaseDAO {
      * @param sql - debe ser Select
      * @return ResultSet
      */
-    public ResultSet ejecutarConsulta(String sql) {
+    public ResultSet ejecutarConsulta(String sql) throws NullPointerException {
         System.out.println("Consultar: " + sql);
         log.trace("Consultar: {}", sql);
         try {
@@ -59,8 +59,10 @@ public class MySQLTransaccionesDAO implements ManejadorBaseDAO {
             } else {
                 log.trace("Error el consultar", ex);
             }
+            //return null;
         } catch (NullPointerException ex) {
-            log.trace("Null es statement");
+            log.trace("Statemen st esta null");
+            return null;
         }
         return rs;
     }
@@ -102,6 +104,7 @@ public class MySQLTransaccionesDAO implements ManejadorBaseDAO {
             log.info("Ejecutar: {}", sql);
 
             int rta = st.executeUpdate(sql);
+
             if (rta >= 0) {
                 return true;
             } else {
@@ -126,8 +129,9 @@ public class MySQLTransaccionesDAO implements ManejadorBaseDAO {
                 log.trace("", ex);
                 return false;
             }
-        } finally {
-            //cerrarConexionBaseDatos();
+        } catch (NullPointerException ex) {
+            JOptionPane.showMessageDialog(null, "Error en la configuración de la base de datos...", "Error...", 0);
+            return false;
         }
     }
 
