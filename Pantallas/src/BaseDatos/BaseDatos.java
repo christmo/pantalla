@@ -82,7 +82,6 @@ public class BaseDatos {
     public boolean borrarUltimoMensajeGuardadoPantalla() {
         String ultimoMensaje = ultimoMensajeGuardadoPantalla();
         String usuario = System.getProperty("user.name");
-        System.out.println("Ultimo mensaje: " + ultimoMensaje);
         String sql = "INSERT INTO MENSAJES(MENSAJE,USUARIO,FECHA,HORA,ESTADO,ACCION) "
                 + "VALUES('"
                 + ultimoMensaje
@@ -126,15 +125,19 @@ public class BaseDatos {
      */
     public String[] obtenerMensajesGuardados() {
         String sql = "SELECT MENSAJE FROM MENSAJES WHERE ESTADO='ACT' AND ACCION = 'GUARDADO' ORDER BY MENSAJE DESC";
-        rs = manejadorTransaccionesBaseDatos.ejecutarConsulta(sql);
         ArrayList mensajes = new ArrayList<String>();
         try {
+            rs = manejadorTransaccionesBaseDatos.ejecutarConsulta(sql);
+            try {
             while (rs.next()) {
                 mensajes.add(rs.getString("MENSAJE"));
             }
         } catch (SQLException ex) {
         } finally {
             //manejadorTransaccionesBaseDatos.cerrarConexionBaseDatos();
+        }
+        } catch (NullPointerException ex) {
+
         }
         String[] cast = new String[mensajes.size()];
         cast = (String[]) mensajes.toArray(cast);

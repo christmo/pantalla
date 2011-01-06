@@ -32,11 +32,14 @@ public class GenerarReporteTiempoAtencion {
      * Genera segun los campos que se haya llenado
      */
     public void Generar() {
+        try {
         if (campos.get("op").toString().equals("tiempoAtencion")) {
             if (campos.get("tiempo").toString().equals("dia")) {
                 GenerarTiemposAtencionPorDia();
             }
         }
+        } catch (NullPointerException ex) {
+    }
     }
 
     /**

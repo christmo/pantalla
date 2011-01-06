@@ -16,6 +16,7 @@ import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -376,7 +377,7 @@ public class Reportes extends javax.swing.JFrame {
                         if (jrNumeroClientesMes.isSelected()) {
                             GenerarReporte(4);
                         } else {
-                            if(jrTiemposAtencion.isSelected()){
+                            if (jrTiemposAtencion.isSelected()) {
                                 GenerarReporte(5);
                             }
                         }
@@ -498,11 +499,16 @@ public class Reportes extends javax.swing.JFrame {
      * Obtiene los datos de los estados del taxi
      * @return HashMap
      */
-    private HashMap getDatosReporte() {
+    private HashMap getDatosReporte() throws NullPointerException {
         HashMap map = new HashMap();
         if (jrNumeroClientesCaja.isSelected()) {
             map.put("op", "n_clientes");
-            map.put("caja", jcNumeroCaja.getSelectedItem().toString());
+            try {
+                map.put("caja", jcNumeroCaja.getSelectedItem().toString());
+            } catch (NullPointerException ex) {
+                JOptionPane.showMessageDialog(null, "No hay cajas registradas aun...", "Error...", 0);
+                return null;
+            }
         } else {
             if (jrTotalClientesTodasLasCajas.isSelected()) {
                 map.put("op", "todo");
@@ -511,11 +517,21 @@ public class Reportes extends javax.swing.JFrame {
                         || jrNumeroClientesDias.isSelected()
                         || jrNumeroClientesMes.isSelected()) {
                     map.put("op", "clientesHora");
-                    map.put("caja", jcNumeroCaja.getSelectedItem().toString());
+                    try {
+                        map.put("caja", jcNumeroCaja.getSelectedItem().toString());
+                    } catch (NullPointerException ex) {
+                        JOptionPane.showMessageDialog(null, "No hay cajas registradas aun...", "Error...", 0);
+                        return null;
+                    }
                 } else {
                     if (jrTiemposAtencion.isSelected()) {
                         map.put("op", "tiempoAtencion");
-                        map.put("caja", jcNumeroCaja.getSelectedItem().toString());
+                        try {
+                            map.put("caja", jcNumeroCaja.getSelectedItem().toString());
+                        } catch (NullPointerException ex) {
+                            JOptionPane.showMessageDialog(null, "No hay cajas registradas aun...", "Error...", 0);
+                            return null;
+                        }
                     }
                 }
             }
@@ -531,7 +547,12 @@ public class Reportes extends javax.swing.JFrame {
             map.put("ano", jcAnio.getSelectedItem().toString());
         } else if (jrAnual.isSelected()) {
             map.put("tiempo", "ano");
-            map.put("ano", jcAnio.getSelectedItem().toString());
+            try {
+                map.put("ano", jcAnio.getSelectedItem().toString());
+            } catch (NullPointerException ex) {
+                JOptionPane.showMessageDialog(null, "No hay registros de año...", "Error...", 0);
+                return null;
+            }
         } else if (jrTodo.isSelected()) {
             map.put("tiempo", "todo");
         }

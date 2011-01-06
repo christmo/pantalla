@@ -34,30 +34,39 @@ public class GenerarReporteClientesPorHora {
      * Genera segun los campos que se haya llenado
      */
     public void GenerarPorHora() {
+        try {
         if (campos.get("op").toString().equals("clientesHora")) {
             if (campos.get("tiempo").toString().equals("dia")) {
                 RutaJasper = getClass().getResourceAsStream("plantillas/ClientesPorHora.jrxml");
                 GenerarClientesPorDia();
             }
         }
+        } catch (NullPointerException ex) {
+    }
     }
 
     public void GenerarPorDia() {
+        try {
         if (campos.get("op").toString().equals("clientesHora")) {
             if (campos.get("tiempo").toString().equals("mes")) {
                 RutaJasper = getClass().getResourceAsStream("plantillas/ClientesPorMes.jrxml");
                 GenerarClientesPorMes();
             }
         }
+        } catch (NullPointerException ex) {
+    }
     }
 
     public void GenerarPorMes() {
+        try {
         if (campos.get("op").toString().equals("clientesHora")) {
             if (campos.get("tiempo").toString().equals("ano")) {
                 RutaJasper = getClass().getResourceAsStream("plantillas/ClientesPorAnio.jrxml");
                 GenerarTotalClientesPorAno();
             }
         }
+        } catch (NullPointerException ex) {
+    }
     }
 
     /**
@@ -79,7 +88,7 @@ public class GenerarReporteClientesPorHora {
                 + "turnos.`FECHA` = '$P!{fecha}' AND "
                 + "turnos.`ID_CAJA` = $P!{caja} "
                 + "GROUP BY "
-                + "Hour(turnos.`HORA`)";
+                + "HOUR(turnos.`HORA`)";
 
         System.out.println("SQL: " + sql);
 
