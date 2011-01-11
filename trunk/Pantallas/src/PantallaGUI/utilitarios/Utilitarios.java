@@ -56,11 +56,11 @@ public class Utilitarios {
                     dato = Integer.parseInt(arrHora[i]);
                     if (i == 0) {
                         if (dato >= 0 && dato <= 23) {
-                            nuevaHora += "" + dato;
+                            nuevaHora += "" + arrHora[i];
                         }
                     } else {
                         if (dato >= 0 && dato <= 59) {
-                            nuevaHora += "" + dato;
+                            nuevaHora += "" + arrHora[i];
                         }
                     }
                 } catch (NumberFormatException ex) {
