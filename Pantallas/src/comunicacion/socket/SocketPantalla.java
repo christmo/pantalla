@@ -67,22 +67,39 @@ public class SocketPantalla extends Thread {
     public void run() {
         conectar();
         String[] comandos = cmd.split("&%");
-        for (int i = 0; i < comandos.length; i++) {
+        for (int i = 0; i < comandos.length - 1; i++) {
             for (char letra : comandos[i].toCharArray()) {
                 /**
                  * Envia letra a letra con una pausa para que pa pantalla pueda
                  * procesar la informacion
                  */
                 enviarDatos("" + letra);
-                try {
-                    Thread.sleep(50);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(SocketPantalla.class.getName()).log(Level.SEVERE, null, ex);
+                /**
+                 * Comprueba que al final del comando se envie si se envia las
+                 * letras con una pausa o se envia rapidamente sin pausa a la pantalla
+                 */
+                if (Boolean.parseBoolean(comandos[comandos.length - 1])) {
+                    try {
+                        Thread.sleep(50);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(SocketPantalla.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
             }
         }
         desconectar();
         System.out.println("Comando: " + cmd);
+        
+        /**
+         * Inhibir el uso de la pantalla mientras se procesa la información
+         */
+//        try {
+//            System.out.println("Durmiendo por la pantalla...");
+//            Thread.sleep(1500);
+//            System.err.println("---");
+//        } catch (InterruptedException ex) {
+//            Logger.getLogger(SocketPantalla.class.getName()).log(Level.SEVERE, null, ex);
+//        }
     }
 
     /**

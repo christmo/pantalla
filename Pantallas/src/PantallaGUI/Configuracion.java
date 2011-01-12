@@ -17,6 +17,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
@@ -25,6 +27,8 @@ import javax.swing.JOptionPane;
  * @author kradac
  */
 public class Configuracion extends javax.swing.JFrame {
+
+    String booEnvioConPausa = "&%true";
 
     /**
      * Escribe el texto en la caja desde la ventana que recupera los mensajes
@@ -441,13 +445,79 @@ public class Configuracion extends javax.swing.JFrame {
         String hora = txtHora.getText();
         if (!hora.equals("")) {
             //<TIME$\r11:07:51\r\r
-            String comando = "t" + hora + "\r";
+            /**
+             * Comandos para las placas a lado del pasa mensajes pantalla grande
+             */
+            String comandoP2 = conversionHoraPantalla2(hora);
+            /**
+             * Enviar si pausa a la pantalla todo en rafaga
+             */
+            comandoP2 += "&%false";
+            enviarDatosPantalla(comandoP2);
+
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Configuracion.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            /**
+             * Comando para el pasa mensajes
+             */
+            String comando = "t" + hora + "\r" + booEnvioConPausa;
             enviarDatosPantalla(comando);
-            System.out.println("Enviar: " + comando);
         } else {
             JOptionPane.showMessageDialog(this, "Ingrese una hora...", "Error...", 0);
         }
     }//GEN-LAST:event_btnHoraActionPerformed
+
+    /**
+     * Codifica la hora enviada para que se iguale en la pantalla grande, y no
+     * entre en conflictos con los comandos del pasa mensajes
+     * @param hora
+     * @return String
+     */
+    private String conversionHoraPantalla2(String hora) {
+        String[] equivalenciaNumeros = {"e", "f", "g", "h", "i", "j", "k", "l", "m", "n", ":", "/", ""};
+        String fecha = Utilitarios.getFechaAAMMdd();
+        String comando = "$BG";
+        int digito;
+        String caracter = "";
+        for (int i = 0; i < fecha.length(); i++) {
+            try {
+                caracter = "" + fecha.charAt(i);
+                digito = Integer.parseInt(caracter);
+            } catch (NumberFormatException ex) {
+                if (caracter.equals(":")) {
+                    digito = 10;
+                } else if (caracter.equals("/")) {
+                    digito = 11;
+                } else {
+                    digito = 12;
+                }
+            }
+            comando += equivalenciaNumeros[digito];
+        }
+
+        comando += "$";
+
+        for (int i = 0; i < hora.length(); i++) {
+            try {
+                caracter = "" + hora.charAt(i);
+                digito = Integer.parseInt(caracter);
+            } catch (NumberFormatException ex) {
+                if (caracter.equals(":")) {
+                    digito = 10;
+                } else if (caracter.equals("/")) {
+                    digito = 11;
+                } else {
+                    digito = 12;
+                }
+            }
+            comando += equivalenciaNumeros[digito];
+        }
+        return comando;
+    }
 
     private void txtHoraFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtHoraFocusLost
         String hora = txtHora.getText();
@@ -486,7 +556,7 @@ public class Configuracion extends javax.swing.JFrame {
 
     private void btnBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBorrarActionPerformed
         // BORRAR
-        String comando = "2\r";
+        String comando = "2\r" + booEnvioConPausa;
         bd.borrarUltimoMensajeGuardadoPantalla();
         enviarDatosPantalla(comando);
         txtTexto.setText("");
@@ -497,41 +567,113 @@ public class Configuracion extends javax.swing.JFrame {
             String txt = Utilitarios.quitarEnterTexto(txtTexto.getText());
             //GRABAR UN MENSAJE
             String comandoBorrar = "2\r";
-            bd.borrarUltimoMensajeGuardadoPantalla();
-            String comandoEscribir = "1   " + txt + "       \r";
-            bd.guardarMensajePantalla(txt, "INA", "GUARDADO");
-            enviarDatosPantalla(comandoBorrar + "&%" + comandoEscribir);
-            txtTexto.setText("");
+            try {
+                bd.borrarUltimoMensajeGuardadoPantalla();
+                String comandoEscribir = "1   " + txt + "       \r" + booEnvioConPausa;
+                bd.guardarMensajePantalla(txt, "INA", "GUARDADO");
+                enviarDatosPantalla(comandoBorrar + "&%" + comandoEscribir);
+                txtTexto.setText("");
+            } catch (NullPointerException ex) {
+                JOptionPane.showMessageDialog(this, "No se guardó el mensaje, "
+                        + "revisar los parametros de configuración\nde la base de dato...", "Error...", 0);
+            }
         }
     }//GEN-LAST:event_btnEscribirActionPerformed
 
     private void btnMasVelocidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMasVelocidadActionPerformed
         // <MENSv
-        String comando = "V";
+        String comando = "V" + booEnvioConPausa;
         enviarDatosPantalla(comando);
     }//GEN-LAST:event_btnMasVelocidadActionPerformed
 
     private void btnMenosVelocidadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMenosVelocidadActionPerformed
         // <MENSV
-        String comando = "v";
+        String comando = "v" + booEnvioConPausa;
         enviarDatosPantalla(comando);
     }//GEN-LAST:event_btnMenosVelocidadActionPerformed
 
     private void btnFechaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFechaActionPerformed
         // <DATE$\r10/09/10\r
         Date fecha = jxFecha.getDate();
+
+        /**
+         * Comandos para las placas a lado del pasa mensajes pantalla grande
+         */
+        SimpleDateFormat sdfP2 = new SimpleDateFormat("yy/MM/dd");
+        String comandoP2 = conversionFechaPantalla2(sdfP2.format(fecha));
+        comandoP2 += "&%false";
+        enviarDatosPantalla(comandoP2);
+
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Configuracion.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        /**
+         * Comanados para el pasa mensajes
+         */
         SimpleDateFormat sfd = new SimpleDateFormat("MM/dd/yy");
-        String comando = "d" + sfd.format(fecha) + "\r";
+        String comando = "d" + sfd.format(fecha) + "\r" + booEnvioConPausa;
         enviarDatosPantalla(comando);
+
     }//GEN-LAST:event_btnFechaActionPerformed
 
+    /**
+     * Codifica la fecha enviada para que se iguale en la pantalla grande, y no
+     * entre en conflictos con los comandos del pasa mensajes
+     * @param fecha
+     * @return String
+     */
+    private String conversionFechaPantalla2(String fecha) {
+        String[] equivalenciaNumeros = {"e", "f", "g", "h", "i", "j", "k", "l", "m", "n", ":", "/", ""};
+        String hora = Utilitarios.getHora();
+        String comando = "$BG";
+        int digito;
+        String caracter = "";
+        for (int i = 0; i < fecha.length(); i++) {
+            try {
+                caracter = "" + fecha.charAt(i);
+                digito = Integer.parseInt(caracter);
+            } catch (NumberFormatException ex) {
+                if (caracter.equals(":")) {
+                    digito = 10;
+                } else if (caracter.equals("/")) {
+                    digito = 11;
+                } else {
+                    digito = 12;
+                }
+            }
+            comando += equivalenciaNumeros[digito];
+        }
+
+        comando += "$";
+
+        for (int i = 0; i < hora.length(); i++) {
+            try {
+                caracter = "" + hora.charAt(i);
+                digito = Integer.parseInt(caracter);
+            } catch (NumberFormatException ex) {
+                if (caracter.equals(":")) {
+                    digito = 10;
+                } else if (caracter.equals("/")) {
+                    digito = 11;
+                } else {
+                    digito = 12;
+                }
+            }
+            comando += equivalenciaNumeros[digito];
+        }
+        return comando;
+    }
+
     private void btnInvertirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInvertirActionPerformed
-        String comando = "I";
+        String comando = "I" + booEnvioConPausa;
         enviarDatosPantalla(comando);
     }//GEN-LAST:event_btnInvertirActionPerformed
 
     private void btnFuenteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFuenteActionPerformed
-        String comando = "T\r";
+        String comando = "T\r" + booEnvioConPausa;
         enviarDatosPantalla(comando);
     }//GEN-LAST:event_btnFuenteActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -80,23 +80,27 @@ public class BaseDatos {
      * @return boolean
      */
     public boolean borrarUltimoMensajeGuardadoPantalla() {
-        String ultimoMensaje = ultimoMensajeGuardadoPantalla();
-        String usuario = System.getProperty("user.name");
-        String sql = "INSERT INTO MENSAJES(MENSAJE,USUARIO,FECHA,HORA,ESTADO,ACCION) "
-                + "VALUES('"
-                + ultimoMensaje
-                + "','"
-                + usuario
-                + "',"
-                + "NOW()"
-                + ","
-                + "NOW()"
-                + ",'"
-                + "INA"
-                + "','"
-                + "BORRADO"
-                + "')";
-        return manejadorTransaccionesBaseDatos.ejecutarSentencia(sql);
+        try {
+            String ultimoMensaje = ultimoMensajeGuardadoPantalla();
+            String usuario = System.getProperty("user.name");
+            String sql = "INSERT INTO MENSAJES(MENSAJE,USUARIO,FECHA,HORA,ESTADO,ACCION) "
+                    + "VALUES('"
+                    + ultimoMensaje
+                    + "','"
+                    + usuario
+                    + "',"
+                    + "NOW()"
+                    + ","
+                    + "NOW()"
+                    + ",'"
+                    + "INA"
+                    + "','"
+                    + "BORRADO"
+                    + "')";
+            return manejadorTransaccionesBaseDatos.ejecutarSentencia(sql);
+        } catch (NullPointerException ex) {
+            return false;
+        }
     }
 
     /**
@@ -114,8 +118,6 @@ public class BaseDatos {
             return rs.getString("MENSAJE");
         } catch (SQLException ex) {
             return null;
-        } finally {
-            //manejadorTransaccionesBaseDatos.cerrarConexionBaseDatos();
         }
     }
 
@@ -129,15 +131,14 @@ public class BaseDatos {
         try {
             rs = manejadorTransaccionesBaseDatos.ejecutarConsulta(sql);
             try {
-            while (rs.next()) {
-                mensajes.add(rs.getString("MENSAJE"));
+                while (rs.next()) {
+                    mensajes.add(rs.getString("MENSAJE"));
+                }
+            } catch (SQLException ex) {
+            } finally {
+                //manejadorTransaccionesBaseDatos.cerrarConexionBaseDatos();
             }
-        } catch (SQLException ex) {
-        } finally {
-            //manejadorTransaccionesBaseDatos.cerrarConexionBaseDatos();
-        }
         } catch (NullPointerException ex) {
-
         }
         String[] cast = new String[mensajes.size()];
         cast = (String[]) mensajes.toArray(cast);
@@ -191,9 +192,9 @@ public class BaseDatos {
         } catch (SQLException ex) {
             Logger.getLogger(BaseDatos.class.getName()).log(Level.SEVERE, null, ex);
         } catch (NullPointerException npe) {
-            JOptionPane.showMessageDialog(null, "Revisar los parametros de la base de datos...", "Error...", 0);
+            //JOptionPane.showMessageDialog(null, "Revisar los parametros de la base de datos...", "Error...", 0);
             System.exit(1);
-        } 
+        }
         String[] cajas = new String[caja.size()];
         return (String[]) caja.toArray(cajas);
     }
@@ -213,7 +214,7 @@ public class BaseDatos {
         } catch (SQLException ex) {
             Logger.getLogger(BaseDatos.class.getName()).log(Level.SEVERE, null, ex);
         } catch (NullPointerException ex) {
-            JOptionPane.showMessageDialog(null, "Revisar los parametros de la base de datos...", "Error...", 0);
+            //JOptionPane.showMessageDialog(null, "Revisar los parametros de la base de datos...", "Error...", 0);
             System.exit(1);
         }
         String[] anios = new String[anio.size()];
@@ -240,7 +241,6 @@ public class BaseDatos {
             return null;
         } catch (NullPointerException ex) {
             System.out.println("Revisar los paramentros de configuración de la base de datos...");
-            System.exit(1);
             return null;
         }
     }

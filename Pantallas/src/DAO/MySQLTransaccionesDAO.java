@@ -85,8 +85,7 @@ public class MySQLTransaccionesDAO implements ManejadorBaseDAO {
             }
         } catch (NullPointerException ex) {
             log.error("Revisar los parametros de configuración de la base de datos...");
-            JOptionPane.showMessageDialog(null, "Revisar los parametros de la base de datos...", "Error...", 0);
-            System.exit(1);
+            //JOptionPane.showMessageDialog(null, "Revisar los parametros de la base de datos...", "Error...", 0);
         }
         return rs;
     }
@@ -131,6 +130,7 @@ public class MySQLTransaccionesDAO implements ManejadorBaseDAO {
             }
         } catch (NullPointerException ex) {
             JOptionPane.showMessageDialog(null, "Error en la configuración de la base de datos...", "Error...", 0);
+            log.error("Error en la configuración de la base de datos... No se pudo ejecutar la sentencia...");
             return false;
         }
     }
