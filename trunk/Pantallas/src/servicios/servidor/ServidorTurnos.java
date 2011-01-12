@@ -5,7 +5,6 @@
 package servicios.servidor;
 
 import BaseDatos.BaseDatos;
-import PantallaGUI.utilitarios.Utilitarios;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -36,7 +35,7 @@ public class ServidorTurnos extends Thread {
     }
 
     /**
-     * Establece un sock con el cliente y abre conexoón con la base de
+     * Establece un sock con el cliente y abre conexión con la base de
      * datos para que se registren las llamadas a los clientes
      */
     private void levantarServidorTurnos() {
@@ -45,7 +44,7 @@ public class ServidorTurnos extends Thread {
             server = new LogicaServidor(prop, bd);
             int puerto = Integer.parseInt(prop.getProperty("puerto"));
             serverSocket = new ServerSocket(puerto);
-            System.out.println("Escuchando el pruerto: " + puerto);
+            System.out.println("Escuchando el pruerto drvidor: " + puerto);
         } catch (IOException e) {
             System.out.println("El puerto esta en uso, el servidor ya esta corriendo...");
             //JOptionPane.showMessageDialog(null, "El servidor ya se encuentra corriendo...", "Error...", 0);

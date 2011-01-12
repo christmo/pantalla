@@ -79,17 +79,23 @@ public class CommPantalla extends Thread {
     @Override
     public void run() {
         String[] comandos = cmd.split("&%");
-        for (int i = 0; i < comandos.length; i++) {
+        for (int i = 0; i < comandos.length - 1; i++) {
             for (char letra : comandos[i].toCharArray()) {
                 /**
                  * Envia letra a letra con una pausa para que pa pantalla pueda
                  * procesar la informacion
                  */
                 enviarDatos("" + letra);
-                try {
-                    Thread.sleep(30);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(CommPantalla.class.getName()).log(Level.SEVERE, null, ex);
+                /**
+                 * Comprueba que al final del comando se envie si se envia las
+                 * letras con una pausa o se envia rapidamente sin pausa a la pantalla
+                 */
+                if (Boolean.parseBoolean(comandos[comandos.length - 1])) {
+                    try {
+                        Thread.sleep(30);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(CommPantalla.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
             }
         }
@@ -111,7 +117,7 @@ public class CommPantalla extends Thread {
             //Logger.getLogger(CommPantalla.class.getName()).log(Level.SEVERE, null, ex);
             //JOptionPane.showMessageDialog(null, "Puerto del COMM está en uso por otra apicación...\nModificar los paramatros de inicio.", "error", 0);
             System.err.println("Cerrar Apicación - puerto en uso o no hay puerto serial disponible...");
-            //CerrarPuerto();
+            CerrarPuerto();
             //System.exit(0);
         } catch (NoSuchPortException ex) {
             //JOptionPane.showMessageDialog(null, "No se ha cargado el driver COMM de java:\n\n" + ex + "\n\nNo se puede cargar la aplicación...", "error", 0);

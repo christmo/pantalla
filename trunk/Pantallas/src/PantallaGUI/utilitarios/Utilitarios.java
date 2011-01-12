@@ -10,7 +10,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.security.CodeSource;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -85,17 +88,17 @@ public class Utilitarios {
             if (arrHora.length == 1 && hora.length() == 6) {
                 try {
                     if (Integer.parseInt(hora.substring(0, 2)) >= 0 && Integer.parseInt(hora.substring(0, 2)) <= 23) {
-                        nuevaHora += Integer.parseInt(hora.substring(0, 2)) + ":";
+                        nuevaHora += hora.substring(0, 2) + ":";
                     } else {
                         nuevaHora += "00:";
                     }
                     if (Integer.parseInt(hora.substring(2, 4)) >= 0 && Integer.parseInt(hora.substring(2, 4)) <= 59) {
-                        nuevaHora += Integer.parseInt(hora.substring(2, 4)) + ":";
+                        nuevaHora += hora.substring(2, 4) + ":";
                     } else {
                         nuevaHora += "00:";
                     }
                     if (Integer.parseInt(hora.substring(4, 6)) >= 0 && Integer.parseInt(hora.substring(4, 6)) <= 59) {
-                        nuevaHora += Integer.parseInt(hora.substring(4, 6));
+                        nuevaHora += hora.substring(4, 6);
                     } else {
                         nuevaHora += "00";
                     }
@@ -141,5 +144,24 @@ public class Utilitarios {
             Logger.getLogger(Utilitarios.class.getName()).log(Level.SEVERE, null, ex);
         }
         return arcConfig;
+    }
+
+    /**
+     * Obtiene la fecha actual del equipo, este metodo se puede consumir desde
+     * todo el proyecto.
+     * @return String
+     */
+    public static String getFechaAAMMdd() {
+        Calendar c = new GregorianCalendar();
+        SimpleDateFormat sdf = new SimpleDateFormat("yy/MM/dd");
+        System.out.println("f:" + sdf.format(c.getTime()));
+        return sdf.format(c.getTime());
+    }
+
+    public static String getHora() {
+        Calendar c = new GregorianCalendar();
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        System.out.println("H:" + sdf.format(c.getTime()));
+        return sdf.format(c.getTime());
     }
 }
