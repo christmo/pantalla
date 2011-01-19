@@ -32,7 +32,6 @@ public class LogicaServidor implements PantallaRMI {
     private int contResgistros = 0;
 
     public LogicaServidor(Properties arch, BaseDatos db) {
-        //bd = new BaseDatos();
         bd = db;
         arcConfig = arch;
         try {
@@ -87,7 +86,7 @@ public class LogicaServidor implements PantallaRMI {
                  * ID caja -> [0] --> numero de la caja donde se envia el llamado
                  * direccion -> [2] -> donde debe apuntar la flecha
                  */
-                String cmd = "3A" + " " + turno[2] + " " + turno[0] + "CAJ\r" + "&%true";
+                String cmd = "  3A" + " " + turno[2] + " " + turno[0] + "CAJ\r" + "&%true";
                 ComunicacionPantalla enlacePantalla = new ComunicacionPantalla(cmd, arcConfig, 1);
                 /**
                  * Pausa para que la pantalla no mezcle los comandos que llegan

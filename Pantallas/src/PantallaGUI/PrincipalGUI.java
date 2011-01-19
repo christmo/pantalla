@@ -13,6 +13,8 @@ package PantallaGUI;
 import BaseDatos.BaseDatos;
 import PantallaGUI.reportes.Reportes;
 import PantallaGUI.utilitarios.Utilitarios;
+import comunicacion.socket.SocketPantalla;
+import java.util.ArrayList;
 import java.util.Properties;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
@@ -26,10 +28,13 @@ import servicios.servidor.ServidorTurnos;
 public class PrincipalGUI extends javax.swing.JFrame {
 
     private Configuracion con;
-    //private ServidorTurnos serverTurnos;
     private Reportes reportes;
     private BaseDatos bd;
     private Properties arcConfig;
+    /**
+     * Almacena los sockets de comunicación con cada una de las pantallas
+     */
+    public static ArrayList<SocketPantalla> pantallas = new ArrayList<SocketPantalla>();
 
     /** Creates new form PrincipalGUI */
     public PrincipalGUI() {
@@ -43,6 +48,14 @@ public class PrincipalGUI extends javax.swing.JFrame {
     }
 
     private void iniciarServidorTurnos() {
+        String comm = arcConfig.getProperty("comm");
+        if (comm.equals("0")) {
+            /**
+             * Iniciar Comunicación con las pantallas disponibles
+             */
+            pantallas.add(new SocketPantalla(1));
+            pantallas.add(new SocketPantalla(2));
+        }
         ServidorTurnos serverTurnos = new ServidorTurnos(bd, arcConfig);
     }
 
@@ -167,6 +180,16 @@ public class PrincipalGUI extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         bd.cerrarConexionBaseDatos();
+        try {
+            pantallas.get(0).desconectar();
+        } catch (IndexOutOfBoundsException ex) {
+            System.out.println("NO hay conexión por socket que cerrar - Pantalla 1");
+        }
+        try {
+            pantallas.get(1).desconectar();
+        } catch (IndexOutOfBoundsException ex) {
+            System.out.println("NO hay conexión por socket que cerrar - Pantalla 2");
+        }
         System.exit(0);
     }//GEN-LAST:event_jButton1ActionPerformed
 

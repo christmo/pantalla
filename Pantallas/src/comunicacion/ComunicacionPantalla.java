@@ -4,8 +4,8 @@
  */
 package comunicacion;
 
+import PantallaGUI.PrincipalGUI;
 import comunicacion.comm.CommPantalla;
-import comunicacion.socket.SocketPantalla;
 import java.util.Properties;
 
 /**
@@ -25,7 +25,7 @@ public class ComunicacionPantalla {
         if (!comm.equals("0")) {
             envioInformacionPantallaCOMM(cmd);
         } else {
-            envioInformacionPantallaSocket(cmd,id_pantalla);
+            envioInformacionPantallaSocket(cmd, id_pantalla);
         }
     }
 
@@ -33,10 +33,8 @@ public class ComunicacionPantalla {
      * Envia los comando a travez de socket
      * @param cmd
      */
-    private void envioInformacionPantallaSocket(String cmd,int idPantalla) {
-        SocketPantalla sockPantalla = new SocketPantalla(idPantalla);
-        sockPantalla.enviarComando(cmd);
-        sockPantalla.start();
+    private void envioInformacionPantallaSocket(String cmd, int idPantalla) {
+        PrincipalGUI.pantallas.get(idPantalla - 1).enviarComando(cmd);
     }
 
     /**
