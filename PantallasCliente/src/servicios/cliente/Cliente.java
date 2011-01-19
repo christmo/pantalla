@@ -23,7 +23,6 @@ import java.awt.event.MouseAdapter;
 import java.io.PrintWriter;
 import java.rmi.RemoteException;
 import java.util.Properties;
-import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -45,7 +44,6 @@ public class Cliente extends javax.swing.JDialog {
     private static LogicaCliente stubCliente;
     private PrintWriter stdOut = new PrintWriter(System.out);
     private String output;
-    //private ResourceBundle rb;
     private JPopupMenu popup = new JPopupMenu();
     private TrayIcon trayIcon;
     private Properties prop;
@@ -65,10 +63,6 @@ public class Cliente extends javax.swing.JDialog {
         posInicial();
         gui = this;
 
-        //File jar = new File(System.getProperty("java.class.path"));
-        //String srcDirProyecto = jar.getPath().substring(0, jar.getPath().length() - jar.getName().length());
-
-        //rb = ResourceBundle.getBundle("servicios.cliente.configuracion");
         prop = Utilitarios.obtenerArchivoPropiedades("configuracion.properties");
         ConectarServer();
     }
@@ -283,17 +277,7 @@ public class Cliente extends javax.swing.JDialog {
     }//GEN-LAST:event_btnRellamarActionPerformed
 
     private void btnLlamarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btnLlamarKeyPressed
-        /**
-         * Ejecutar cuando se precione F12
-         */
-        /*if (evt.getKeyCode() == 123) {
-        try {
-        accionesBotonesCliente("ACTIVO");
-        Thread.sleep(1000);
-        } catch (InterruptedException ex) {
-        Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        }*/
+
     }//GEN-LAST:event_btnLlamarKeyPressed
 
     private void btnLlamarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLlamarActionPerformed
@@ -334,7 +318,6 @@ public class Cliente extends javax.swing.JDialog {
             stdOut.write(output);
         } catch (RemoteException ex) {
             JOptionPane.showMessageDialog(this, "No se puede conectar con el servidor de turnos...", "Error...", 0);
-            //Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -345,12 +328,7 @@ public class Cliente extends javax.swing.JDialog {
         java.awt.EventQueue.invokeLater(new Runnable() {
 
             public void run() {
-
                 try {
-                    //UIManager.setLookAndFeel("org.pushingpixels.substance.api.skin.SubstanceOfficeBlue2007LookAndFeel");
-                    //UIManager.setLookAndFeel("org.pushingpixels.substance.api.skin.SubstanceDustLookAndFeel");
-                    //UIManager.setLookAndFeel("org.pushingpixels.substance.api.skin.SubstanceMistSilverLookAndFeel");
-                    //UIManager.setLookAndFeel("org.pushingpixels.substance.api.skin.SubstanceNebulaBrickWallLookAndFeel");
                     UIManager.setLookAndFeel("org.pushingpixels.substance.api.skin.SubstanceSaharaLookAndFeel");
                 } catch (Exception e) {
                     System.out.println("Problemas al cargar Temas Substance");
