@@ -44,24 +44,18 @@ public class LogicaCliente implements PantallaRMI {
 
             is = new BufferedReader(new InputStreamReader(echoSocket.getInputStream()));
             os = new PrintWriter(echoSocket.getOutputStream());
-
+            System.out.println("[CONECTADO]");
         } catch (UnknownHostException ex) {
             System.err.println("" + ex);
         } catch (IOException ex) {
-            if (ex.getMessage().equals("Connection refused")) {
-                System.out.println("Conexion rechazada por el servidor...");
-                //JOptionPane.showMessageDialog(null, "Conexión NO establecida con el servidor se puede deber"
-                //        + "\na problemas con la red o con el servidor de turnos...", "Error...", 0);
-                System.exit(0);
-            } else if (ex.getMessage().equals("Connection refused: connect")) {
-                System.out.println("Conexion rechazada por el servidor...");
-                //JOptionPane.showMessageDialog(null, "Conexión NO establecida con el servidor se puede deber"
-                //        + "\na problemas con la red o con el servidor de turnos...", "Error...", 0);
-                System.exit(0);
-            } else {
-                //System.out.println("Conexion rechazada por el servidor...");
-                Logger.getLogger(LogicaCliente.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Conexion rechazada por el servidor... IP[" + host + "] PUERTO[" + port + "]");
+            try {
+                System.out.println("[RECONECTAR SERVIDOR]");
+                Thread.sleep(1000);
+            } catch (InterruptedException ex1) {
+                Logger.getLogger(LogicaCliente.class.getName()).log(Level.SEVERE, null, ex1);
             }
+            conectar();
         }
     }
 
@@ -96,7 +90,11 @@ public class LogicaCliente implements PantallaRMI {
                 output = is.readLine();
             } catch (IOException e) {
                 System.err.println("Error al escribir en el servidor...");
-                System.exit(1);
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(LogicaCliente.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 throw new java.rmi.RemoteException("Error al escribir en el servidor...");
             } catch (NullPointerException nex) {
             }
