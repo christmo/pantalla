@@ -5,12 +5,14 @@
 package servicios.servidor;
 
 import BaseDatos.BaseDatos;
+import comunicacion.socket.SocketPantalla;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Properties;
 
 /**
@@ -25,12 +27,14 @@ public class ServidorTurnos extends Thread {
     private static PrintWriter os = null;
     private static String inputline = new String();
     private static LogicaServidor server;
+    private static boolean dormirServidorTurnos = false;
     private BaseDatos bd;
-    Properties prop;
+    private Properties prop;
+    private ArrayList<SocketPantalla> pantallas = new ArrayList<SocketPantalla>();
 
     public ServidorTurnos(BaseDatos db, Properties arcConfig) {
-        bd = db;
-        prop = arcConfig;
+        this.bd = db;
+        this.prop = arcConfig;
         this.start();
     }
 
@@ -40,14 +44,12 @@ public class ServidorTurnos extends Thread {
      */
     private void levantarServidorTurnos() {
         try {
-            //Properties prop = Utilitarios.obtenerArchivoPropiedades("configsystem.properties");
             server = new LogicaServidor(prop, bd);
             int puerto = Integer.parseInt(prop.getProperty("puerto"));
             serverSocket = new ServerSocket(puerto);
-            System.out.println("Escuchando el pruerto drvidor: " + puerto);
+            System.out.println("Escuchando el pruerto: [" + puerto + "] para cajas...");
         } catch (IOException e) {
             System.out.println("El puerto esta en uso, el servidor ya esta corriendo...");
-            //JOptionPane.showMessageDialog(null, "El servidor ya se encuentra corriendo...", "Error...", 0);
             System.exit(1);
         }
 
@@ -57,9 +59,11 @@ public class ServidorTurnos extends Thread {
                 clientSocket = serverSocket.accept();
                 is = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
                 os = new PrintWriter(clientSocket.getOutputStream());
-                while ((inputline = is.readLine()) != null) {
-                    os.println(server.enviarComando(inputline));
-                    os.flush();
+                if (!dormirServidorTurnos) {
+                    while ((inputline = is.readLine()) != null) {
+                        os.println(server.enviarComando(inputline));
+                        os.flush();
+                    }
                 }
                 os.close();
                 is.close();
@@ -69,6 +73,16 @@ public class ServidorTurnos extends Thread {
         } catch (IOException e) {
             System.err.println("Error sending/receiving" + e.getMessage());
         }
+    }
+
+    /**
+     * Permite hacer que el servidor de las cajas no atienda las llamadas
+     * cuando se esta configurando un nuevo mensaje, fecha u hora que son
+     * comando largos
+     * @param boolean true dormir| false despertar
+     */
+    public static void dormirServidorTurnos(boolean dormir) {
+        dormirServidorTurnos = dormir;
     }
 
     @Override
