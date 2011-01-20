@@ -60,9 +60,20 @@ public class SocketPantalla {
         }
     }
     /**
-     * controla si el comando anterior es caja
+     * controla si el comando anterior es caja para poner la pausa antes de
+     * enviar el comando para esperar que se libere la pantalla
      */
     private boolean booCMDcaja = false;
+    /**
+     * controla si el comando anterior es caja para poner la pausa despues de
+     * enviar el comando
+     */
+    private boolean booCMDcaja2 = false;
+    /**
+     * Comprueba si se quiere borrar la pantalla para inhibir las cajas por menos
+     * tiempo que con los otros comandos
+     */
+    private boolean booBorrarPantalla = false;
 
     /**
      * Permite enviar un comando para que sea ejecutado en el hilo
@@ -74,19 +85,37 @@ public class SocketPantalla {
         String[] comandos = cmd.split("&%");
         if (socket != null) {
             for (int i = 0; i < comandos.length - 1; i++) {
-
+                System.out.println("IMP CMD:" + comandos[i]);
                 if (booCMDcaja) {
                     if (comandos[i].charAt(0) == '1'
                             || comandos[i].charAt(0) == 'd'
-                            || comandos[i].charAt(0) == 't') {
+                            || comandos[i].charAt(0) == 't'
+                            || comandos[i].charAt(0) == 'V'
+                            || comandos[i].charAt(0) == 'I'
+                            || comandos[i].charAt(0) == 'v'
+                            || comandos[i].charAt(0) == 'T') {
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(SocketPantalla.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                         System.err.println("[durmiendo]");
                         ServidorTurnos.dormirServidorTurnos(true);
                         try {
-                            Thread.sleep(3000);
+                            Thread.sleep(4000);
                         } catch (InterruptedException ex) {
                             Logger.getLogger(SocketPantalla.class.getName()).log(Level.SEVERE, null, ex);
                         }
                         booCMDcaja = false;
+                        booCMDcaja2 = true;
+                    } else if (comandos[i].charAt(0) == '2') {
+                        try {
+                            ServidorTurnos.dormirServidorTurnos(true);
+                            Thread.sleep(1000);
+                            booBorrarPantalla = true;
+                        } catch (InterruptedException ex) {
+                            Logger.getLogger(SocketPantalla.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                     }
                 }
 
@@ -111,7 +140,22 @@ public class SocketPantalla {
                         break;
                     }
                 }
-                ServidorTurnos.dormirServidorTurnos(false);
+                if (booCMDcaja2) {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ex) {
+                        Logger.getLogger(SocketPantalla.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    booCMDcaja2 = false;
+                }
+                /**
+                 *
+                 */
+                if (booBorrarPantalla && comandos[1].charAt(0) == '1') {
+                    booBorrarPantalla = false;
+                }else{
+                    ServidorTurnos.dormirServidorTurnos(false);
+                }
                 if (comandos[i].length() == 12 && comandos[i].charAt(2) == '3') {
                     booCMDcaja = true;
                 }
