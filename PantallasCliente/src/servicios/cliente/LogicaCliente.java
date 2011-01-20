@@ -27,6 +27,7 @@ public class LogicaCliente implements PantallaRMI {
     private String host;
     private int port;
     private String output = "Error";
+    private int intContadorIntentosReconexion = 0;
 
     public LogicaCliente(String host, int port) {
         this.host = host;
@@ -49,13 +50,19 @@ public class LogicaCliente implements PantallaRMI {
             System.err.println("" + ex);
         } catch (IOException ex) {
             System.out.println("Conexion rechazada por el servidor... IP[" + host + "] PUERTO[" + port + "]");
-            try {
-                System.out.println("[RECONECTAR SERVIDOR]");
-                Thread.sleep(1000);
-            } catch (InterruptedException ex1) {
-                Logger.getLogger(LogicaCliente.class.getName()).log(Level.SEVERE, null, ex1);
+            if (intContadorIntentosReconexion != 5) {
+                try {
+                    System.out.println("[RECONECTAR SERVIDOR] = " + intContadorIntentosReconexion);
+                    Thread.sleep(1000);
+                } catch (InterruptedException ex1) {
+                    Logger.getLogger(LogicaCliente.class.getName()).log(Level.SEVERE, null, ex1);
+                }
+                intContadorIntentosReconexion++;
+                conectar();
+            } else {
+                intContadorIntentosReconexion = 0;
+
             }
-            conectar();
         }
     }
 
