@@ -43,9 +43,7 @@ public class GenerarReporte {
             //Para visualizar el pdf directamente desde java
             JasperViewer.viewReport(print, false);
         } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            // BaseDatos.manejadorTransaccionesBaseDatos.cerrarConexionBaseDatos();
+            System.out.println("Error con la base de datos..." + e.getMessage());
         }
     }
 }
