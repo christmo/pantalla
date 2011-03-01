@@ -45,6 +45,11 @@
         <appender-ref ref="pantalla"/>
     </logger>
 
+    <logger name="BaseDatos" level="ALL">
+        <appender-ref ref="TRACE"/>
+        <appender-ref ref="pantalla"/>
+    </logger>
+
     <logger name="DAO" level="ALL">
         <appender-ref ref="TRACE"/>
         <appender-ref ref="pantalla"/>

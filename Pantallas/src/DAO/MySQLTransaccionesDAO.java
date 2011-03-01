@@ -9,7 +9,6 @@ import java.sql.Statement;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import javax.swing.JOptionPane;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,6 +29,7 @@ public class MySQLTransaccionesDAO implements ManejadorBaseDAO {
 
     public MySQLTransaccionesDAO() {
         st = conMySQL.getStatement();
+        con = conMySQL.getConexion();
         System.out.println("Statement OK");
     }
 
@@ -111,6 +111,11 @@ public class MySQLTransaccionesDAO implements ManejadorBaseDAO {
             }
         } catch (SQLException ex) {
             //System.out.println("EX:" + ex.getMessage());
+
+            cerrarConexionBaseDatos();
+            conMySQL = new MySQLConexionDAO();
+            st = conMySQL.getStatement();
+
             String txt = ex.getMessage();
             if (ex.getMessage().equals("Got timeout reading communication packets")) {
                 System.err.println("No hay Conexion NO se pueden guardar los datos en la tabla del servidor...");
@@ -129,7 +134,6 @@ public class MySQLTransaccionesDAO implements ManejadorBaseDAO {
                 return false;
             }
         } catch (NullPointerException ex) {
-            JOptionPane.showMessageDialog(null, "Error en la configuración de la base de datos...", "Error...", 0);
             log.error("Error en la configuración de la base de datos... No se pudo ejecutar la sentencia...");
             return false;
         }
