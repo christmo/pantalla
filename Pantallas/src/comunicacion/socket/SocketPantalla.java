@@ -12,6 +12,8 @@ import java.net.UnknownHostException;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import servicios.servidor.ServidorTurnos;
 
 /**
@@ -26,11 +28,16 @@ public class SocketPantalla {
     private String host;
     private int port;
     private String cmd;
+    private JLabel lblIconPantalla;
+    private ImageIcon iconOff = new ImageIcon(getClass().getResource("/iconos/panOff.png"));
+    private ImageIcon iconOn = new ImageIcon(getClass().getResource("/iconos/panOn.png"));
 
-    public SocketPantalla(int idPantalla) {
+    public SocketPantalla(int idPantalla, JLabel lblIconPantalla) {
         Properties arcConfig = Utilitarios.obtenerArchivoPropiedades("configsystem.properties");
         String ipPantalla = "";
         int puertoPantalla;
+        this.lblIconPantalla = lblIconPantalla;
+
         if (idPantalla == 1) {
             /**
              * Pantalla de los clientes para hacer las llamadas a los clientes
@@ -137,6 +144,8 @@ public class SocketPantalla {
                             }
                         }
                     } else {
+                        System.out.println("[RECONECTAR]");
+                        reConectar();
                         break;
                     }
                 }
@@ -153,7 +162,7 @@ public class SocketPantalla {
                  */
                 if (booBorrarPantalla && comandos[1].charAt(0) == '1') {
                     booBorrarPantalla = false;
-                }else{
+                } else {
                     ServidorTurnos.dormirServidorTurnos(false);
                 }
                 if (comandos[i].length() == 12 && comandos[i].charAt(2) == '3') {
@@ -163,8 +172,13 @@ public class SocketPantalla {
             System.out.println("Comando: " + cmd);
         } else {
             System.out.println("No esta conectado a esa pantalla...");
+            reConectar();
         }
     }
+    /**
+     * Cuenta las veces que se ha querido reconectar la aplicacion a la pantalla
+     */
+    int contadorReconexion = 0;
 
     /**
      * Conecta el sock del cliente contra el servidor
@@ -177,11 +191,12 @@ public class SocketPantalla {
             //is = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             os = new PrintWriter(socket.getOutputStream());
             System.out.println("[CONECTADO][" + host + "][" + port + "]");
+            lblIconPantalla.setIcon(iconOn);
         } catch (UnknownHostException ex) {
             Logger.getLogger(SocketPantalla.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             System.out.println("Conexion rechazada por el servidor... IP[" + host + "] PUERTO[" + port + "]");
-
+            lblIconPantalla.setIcon(iconOff);
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException ex1) {
@@ -189,6 +204,29 @@ public class SocketPantalla {
             }
             System.out.println("[RECONECTAR]");
             conectar();
+        }
+    }
+
+    private void reConectar() {
+        try {
+            socket = new Socket(host, port);
+
+            //is = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            os = new PrintWriter(socket.getOutputStream());
+            System.out.println("[CONECTADO][" + host + "][" + port + "]");
+            lblIconPantalla.setIcon(iconOn);
+        } catch (UnknownHostException ex) {
+            Logger.getLogger(SocketPantalla.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            System.out.println("Conexion rechazada por el servidor... IP[" + host + "] PUERTO[" + port + "]");
+            lblIconPantalla.setIcon(iconOff);
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException ex1) {
+                Logger.getLogger(SocketPantalla.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+            //System.out.println("[RECONECTAR]");
+            //conectar();
         }
     }
 
@@ -217,8 +255,10 @@ public class SocketPantalla {
             //System.out.println("Enviar: " + input);
             os.print(input);
             if (os.checkError()) {
-                System.out.println("[RECONECTAR]");
-                conectar();
+                lblIconPantalla.setIcon(iconOff);
+                //System.out.println("[RECONECTAR]");
+                //conectar();
+                return false;
             }
             return true;
         } else {

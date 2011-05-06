@@ -7,6 +7,7 @@ package comunicacion;
 import PantallaGUI.PrincipalGUI;
 import comunicacion.comm.CommPantalla;
 import java.util.Properties;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -33,8 +34,12 @@ public class ComunicacionPantalla {
      * Envia los comando a travez de socket
      * @param cmd
      */
-    private void envioInformacionPantallaSocket(String cmd, int idPantalla) {
-        PrincipalGUI.pantallas.get(idPantalla - 1).enviarComando(cmd);
+    private void envioInformacionPantallaSocket(String cmd, int idPantalla) throws IndexOutOfBoundsException {
+        try {
+            PrincipalGUI.pantallas.get(idPantalla - 1).enviarComando(cmd);
+        } catch (IndexOutOfBoundsException ex) {
+            JOptionPane.showMessageDialog(null, "No esta conectada esta pantalla", "Error...", 0);
+        }
     }
 
     /**

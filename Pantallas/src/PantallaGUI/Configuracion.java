@@ -48,6 +48,10 @@ public class Configuracion extends javax.swing.JFrame {
     private ImageIcon ic;
     private Properties arcConfig;
     //private CommPantalla comm;
+    /**
+     * Controlar cuando se envia la hora para enviarla a las 2 pantallas
+     */
+    private boolean enviarHora = false;
 
     /** Creates new form Configuracion */
     public Configuracion(BaseDatos db, Properties prop) {
@@ -75,7 +79,7 @@ public class Configuracion extends javax.swing.JFrame {
      */
     private void formatearHoraFecha() {
         Date fecha = new GregorianCalendar().getTime();
-        SimpleDateFormat sfh = new SimpleDateFormat("HH:mm:ss");
+        SimpleDateFormat sfh = new SimpleDateFormat("HH:mm:10");
         txtHora.setText(sfh.format(fecha));
         SimpleDateFormat sfd = new SimpleDateFormat("dd/MM/yyyy");
         jxFecha.setFormats(sfd);
@@ -85,6 +89,15 @@ public class Configuracion extends javax.swing.JFrame {
     private void enviarDatosPantalla(String cmd) {
         int idPantalla = jcPantalla.getSelectedIndex() + 1;
         ComunicacionPantalla enlacePantalla = new ComunicacionPantalla(cmd, arcConfig, idPantalla);
+    }
+
+    /**
+     * Enviar un comnado a una pantalla determinada sin contar si está conectada o no...
+     * @param cmd
+     * @param pantalla
+     */
+    private void enviarDatosPantallaHora(String cmd, int pantalla) {
+        ComunicacionPantalla enlacePantalla = new ComunicacionPantalla(cmd, arcConfig, pantalla);
     }
 
     /** This method is called from within the constructor to
@@ -442,6 +455,12 @@ public class Configuracion extends javax.swing.JFrame {
     }//GEN-LAST:event_txtTextoFocusLost
 
     private void btnHoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHoraActionPerformed
+        enviarHora = true;
+        enviarHora(1);
+        enviarHora(2);
+    }//GEN-LAST:event_btnHoraActionPerformed
+
+    private void enviarHora(int intPantalla) {
         String hora = txtHora.getText();
         if (!hora.equals("")) {
             //<TIME$\r11:07:51\r\r
@@ -449,11 +468,12 @@ public class Configuracion extends javax.swing.JFrame {
              * Comandos para las placas a lado del pasa mensajes pantalla grande
              */
             String comandoP2 = conversionHoraPantalla2(hora);
+
             /**
-             * Enviar si pausa a la pantalla todo en rafaga
+             * Enviar sin pausa a la pantalla todo en rafaga
              */
             comandoP2 += "&%false";
-            enviarDatosPantalla(comandoP2);
+            enviarDatosPantallaHora(comandoP2, intPantalla);
 
             try {
                 Thread.sleep(500);
@@ -465,11 +485,11 @@ public class Configuracion extends javax.swing.JFrame {
              * Comando para el pasa mensajes
              */
             String comando = "t" + hora + "\r" + booEnvioConPausa;
-            enviarDatosPantalla(comando);
+            enviarDatosPantallaHora(comando, intPantalla);
         } else {
             JOptionPane.showMessageDialog(this, "Ingrese una hora...", "Error...", 0);
         }
-    }//GEN-LAST:event_btnHoraActionPerformed
+    }
 
     /**
      * Codifica la hora enviada para que se iguale en la pantalla grande, y no
