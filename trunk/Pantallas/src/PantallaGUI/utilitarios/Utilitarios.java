@@ -54,6 +54,7 @@ public class Utilitarios {
         int dato;
 
         if (arrHora.length == 3) {
+            arrHora[2]="10";//siempre igualar a 10 segundos
             for (int i = 0; i < arrHora.length; i++) {
                 try {
                     dato = Integer.parseInt(arrHora[i]);
@@ -98,7 +99,8 @@ public class Utilitarios {
                         nuevaHora += "00:";
                     }
                     if (Integer.parseInt(hora.substring(4, 6)) >= 0 && Integer.parseInt(hora.substring(4, 6)) <= 59) {
-                        nuevaHora += hora.substring(4, 6);
+                        //nuevaHora += hora.substring(4, 6);
+                        nuevaHora += "10"; //siempre se iguala a 10 segundos
                     } else {
                         nuevaHora += "00";
                     }
