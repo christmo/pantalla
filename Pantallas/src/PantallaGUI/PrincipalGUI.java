@@ -11,11 +11,15 @@
 package PantallaGUI;
 
 import BaseDatos.BaseDatos;
+import PantallaGUI.reloj.Reloj;
 import PantallaGUI.reportes.Reportes;
 import PantallaGUI.utilitarios.Utilitarios;
+import comunicacion.ComunicacionPantalla;
 import comunicacion.socket.SocketPantalla;
 import java.util.ArrayList;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.SwingConstants;
 import javax.swing.UIManager;
@@ -30,7 +34,7 @@ public class PrincipalGUI extends javax.swing.JFrame {
     private Configuracion con;
     private Reportes reportes;
     private BaseDatos bd;
-    private Properties arcConfig;
+    private static Properties arcConfig;
     /**
      * Almacena los sockets de comunicación con cada una de las pantallas
      */
@@ -45,6 +49,7 @@ public class PrincipalGUI extends javax.swing.JFrame {
         configurarBotones();
         iniciarServidorTurnos();
         System.out.println("Usuario: " + System.getProperty("user.name"));
+        Reloj reloj = new Reloj();
     }
 
     private void iniciarServidorTurnos() {
@@ -262,4 +267,36 @@ public class PrincipalGUI extends javax.swing.JFrame {
     private javax.swing.JLabel lblIconPantalla1;
     private javax.swing.JLabel lblIconPantalla2;
     // End of variables declaration//GEN-END:variables
+
+    /**
+     * Permite igualar las pantallas cuando el reloj llegue a una hora determinada
+     * todos los dias...
+     * @param hora
+     * @param intPantalla
+     */
+    public static void igualarHoras(String hora, int intPantalla) {
+        String booEnvioConPausa = "&%true";
+        /**
+         * Comandos para las placas a lado del pasa mensajes pantalla grande
+         */
+        String comandoP2 = Configuracion.conversionHoraPantalla2(hora);
+
+        /**
+         * Enviar sin pausa a la pantalla todo en rafaga
+         */
+        comandoP2 += "&%false";
+        ComunicacionPantalla enlacePantalla = new ComunicacionPantalla(comandoP2, arcConfig, intPantalla);
+
+        try {
+            Thread.sleep(500);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(PrincipalGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        /**
+         * Comando para el pasa mensajes
+         */
+        String comando = "t" + hora + "\r" + booEnvioConPausa;
+        ComunicacionPantalla pasaMensajes = new ComunicacionPantalla(comando, arcConfig, intPantalla);
+    }
 }

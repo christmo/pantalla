@@ -135,6 +135,7 @@ public class Configuracion extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jcPantalla = new javax.swing.JComboBox();
+        btnDesbloquear = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Configuración Pantalla");
@@ -384,6 +385,14 @@ public class Configuracion extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Tahoma", 1, 11));
         jLabel6.setText("Pantalla");
 
+        btnDesbloquear.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/desbloquear.png"))); // NOI18N
+        btnDesbloquear.setText("Desbloquear");
+        btnDesbloquear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDesbloquearActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -406,7 +415,9 @@ public class Configuracion extends javax.swing.JFrame {
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(btnSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 207, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 60, Short.MAX_VALUE)
+                        .addComponent(btnDesbloquear)
+                        .addGap(18, 18, 18)
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jcPantalla, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -436,7 +447,8 @@ public class Configuracion extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSalir)
                     .addComponent(jcPantalla, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6))
+                    .addComponent(jLabel6)
+                    .addComponent(btnDesbloquear, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
@@ -497,7 +509,7 @@ public class Configuracion extends javax.swing.JFrame {
      * @param hora
      * @return String
      */
-    private String conversionHoraPantalla2(String hora) {
+    public static String conversionHoraPantalla2(String hora) {
         String[] equivalenciaNumeros = {"e", "f", "g", "h", "i", "j", "k", "l", "m", "n", ":", "/", ""};
         String fecha = Utilitarios.getFechaAAMMdd();
         String comando = "$BG";
@@ -620,7 +632,10 @@ public class Configuracion extends javax.swing.JFrame {
          * Comandos para las placas a lado del pasa mensajes pantalla grande
          */
         SimpleDateFormat sdfP2 = new SimpleDateFormat("yy/MM/dd");
-        String comandoP2 = conversionFechaPantalla2(sdfP2.format(fecha));
+        //String hora = Utilitarios.getHora();
+        String hora = txtHora.getText();
+
+        String comandoP2 = conversionFechaPantalla2(sdfP2.format(fecha), hora);
         comandoP2 += "&%false";
         enviarDatosPantalla(comandoP2);
 
@@ -631,10 +646,10 @@ public class Configuracion extends javax.swing.JFrame {
         }
 
         /**
-         * Comanados para el pasa mensajes
+         * Comandos para el pasa mensajes
          */
         SimpleDateFormat sfd = new SimpleDateFormat("MM/dd/yy");
-        String comando = "d" + sfd.format(fecha) + "\r" + booEnvioConPausa;
+        String comando = "d" + sfd.format(fecha) + "t" + hora + "\r" + booEnvioConPausa;
         enviarDatosPantalla(comando);
 
     }//GEN-LAST:event_btnFechaActionPerformed
@@ -645,9 +660,8 @@ public class Configuracion extends javax.swing.JFrame {
      * @param fecha
      * @return String
      */
-    private String conversionFechaPantalla2(String fecha) {
+    private String conversionFechaPantalla2(String fecha, String hora) {
         String[] equivalenciaNumeros = {"e", "f", "g", "h", "i", "j", "k", "l", "m", "n", ":", "/", ""};
-        String hora = Utilitarios.getHora();
         String comando = "$BG";
         int digito;
         String caracter = "";
@@ -696,9 +710,15 @@ public class Configuracion extends javax.swing.JFrame {
         String comando = "T\r" + booEnvioConPausa;
         enviarDatosPantalla(comando);
     }//GEN-LAST:event_btnFuenteActionPerformed
+
+    private void btnDesbloquearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDesbloquearActionPerformed
+        String comando = "  3ok!!!\r" + booEnvioConPausa;
+        enviarDatosPantalla(comando);
+    }//GEN-LAST:event_btnDesbloquearActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAbrir;
     private javax.swing.JButton btnBorrar;
+    private javax.swing.JButton btnDesbloquear;
     private javax.swing.JButton btnEscribir;
     private javax.swing.JButton btnFecha;
     private javax.swing.JButton btnFuente;
