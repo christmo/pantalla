@@ -6,6 +6,7 @@ package PantallaGUI.utilitarios;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -17,6 +18,7 @@ import java.util.GregorianCalendar;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.JToggleButton;
 
 /**
@@ -140,7 +142,10 @@ public class Utilitarios {
                 arcConfig = new Properties();
                 arcConfig.load(new BufferedReader(new FileReader(propFile.getAbsoluteFile())));
             }
-        } catch (IOException ex) {
+        } catch(FileNotFoundException fex){
+            JOptionPane.showMessageDialog(null,"No se encontró el archivo de configuración...","Error...", 0);
+            System.exit(1);
+        }catch (IOException ex) {
             Logger.getLogger(Utilitarios.class.getName()).log(Level.SEVERE, null, ex);
         } catch (URISyntaxException ex) {
             Logger.getLogger(Utilitarios.class.getName()).log(Level.SEVERE, null, ex);
