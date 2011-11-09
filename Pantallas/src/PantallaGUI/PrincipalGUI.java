@@ -38,7 +38,7 @@ public class PrincipalGUI extends javax.swing.JFrame {
     /**
      * Almacena los sockets de comunicación con cada una de las pantallas
      */
-    public static ArrayList<SocketPantalla> pantallas = new ArrayList<SocketPantalla>();
+    public static SocketPantalla[] pantallas = new SocketPantalla[2];
 
     /** Creates new form PrincipalGUI */
     public PrincipalGUI() {
@@ -61,7 +61,7 @@ public class PrincipalGUI extends javax.swing.JFrame {
             Thread pant1 = new Thread(new Runnable() {
 
                 public void run() {
-                    pantallas.add(new SocketPantalla(1, lblIconPantalla1));
+                    pantallas[0]=new SocketPantalla(1, lblIconPantalla1);
                 }
             });
 
@@ -69,7 +69,7 @@ public class PrincipalGUI extends javax.swing.JFrame {
             Thread pant2 = new Thread(new Runnable() {
 
                 public void run() {
-                    pantallas.add(new SocketPantalla(2, lblIconPantalla2));
+                    pantallas[1]=new SocketPantalla(2, lblIconPantalla2);
                 }
             });
 
@@ -216,12 +216,12 @@ public class PrincipalGUI extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         bd.cerrarConexionBaseDatos();
         try {
-            pantallas.get(0).desconectar();
+            pantallas[0].desconectar();
         } catch (IndexOutOfBoundsException ex) {
             System.out.println("NO hay conexión por socket que cerrar - Pantalla 1");
         }
         try {
-            pantallas.get(1).desconectar();
+            pantallas[1].desconectar();
         } catch (IndexOutOfBoundsException ex) {
             System.out.println("NO hay conexión por socket que cerrar - Pantalla 2");
         }

@@ -35,7 +35,7 @@ public class SocketPantalla {
     public SocketPantalla(int idPantalla, JLabel lblIconPantalla) {
         Properties arcConfig = Utilitarios.obtenerArchivoPropiedades("configsystem.properties");
         String ipPantalla = "";
-        int puertoPantalla;
+        int puertoPantalla = 0;
         this.lblIconPantalla = lblIconPantalla;
 
         if (idPantalla == 1) {
@@ -48,7 +48,7 @@ public class SocketPantalla {
             } catch (NumberFormatException ex) {
                 puertoPantalla = 0;
             }
-        } else {
+        } else if(idPantalla == 2) {
             /**
              * Pantalla para pasar los mensajes que se requiera
              */
@@ -192,6 +192,7 @@ public class SocketPantalla {
             os = new PrintWriter(socket.getOutputStream());
             System.out.println("[CONECTADO][" + host + "][" + port + "]");
             lblIconPantalla.setIcon(iconOn);
+            enviarComandoDesbloqueo();
         } catch (UnknownHostException ex) {
             Logger.getLogger(SocketPantalla.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
@@ -207,6 +208,14 @@ public class SocketPantalla {
         }
     }
 
+    /**
+     * Envia el comando de desbloqueo para cuando se conectan las pantallas
+     */
+    private void enviarComandoDesbloqueo() {
+        String comando = "  3ok!!!\r" + "&%true";
+        enviarComando(comando);
+    }
+
     private void reConectar() {
         try {
             socket = new Socket(host, port);
@@ -215,6 +224,7 @@ public class SocketPantalla {
             os = new PrintWriter(socket.getOutputStream());
             System.out.println("[CONECTADO][" + host + "][" + port + "]");
             lblIconPantalla.setIcon(iconOn);
+            enviarComandoDesbloqueo();
         } catch (UnknownHostException ex) {
             Logger.getLogger(SocketPantalla.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {

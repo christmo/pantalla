@@ -36,8 +36,10 @@ public class ComunicacionPantalla {
      */
     private void envioInformacionPantallaSocket(String cmd, int idPantalla) throws IndexOutOfBoundsException {
         try {
-            PrincipalGUI.pantallas.get(idPantalla - 1).enviarComando(cmd);
+            PrincipalGUI.pantallas[idPantalla - 1].enviarComando(cmd);
         } catch (IndexOutOfBoundsException ex) {
+            JOptionPane.showMessageDialog(null, "No esta conectada esta pantalla", "Error...", 0);
+        } catch (NullPointerException ex) {
             JOptionPane.showMessageDialog(null, "No esta conectada esta pantalla", "Error...", 0);
         }
     }
