@@ -712,7 +712,7 @@ public class Configuracion extends javax.swing.JFrame {
     }//GEN-LAST:event_btnFuenteActionPerformed
 
     private void btnDesbloquearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDesbloquearActionPerformed
-        String comando = "  3ok!!!\r" + booEnvioConPausa;
+        String comando = "   3    \r" + booEnvioConPausa;
         enviarDatosPantalla(comando);
     }//GEN-LAST:event_btnDesbloquearActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables

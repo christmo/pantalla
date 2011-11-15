@@ -34,6 +34,14 @@ public class Reloj {
             if (hora.equals("12:59:10")) {
                 igualarHoraPantallas(hora);
             }
+            
+            if (hora.equals("12:59:13")) {
+                igualarHoraPantallas(hora);
+            }
+            
+            if (hora.equals("12:59:16")) {
+                igualarHoraPantallas(hora);
+            }
         }
 
         private void igualarHoraPantallas(String hora) {

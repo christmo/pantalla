@@ -16,7 +16,7 @@ import PantallaGUI.reportes.Reportes;
 import PantallaGUI.utilitarios.Utilitarios;
 import comunicacion.ComunicacionPantalla;
 import comunicacion.socket.SocketPantalla;
-import java.util.ArrayList;
+import comunicacion.socket.TestConexion;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -50,6 +50,7 @@ public class PrincipalGUI extends javax.swing.JFrame {
         iniciarServidorTurnos();
         System.out.println("Usuario: " + System.getProperty("user.name"));
         Reloj reloj = new Reloj();
+        TestComunicacionRed();
     }
 
     private void iniciarServidorTurnos() {
@@ -300,5 +301,14 @@ public class PrincipalGUI extends javax.swing.JFrame {
          */
         String comando = "t" + hora + "\r" + booEnvioConPausa;
         ComunicacionPantalla pasaMensajes = new ComunicacionPantalla(comando, arcConfig, intPantalla);
+    }
+
+    /**
+     * Permite enviar un . cada segundo a la pantalla para ver si aun existe
+     * comunicación con la IP.
+     */
+    private void TestComunicacionRed() {
+        TestConexion testCanal = new TestConexion();
+        testCanal.start();
     }
 }
