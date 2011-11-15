@@ -48,7 +48,7 @@ public class SocketPantalla {
             } catch (NumberFormatException ex) {
                 puertoPantalla = 0;
             }
-        } else if(idPantalla == 2) {
+        } else if (idPantalla == 2) {
             /**
              * Pantalla para pasar los mensajes que se requiera
              */
@@ -86,11 +86,11 @@ public class SocketPantalla {
      * Permite enviar un comando para que sea ejecutado en el hilo
      * @param comando
      */
-    public void enviarComando(String comando) {
+    public synchronized void enviarComando(String comando) {
         this.cmd = comando;
 
         String[] comandos = cmd.split("&%");
-        if (socket != null) {
+        if (getSocket() != null) {
             for (int i = 0; i < comandos.length - 1; i++) {
                 System.out.println("IMP CMD:" + comandos[i]);
                 if (booCMDcaja) {
@@ -128,7 +128,7 @@ public class SocketPantalla {
 
                 for (char letra : comandos[i].toCharArray()) {
                     /**
-                     * Envia letra a letra con una pausa para que pa pantalla pueda
+                     * Envia letra a letra con una pausa para que la pantalla pueda
                      * procesar la informacion
                      */
                     if (enviarDatos("" + letra)) {
@@ -157,9 +157,6 @@ public class SocketPantalla {
                     }
                     booCMDcaja2 = false;
                 }
-                /**
-                 *
-                 */
                 if (booBorrarPantalla && comandos[1].charAt(0) == '1') {
                     booBorrarPantalla = false;
                 } else {
@@ -186,10 +183,10 @@ public class SocketPantalla {
      */
     private void conectar() {
         try {
-            socket = new Socket(host, port);
+            setSocket(new Socket(host, port));
 
             //is = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            os = new PrintWriter(socket.getOutputStream());
+            os = new PrintWriter(getSocket().getOutputStream());
             System.out.println("[CONECTADO][" + host + "][" + port + "]");
             lblIconPantalla.setIcon(iconOn);
             enviarComandoDesbloqueo();
@@ -212,16 +209,16 @@ public class SocketPantalla {
      * Envia el comando de desbloqueo para cuando se conectan las pantallas
      */
     private void enviarComandoDesbloqueo() {
-        String comando = "  3ok!!!\r" + "&%true";
+        String comando = "   3     \r" + "&%true";
         enviarComando(comando);
     }
 
     private void reConectar() {
         try {
-            socket = new Socket(host, port);
+            setSocket(new Socket(host, port));
 
             //is = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            os = new PrintWriter(socket.getOutputStream());
+            os = new PrintWriter(getSocket().getOutputStream());
             System.out.println("[CONECTADO][" + host + "][" + port + "]");
             lblIconPantalla.setIcon(iconOn);
             enviarComandoDesbloqueo();
@@ -246,7 +243,7 @@ public class SocketPantalla {
     public void desconectar() {
         try {
             os.close();
-            socket.close();
+            getSocket().close();
         } catch (IOException ex) {
             Logger.getLogger(SocketPantalla.class.getName()).log(Level.SEVERE, null, ex);
         } catch (NullPointerException nex) {
@@ -261,7 +258,7 @@ public class SocketPantalla {
      * @throws RemoteException
      */
     public boolean enviarDatos(String input) {
-        if (socket != null && os != null) {
+        if (getSocket() != null && os != null) {
             //System.out.println("Enviar: " + input);
             os.print(input);
             if (os.checkError()) {
@@ -274,5 +271,36 @@ public class SocketPantalla {
         } else {
             return false;
         }
+    }
+
+    public void enviarLetra(String letra) {
+        if (enviarDatos("" + letra)) {
+            /**
+             * Comprueba que al final del comando se envie si se envia las
+             * letras con una pausa o se envia rapidamente sin pausa a la pantalla
+             */
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(SocketPantalla.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            System.out.println("[RECONECTAR]");
+            reConectar();
+        }
+    }
+
+    /**
+     * @return the socket
+     */
+    public Socket getSocket() {
+        return socket;
+    }
+
+    /**
+     * @param socket the socket to set
+     */
+    public void setSocket(Socket socket) {
+        this.socket = socket;
     }
 }
